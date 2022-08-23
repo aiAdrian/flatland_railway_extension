@@ -1,19 +1,9 @@
-import datetime
-import random
-import time
-import xml.etree.ElementTree as gfg
-
-import networkx as nx
 import numpy as np
 
 # import all flatland dependance
 from flatland.core.grid.grid4_utils import get_new_position
-from flatland.envs.fast_methods import fast_count_nonzero, fast_argmax
-from flatland.envs.observations import TreeObsForRailEnv
-from flatland.envs.predictions import ShortestPathPredictorForRailEnv
+from flatland.envs.fast_methods import fast_count_nonzero
 from flatland.envs.rail_env import RailEnv
-from flatland.envs.rail_generators import sparse_rail_generator
-from flatland.utils.rendertools import RenderTool
 from matplotlib import pyplot as plt
 
 
@@ -123,22 +113,6 @@ class RailroadSwitchAnalyser:
 
         return agent_at_railroad_switch, agent_near_to_railroad_switch, \
                agent_at_railroad_switch_cell, agent_near_to_railroad_switch_cell
-
-    def get_agent_position_and_direction(self, handle):
-        '''
-        Returns the agent position - if not yet started (active) it returns the initial position
-
-        :param handle: agent reference (handle)
-
-        :return: agent_pos, agent_dir, agent_state, agent.target, is_agent_off_map
-        '''
-        agent = self.env.agents[handle]
-        agent_pos = agent.position
-        agent_dir = agent.direction
-        if agent_pos is None:
-            agent_pos = agent.initial_position
-            agent_dir = agent.initial_direction
-        return agent_pos, agent_dir, agent.state, agent.target, agent.position == None
 
     def get_rail_env(self) -> RailEnv:
         return self.env

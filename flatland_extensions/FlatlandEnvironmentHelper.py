@@ -42,3 +42,20 @@ class FlatlandEnvironmentHelper:
 
     def get_rail_env(self) -> RailEnv:
         return self.env
+
+    def get_agent_position_and_direction(self, handle):
+        '''
+        Returns the agent position - if not yet started (active) it returns the initial position
+
+        :param handle: agent reference (handle)
+
+        :return: agent_pos, agent_dir, agent_state, agent.target, is_agent_off_map
+        '''
+        agent = self.env.agents[handle]
+        agent_pos = agent.position
+        agent_dir = agent.direction
+        if agent_pos is None:
+            agent_pos = agent.initial_position
+            agent_dir = agent.initial_direction
+        return agent_pos, agent_dir, agent.state, agent.target, agent.position == None
+

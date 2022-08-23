@@ -9,10 +9,12 @@ from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
 from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
 
 
-def print_agent_information(railroad_switch_analyser: RailroadSwitchAnalyser):
+def print_agent_information(
+        flatland_environment_helper: FlatlandEnvironmentHelper,
+        railroad_switch_analyser: RailroadSwitchAnalyser):
     for handle in railroad_switch_analyser.env.get_agent_handles():
         agent_pos, agent_dir, agent_state, agent_target, agent_is_off_map = \
-            railroad_switch_analyser.get_agent_position_and_direction(handle=handle)
+            flatland_environment_helper.get_agent_position_and_direction(handle=handle)
         agent_at_railroad_switch, agent_near_to_railroad_switch, \
         agent_at_railroad_switch_cell, agent_near_to_railroad_switch_cell = \
             railroad_switch_analyser.check_agent_decision(position=agent_pos, direction=agent_dir)
@@ -52,14 +54,14 @@ flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_en
 flatland_renderer.start_render_loop()
 flatland_renderer.close()
 
-print_agent_information(railroad_switch_analyser)
+print_agent_information(flatland_environment_helper, railroad_switch_analyser)
 
 # ---------- RailroadSwitchCluster-------------------------------------------------------------------------------------
 railroad_switch_cluster.do_debug_plot()
 
 # ---------- FlatlandGraphBuilder--------------------------------------------------------------------------------------
 agent_pos, agent_dir, agent_state, agent_target, agent_is_off_map = \
-    railroad_switch_analyser.get_agent_position_and_direction(handle=0)
+    flatland_environment_helper.get_agent_position_and_direction(handle=0)
 flatland_environment_helper.get_rail_env().agents[0].position = agent_pos
 flatland_graph_builder.prepare_observation_data_plot(agent_pos, agent_dir, agent_target)
 
