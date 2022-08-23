@@ -5,10 +5,10 @@ This repo extends [Flatland Railway Simulator](https://gitlab.aicrowd.com/flatla
 The initial implementation is authored by Adrian Egli's (aiAdrian) [neurips2020 flatland challenge solution (submission)](https://gitlab.aicrowd.com/adrian_egli/neurips2020-flatland-starter-kit 
 )
 - [RailroadSwitchAnalyser](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/RailroadSwitchAnalyser.py)
-  ![RailroadSwitchAnalyser](https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/RailroadSwitchAnalyser.png "RailroadSwitchAnalyser")
+  ![RailroadSwitchAnalyser](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchAnalyser.png "RailroadSwitchAnalyser")
 
 - [RailroadSwitchCluster](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/RailroadSwitchCluster.py)
-  ![RailroadSwitchCluster](https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/RailroadSwitchCluster.png "RailroadSwitchCluster")
+  ![RailroadSwitchCluster](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchCluster.png "RailroadSwitchCluster")
   
 - [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/FlatlandGraphBuilder.py)
  
