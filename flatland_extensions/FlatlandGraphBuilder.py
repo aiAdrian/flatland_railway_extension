@@ -1,6 +1,5 @@
 import networkx as nx
 import numpy as np
-
 # import all flatland dependance
 from flatland.core.grid.grid4_utils import get_new_position
 from matplotlib import pyplot as plt
@@ -111,10 +110,13 @@ class FlatlandGraphBuilder:
             fn = self.graph.nodes.get(from_node, None)
             tn = self.graph.nodes.get(to_node, None)
             if fn is not None and tn is not None:
-                s_path = nx.shortest_path(self.graph, from_node, to_node)
-                for p in s_path:
-                    xy, _ = FlatlandGraphBuilder.get_coordinate_direction_from_node_id(p)
-                    path.append(xy)
+                try:
+                    s_path = nx.shortest_path(self.graph, from_node, to_node)
+                    for p in s_path:
+                        xy, _ = FlatlandGraphBuilder.get_coordinate_direction_from_node_id(p)
+                        path.append(xy)
+                except nx.NetworkXNoPath:
+                    pass
             paths.append(path)
             path_len = len(path)
             if path_len == 0:
