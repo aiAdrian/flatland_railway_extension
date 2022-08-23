@@ -1,6 +1,5 @@
 import time
 
-import PIL
 # import all flatland dependance
 from flatland.envs.rail_env import RailEnv
 from flatland.utils.rendertools import RenderTool
@@ -57,12 +56,6 @@ class FlatlandRenderer:
         while not self.env_renderer.gl.closed:
             self.render()
             time.sleep(0.001)
-
-    def render_env_to_image(self):
-        self.render()
-        image = self.env_renderer.get_image()
-        pil_image = PIL.Image.fromarray(image)
-        return pil_image
 
     def close(self):
         if self.env_renderer is None:
