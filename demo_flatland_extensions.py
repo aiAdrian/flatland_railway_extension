@@ -60,13 +60,16 @@ print_agent_information(flatland_environment_helper, railroad_switch_analyser)
 railroad_switch_cluster.do_debug_plot()
 
 # ---------- FlatlandGraphBuilder--------------------------------------------------------------------------------------
-agent_pos, agent_dir, agent_state, agent_target, agent_is_off_map = \
-    flatland_environment_helper.get_agent_position_and_direction(handle=0)
-flatland_environment_helper.get_rail_env().agents[0].position = agent_pos
-flatland_graph_builder.prepare_observation_data_plot(agent_pos, agent_dir, agent_target)
+for agent_handle in flatland_environment_helper.get_rail_env().get_agent_handles():
+    agent_pos, agent_dir, agent_state, agent_target, agent_is_off_map = \
+        flatland_environment_helper.get_agent_position_and_direction(handle=agent_handle)
+    flatland_environment_helper.get_rail_env().agents[agent_handle].position = agent_pos
+    flatland_graph_builder.prepare_observation_data_plot(agent_pos, agent_dir, agent_target)
 
-flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_env())
-flatland_renderer.start_render_loop()
-flatland_renderer.close()
+    flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_env())
+    flatland_renderer.start_render_loop()
+    flatland_renderer.close()
+
+    flatland_environment_helper.get_rail_env().agents[agent_handle].position = None
 
 flatland_graph_builder.render()
