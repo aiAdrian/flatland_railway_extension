@@ -4,9 +4,6 @@ import xml.etree.ElementTree as gfg
 from flatland_extensions.FlatlandGraphBuilder import FlatlandGraphBuilder
 
 
-# import all flatland dependance
-
-
 class FlatlandRecifeExporter:
     def __init__(self, flatland_graph_builder: FlatlandGraphBuilder, filename: str):
         self.flatland_graph_builder = flatland_graph_builder

@@ -1,20 +1,13 @@
-import datetime
 import random
-import time
-import xml.etree.ElementTree as gfg
 
-import networkx as nx
 import numpy as np
 
 # import all flatland dependance
-from flatland.core.grid.grid4_utils import get_new_position
-from flatland.envs.fast_methods import fast_count_nonzero, fast_argmax
 from flatland.envs.observations import TreeObsForRailEnv
 from flatland.envs.predictions import ShortestPathPredictorForRailEnv
 from flatland.envs.rail_env import RailEnv
 from flatland.envs.rail_generators import sparse_rail_generator
-from flatland.utils.rendertools import RenderTool
-from matplotlib import pyplot as plt
+
 
 class FlatlandEnvironmentHelper:
     def __init__(self, grid_width=30, grid_height=40, number_of_agents=10, n_cities=3, random_seed=0):

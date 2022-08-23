@@ -1,4 +1,5 @@
 import numpy as np
+
 # import all flatland dependance
 from flatland.core.grid.grid4_utils import get_new_position
 from flatland.envs.fast_methods import fast_count_nonzero, fast_argmax
