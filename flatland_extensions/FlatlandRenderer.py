@@ -6,8 +6,9 @@ from flatland.utils.rendertools import RenderTool
 
 
 class FlatlandRenderer:
-    def __init__(self, env: RailEnv):
+    def __init__(self, env: RailEnv, render_into_notebook=False):
         self.env = env
+        self.render_into_notebook = render_into_notebook
         self._create_renderer()
 
     def set_env(self, env: RailEnv):
@@ -17,6 +18,7 @@ class FlatlandRenderer:
 
     def _create_renderer(self):
         self.env_renderer = RenderTool(self.env,
+                                       jupyter=self.render_into_notebook,
                                        screen_width=self.env.width * 40,
                                        screen_height=self.env.height * 25)
         self.env_renderer.reset()
