@@ -6,6 +6,7 @@ import networkx as nx
 import numpy as np
 # import all flatland dependance
 from flatland.core.grid.grid4_utils import get_new_position
+from flatland.envs.fast_methods import fast_position_equal, fast_argmax
 from matplotlib import pyplot as plt
 
 from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
@@ -121,6 +122,23 @@ class FlatlandGraphBuilder:
                         graph_updated = True
                         break
 
+        # ---------------- ordering edge resource
+        for edge in graph.edges:
+            edge_data = graph.get_edge_data(edge[0], edge[1])
+            resources = edge_data.get('resources')
+            if len(resources)>1:
+                pos, direction = self.get_coordinate_direction_from_node_id(edge[0])
+                to_pos, _ = self.get_coordinate_direction_from_node_id(edge[1])
+                res = [pos]
+                env = self.railroad_switch_analyser.get_rail_env()
+                while not fast_position_equal(pos, to_pos):
+                    possible_transitions = env.rail.get_transitions(*pos, direction)
+                    direction = fast_argmax(possible_transitions)
+                    pos = get_new_position(pos, direction)
+                    if not fast_position_equal(pos, to_pos):
+                        res.append(pos)
+                edge_data.update({'resources': res})
+
         return graph, nodes, from_vertex_edge_map
 
     def get_edge_weight(self, edge) -> float:
@@ -168,7 +186,7 @@ class FlatlandGraphBuilder:
     def get_coordinate_direction_from_node_id(node_name: str):
         xy_d = node_name.split('_')
         xy = (int(xy_d[0]), int(xy_d[1]))
-        direction = int(xy_d[1])
+        direction = int(xy_d[2])
         return xy, direction
 
     @staticmethod
@@ -207,8 +225,14 @@ class FlatlandGraphBuilder:
                             if start_p != p:
                                 # xy, _ = FlatlandGraphBuilder.get_coordinate_direction_from_node_id(p)
                                 resources = self.get_graph().get_edge_data(start_p, p).get('resources')
+                                append_ok = start_position not in resources
                                 for res in resources:
-                                    path.append(res)
+                                    if fast_position_equal(start_position, res):
+                                        append_ok = True
+                                    if fast_position_equal(target_position, res):
+                                        append_ok = False
+                                    if append_ok:
+                                        path.append(res)
                             start_p = p
                     except nx.NetworkXNoPath:
                         pass
