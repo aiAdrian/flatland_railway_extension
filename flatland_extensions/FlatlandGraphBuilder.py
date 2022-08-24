@@ -232,10 +232,10 @@ class FlatlandGraphBuilder:
                                 for res in resources:
                                     if fast_position_equal(start_position, res):
                                         append_ok = True
-                                    if fast_position_equal(target_position, res):
-                                        append_ok = False
                                     if append_ok:
                                         path.append(res)
+                                    if fast_position_equal(target_position, res):
+                                        append_ok = False
                             start_p = p
                     except nx.NetworkXNoPath:
                         pass
