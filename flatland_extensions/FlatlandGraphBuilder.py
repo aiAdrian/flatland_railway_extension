@@ -91,18 +91,20 @@ class FlatlandGraphBuilder:
                         for key in in_dat.keys():
                             data.update({key: copy.copy(in_dat.get(key))})
 
+                        # manually update the resource list
                         resources = in_dat.get('resources')
                         for d in out_dat.get('resources'):
                             resources.append(d)
                         data.update({'resources': copy.copy(resources)})
+                        data.update({'length': len(resources)})
 
+                        # manually update the from nodes (nodes information)
                         from_nodes = in_dat.get('from_nodes')
                         for n in out_dat.get('from_nodes'):
                             from_nodes.append(n)
                         data.update({'from_nodes': copy.copy(from_nodes)})
 
-                        data.update({'length': len(resources)})
-
+                        # update the lookup tables
                         for n in copy.copy(from_nodes):
                             from_vertex_edge_map.update({n: (in_vert, out_vert)})
 
