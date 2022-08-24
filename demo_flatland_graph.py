@@ -34,12 +34,11 @@ railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helpe
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 flatland_graph_builder = FlatlandGraphBuilder(railroad_switch_analyser=railroad_switch_analyser)
 
-if False:
-    print('==============================================================================================================')
-    print('Full graph')
-    print('==============================================================================================================')
-    flatland_graph_builder.activate_full_graph()
-    show_shortest_path(flatland_graph_builder)
+print('==============================================================================================================')
+print('Full graph')
+print('==============================================================================================================')
+flatland_graph_builder.activate_full_graph()
+show_shortest_path(flatland_graph_builder)
 
 print('==============================================================================================================')
 print('Simplified graph')
