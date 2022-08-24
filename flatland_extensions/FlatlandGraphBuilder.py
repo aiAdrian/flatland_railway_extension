@@ -38,17 +38,12 @@ class FlatlandGraphBuilder:
         for h in range(env.height):
             for w in range(env.width):
                 pos = (h, w)
-                for dir in range(4):
-                    possible_transitions = env.rail.get_transitions(*pos, dir)
-
-                    agent_at_railroad_switch, agent_near_to_railroad_switch, \
-                    agent_at_railroad_switch_cell, agent_near_to_railroad_switch_cell = \
-                        self.railroad_switch_analyser.check_agent_decision(position=pos, direction=dir)
-
+                for from_direction in range(4):
+                    possible_transitions = env.rail.get_transitions(*pos, from_direction)
                     for to_direction in range(4):
                         if possible_transitions[to_direction] == 1:
                             new_position = get_new_position(pos, to_direction)
-                            from_vertex_name = '{}_{}_{}'.format(pos[0], pos[1], dir)
+                            from_vertex_name = '{}_{}_{}'.format(pos[0], pos[1], from_direction)
                             to_vertex_name = '{}_{}_{}'.format(new_position[0], new_position[1], to_direction)
                             graph.add_edge(from_vertex_name,
                                            to_vertex_name,
@@ -57,7 +52,7 @@ class FlatlandGraphBuilder:
                                            resources=[pos],
                                            resource_id='{}_{}'.format(pos[0], pos[1])
                                            )
-                            nodes.update({from_vertex_name: (pos[0], pos[1], dir)})
+                            nodes.update({from_vertex_name: (pos[0], pos[1], from_direction)})
                             nodes.update({to_vertex_name: (new_position[0], new_position[1], to_direction)})
                             from_vertex_edge_map.update({from_vertex_name: (from_vertex_name, to_vertex_name)})
 
@@ -125,6 +120,7 @@ class FlatlandGraphBuilder:
                         # mark that the graph has changes (updated)
                         graph_updated = True
                         break
+
         return graph, nodes, from_vertex_edge_map
 
     def get_edge_weight(self, edge) -> float:
