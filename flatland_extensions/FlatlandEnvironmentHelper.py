@@ -49,7 +49,7 @@ class FlatlandEnvironmentHelper:
 
         :param handle: agent reference (handle)
 
-        :return: agent_pos, agent_dir, agent_state, agent.target, is_agent_off_map
+        :return: agent_pos, agent_dir, agent_state, agent_target, is_agent_off_map
         '''
         agent = self.env.agents[handle]
         agent_pos = agent.position
