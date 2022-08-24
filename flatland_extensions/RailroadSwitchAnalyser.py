@@ -109,7 +109,7 @@ class RailroadSwitchAnalyser:
             else:
                 agent_near_to_railroad_switch = direction in self.railroad_switch_neighbours[position]
 
-            agent_near_to_railroad_switch_cell = direction in self.railroad_switch_neighbours[position]
+            agent_near_to_railroad_switch_cell = True
 
         return agent_at_railroad_switch, agent_near_to_railroad_switch, \
                agent_at_railroad_switch_cell, agent_near_to_railroad_switch_cell
