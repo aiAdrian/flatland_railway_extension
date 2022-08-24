@@ -65,16 +65,24 @@ class FlatlandGraphBuilder:
 
     def _create_simplified_graph(self):
         graph, nodes, from_vertex_edge_map = self._create_full_graph()
+        # loop as long as the graph changes (gets updated)
         graph_updated = True
         while graph_updated:
             graph_updated = False
-            for node in list(graph.nodes()):
 
+            for node in list(graph.nodes()):
+                # simplification means removing nodes with exact one incoming and one outgoing edge
+                #
+                # -----.      .------.     .-----
+                # Node |------| Node |-----| Node
+                # -----.      .------.     .-----
+                #
                 if graph.in_degree(node) == 1 and graph.out_degree(node) == 1:
                     in_dat = None
                     out_dat = None
                     in_vert = None
                     out_vert = None
+
                     for incoming_u, incoming_v in graph.in_edges(node):
                         in_dat = graph.get_edge_data(incoming_u, incoming_v)
                         in_vert = incoming_u
@@ -82,11 +90,14 @@ class FlatlandGraphBuilder:
                         out_dat = graph.get_edge_data(outgoing_u, outgoing_v)
                         out_vert = outgoing_v
 
+                    #
+                    # check neighbour nodes (otherwise the methods removes to much nodes)
+                    #
                     if graph.out_degree(in_vert) == 1 and graph.in_degree(out_vert) == 1:
                         # add new edge
                         graph.add_edge(in_vert, out_vert)
 
-                        # copy edge data
+                        # copy edge data by looping over keys
                         data = graph.get_edge_data(in_vert, out_vert)
                         for key in in_dat.keys():
                             data.update({key: copy.copy(in_dat.get(key))})
@@ -111,9 +122,9 @@ class FlatlandGraphBuilder:
                         # remove "old" edge
                         graph.remove_node(node)
 
+                        # mark that the graph has changes (updated)
                         graph_updated = True
                         break
-
         return graph, nodes, from_vertex_edge_map
 
     def get_edge_weight(self, edge) -> float:
