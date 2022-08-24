@@ -17,6 +17,8 @@ railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helpe
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 flatland_graph_builder = FlatlandGraphBuilder(railroad_switch_analyser=railroad_switch_analyser)
 
+flatland_graph_builder.render()
+
 # ---------- FlatlandGraphBuilder--------------------------------------------------------------------------------------
 flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_env())
 for agent_handle in flatland_environment_helper.get_rail_env().get_agent_handles():

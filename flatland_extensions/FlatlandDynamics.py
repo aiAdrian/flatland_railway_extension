@@ -27,3 +27,11 @@ or "length" information. There will be a minimal cell length, which depends on t
 The reservation point cannot move faster than one cell per simulation step. If the reservation point cannot be
 moved due of a locked (occupied) cell, the train has to break.
 '''
+
+# import all flatland dependance
+from flatland.envs.rail_env import RailEnv
+
+
+class FlatlandDynamics:
+    def __init__(self, env: RailEnv):
+        self.env = env
