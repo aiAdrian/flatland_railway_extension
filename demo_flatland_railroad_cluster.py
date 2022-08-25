@@ -4,7 +4,7 @@ from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
 from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
 
 flatland_environment_helper = FlatlandEnvironmentHelper(random_seed=2341)
-flatland_resource_allocator = FlatlandResourceAllocator(flatland_environment_helper=flatland_environment_helper)
+flatland_resource_allocator = FlatlandResourceAllocator(env=flatland_environment_helper.get_rail_env())
 railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helper.get_rail_env())
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 
