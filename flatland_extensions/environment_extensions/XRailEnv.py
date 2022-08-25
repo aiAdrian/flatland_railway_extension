@@ -1,6 +1,7 @@
-from typing import Dict, Union
+from typing import Dict, Union, Tuple
 
 from flatland.core.env_observation_builder import ObservationBuilder
+from flatland.envs.agent_utils import EnvAgent
 from flatland.envs.observations import GlobalObsForRailEnv
 from flatland.envs.rail_env import RailEnv
 from flatland.envs.rail_env_action import RailEnvActions
@@ -41,6 +42,11 @@ class XRailEnv(RailEnv):
         self._railroad_switch_cluster_connecting_edge_locking = False
 
     def step(self, action_dict_: Dict[int, RailEnvActions]):
+        if self._flatland_resource_allocator is not None:
+            self._flatland_resource_allocator.reset()
+            for agent_handle, agent in enumerate(self.agents):
+                self.allocate_current_resources(agent)
+
         observations, all_rewards, done, info = super(XRailEnv, self).step(action_dict_=action_dict_)
         return observations, all_rewards, done, info
 
@@ -60,9 +66,29 @@ class XRailEnv(RailEnv):
         self._railroad_switch_cluster_switch_group_locking = False
         self._railroad_switch_cluster_connecting_edge_locking = False
 
+    def _allocate_resources(self, agent: EnvAgent, position):
+        cluster_id = self._railroad_switch_cluster.get_cluster_id(position)
+        cluster_member = self._railroad_switch_cluster.get_cluster_cell_members(cluster_id)
+        resources = [position]
+        if self._railroad_switch_cluster_switch_group_locking:
+            for r in cluster_member.switch_cluster_cell_members:
+                resources.append(r)
+        if self._railroad_switch_cluster_connecting_edge_locking:
+            for r in cluster_member.connecting_edge_cluster_cell_members:
+                resources.append(r)
+        return self._flatland_resource_allocator.allocate_resource(agent.handle, resources)
+
+    def allocate_resources_at_position(self, agent: EnvAgent, position: Tuple[int, int]) -> bool:
+        return self._allocate_resources(agent, position)
+
+    def allocate_current_resources(self, agent: EnvAgent) -> bool:
+        current_position = agent.position
+        if current_position is None:
+            return True
+        return self._allocate_resources(agent, current_position)
+
     def preprocess_action(self, action, agent):
         preprocessed_action = super(XRailEnv, self).preprocess_action(action, agent)
-        action_is_valid = True
         if self._flatland_resource_allocator is not None:
             # Try moving actions on current position
             current_position, current_direction = agent.position, agent.direction
@@ -73,25 +99,8 @@ class XRailEnv(RailEnv):
                                                                              self.rail,
                                                                              current_position,
                                                                              current_direction)
-            resources = [new_position]
-            if self._railroad_switch_cluster is not None:
-                current_cluster_id = self._railroad_switch_cluster.get_cluster_id(current_position)
-                cluster_id = self._railroad_switch_cluster.get_cluster_id(new_position)
-                cluster_member = self._railroad_switch_cluster.get_cluster_cell_members(cluster_id)
-                if current_cluster_id.switch_cluster_ref != cluster_id.switch_cluster_ref:
-                    if self._railroad_switch_cluster_switch_group_locking:
-                        for r in cluster_member.switch_cluster_cell_members:
-                            resources.append(r)
-                if current_cluster_id.connecting_edge_cluster_ref != cluster_id.connecting_edge_cluster_ref:
-                    if self._railroad_switch_cluster_connecting_edge_locking:
-                        for r in cluster_member.switch_cluster_cell_members:
-                            resources.append(r)
-            action_is_valid = self._flatland_resource_allocator.allocate_resource(agent.handle, resources)
 
-            if action_is_valid:
-                for r in resources:
-                    self.motionCheck.addAgent(agent.handle, agent.position, r)
-
-            if not action_is_valid:
+            if not self.allocate_resources_at_position(agent, new_position):
                 preprocessed_action = RailEnvActions.STOP_MOVING
+
         return preprocessed_action

@@ -12,6 +12,10 @@ class FlatlandResourceAllocator:
         self._resource_lock_grid = \
             np.ones((self.env.height, self.env.width)) * FlatlandResourceAllocator._free_resource_holder_handle()
 
+    def reset(self):
+        self._resource_lock_grid = \
+            np.ones((self.env.height, self.env.width)) * FlatlandResourceAllocator._free_resource_holder_handle()
+
     @staticmethod
     def _free_resource_holder_handle() -> int:
         '''
