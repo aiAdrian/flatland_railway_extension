@@ -1,11 +1,20 @@
-import numpy as np
+import collections
+from typing import Tuple
 
+import numpy as np
 # import all flatland dependance
 from flatland.core.grid.grid4_utils import get_new_position
 from flatland.envs.fast_methods import fast_count_nonzero, fast_argmax
 from matplotlib import pyplot as plt
 
 from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
+
+ClusterRefID = collections.namedtuple('ClusterRefID',
+                                      'switch_cluster_ref '
+                                      'connecting_edge_cluster_ref')
+ClusterCellMembers = collections.namedtuple('ClusterInformation',
+                                            'switch_cluster_cell_members '
+                                            'connecting_edge_cluster_cell_members')
 
 
 class RailroadSwitchCluster:
@@ -16,6 +25,16 @@ class RailroadSwitchCluster:
         self.connecting_edge_clusters = {}
         self._cluster_all_non_switches()
         self._cluster_all_switches()
+
+    def get_cluster_id(self, pos: Tuple[int, int]) -> ClusterRefID:
+        return ClusterRefID(switch_cluster_ref=self.railroad_switch_cluster_grid[pos],
+                            connecting_edge_cluster_ref=self.connecting_edge_cluster_grid[pos])
+
+    def get_cluster_cell_members(self, cluster_id: ClusterRefID) -> ClusterCellMembers:
+        switch_members = self.railroad_switch_clusters.get(cluster_id.switch_cluster_ref, [])
+        connecting_edge_members = self.connecting_edge_clusters.get(cluster_id.connecting_edge_cluster_ref, [])
+        return ClusterCellMembers(switch_cluster_cell_members=switch_members,
+                                  connecting_edge_cluster_cell_members=connecting_edge_members)
 
     def _find_cluster_label(self, in_label) -> int:
         label = int(in_label)
@@ -59,7 +78,8 @@ class RailroadSwitchCluster:
                         t_left_pixel_pos = (left_pixel_pos[0] - 1, left_pixel_pos[1] - 1)
                         t_up_pixel_pos = (up_pixel_pos[0] - 1, up_pixel_pos[1] - 1)
                         for direction_loop in range(4):
-                            possible_transitions = self.env.rail.get_transitions(*t_working_position, direction_loop)
+                            possible_transitions = self.env.rail.get_transitions(*t_working_position,
+                                                                                 direction_loop)
                             orientation = direction_loop
                             if fast_count_nonzero(possible_transitions) == 1:
                                 orientation = fast_argmax(possible_transitions)

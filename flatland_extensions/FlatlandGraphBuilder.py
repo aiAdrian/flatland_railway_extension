@@ -122,11 +122,16 @@ class FlatlandGraphBuilder:
                         graph_updated = True
                         break
 
+        self._ordering_edge_resources(graph)
+
+        return graph, nodes, from_vertex_edge_map
+
+    def _ordering_edge_resources(self, graph: nx.DiGraph):
         # ---------------- ordering edge resource
         for edge in graph.edges:
             edge_data = graph.get_edge_data(edge[0], edge[1])
             resources = edge_data.get('resources')
-            if len(resources)>1:
+            if len(resources) > 1:
                 pos, direction = self.get_coordinate_direction_from_node_id(edge[0])
                 to_pos, _ = self.get_coordinate_direction_from_node_id(edge[1])
                 res = [pos]
@@ -138,8 +143,6 @@ class FlatlandGraphBuilder:
                     if not fast_position_equal(pos, to_pos):
                         res.append(pos)
                 edge_data.update({'resources': res})
-
-        return graph, nodes, from_vertex_edge_map
 
     def get_edge_weight(self, edge) -> float:
         return float(self.get_graph().get_edge_data(edge[0], edge[1])['length'])
@@ -229,10 +232,10 @@ class FlatlandGraphBuilder:
                                 for res in resources:
                                     if fast_position_equal(start_position, res):
                                         append_ok = True
-                                    if fast_position_equal(target_position, res):
-                                        append_ok = False
                                     if append_ok:
                                         path.append(res)
+                                    if fast_position_equal(target_position, res):
+                                        append_ok = False
                             start_p = p
                     except nx.NetworkXNoPath:
                         pass
