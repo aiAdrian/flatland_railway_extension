@@ -100,7 +100,8 @@ class XRailEnv(RailEnv):
                                                                              current_position,
                                                                              current_direction)
 
-            if not self.allocate_resources_at_position(agent, new_position):
-                preprocessed_action = RailEnvActions.STOP_MOVING
+            if preprocessed_action.is_moving_action():
+                if not self.allocate_resources_at_position(agent, new_position):
+                    preprocessed_action = RailEnvActions.STOP_MOVING
 
         return preprocessed_action
