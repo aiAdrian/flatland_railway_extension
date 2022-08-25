@@ -15,7 +15,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     observations, info = env.reset()
 
     flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_env())
-    for step in range(60):
+    for step in range(1000):
 
         flatland_resource_allocator = FlatlandResourceAllocator(env=flatland_environment_helper.get_rail_env())
         flatland_environment_helper.get_rail_env().activate_flatland_resource_allocator(flatland_resource_allocator)
@@ -38,6 +38,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         if dones["__all__"]:
             break
 
+    print("Please close render window to exit")
     flatland_renderer.start_render_loop()
 
     flatland_renderer.close()
