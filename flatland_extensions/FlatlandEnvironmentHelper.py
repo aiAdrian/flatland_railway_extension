@@ -8,6 +8,8 @@ from flatland.envs.predictions import ShortestPathPredictorForRailEnv
 from flatland.envs.rail_env import RailEnv
 from flatland.envs.rail_generators import sparse_rail_generator
 
+from flatland_extensions.environment_extensions.XRailEnv import XRailEnv
+
 
 class FlatlandEnvironmentHelper:
     def __init__(self, grid_width=30, grid_height=40, number_of_agents=10, n_cities=3, random_seed=0):
@@ -25,7 +27,7 @@ class FlatlandEnvironmentHelper:
         random.seed(self.random_seed)
 
     def _create_flatland_env(self, max_rails_between_cities=2, max_rails_in_city=4) -> RailEnv:
-        return RailEnv(
+        return XRailEnv(
             width=self.grid_width,
             height=self.grid_height,
             rail_generator=sparse_rail_generator(
