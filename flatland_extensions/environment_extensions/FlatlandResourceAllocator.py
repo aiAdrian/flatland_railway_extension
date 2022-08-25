@@ -1,16 +1,14 @@
 from typing import Tuple, List
 
 import numpy as np
+from flatland.envs.rail_env import RailEnv
 from matplotlib import pyplot as plt
-
-from flatland_extensions.FlatlandEnvironmentHelper import FlatlandEnvironmentHelper
 
 
 class FlatlandResourceAllocator:
-    def __init__(self, flatland_environment_helper: FlatlandEnvironmentHelper):
-        self.flatland_environment_helper = flatland_environment_helper
+    def __init__(self, env: RailEnv):
 
-        self.env = self.flatland_environment_helper.get_rail_env()
+        self.env = env
         self._resource_lock_grid = \
             np.ones((self.env.height, self.env.width)) * FlatlandResourceAllocator._free_resource_holder_handle()
 
