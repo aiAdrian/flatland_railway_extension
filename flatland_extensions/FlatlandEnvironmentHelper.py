@@ -1,12 +1,12 @@
 import random
 
 import numpy as np
-
-# import all flatland dependance
-from flatland.envs.observations import TreeObsForRailEnv
-from flatland.envs.predictions import ShortestPathPredictorForRailEnv
+# import all flatland dependances
 from flatland.envs.rail_env import RailEnv
 from flatland.envs.rail_generators import sparse_rail_generator
+
+from flatland_extensions.environment_extensions.XRailEnv import XRailEnv
+from flatland_extensions.utils.ShortestPathNextStepObservation import ShortestPathNextStepObservation
 
 
 class FlatlandEnvironmentHelper:
@@ -25,7 +25,7 @@ class FlatlandEnvironmentHelper:
         random.seed(self.random_seed)
 
     def _create_flatland_env(self, max_rails_between_cities=2, max_rails_in_city=4) -> RailEnv:
-        return RailEnv(
+        return XRailEnv(
             width=self.grid_width,
             height=self.grid_height,
             rail_generator=sparse_rail_generator(
@@ -37,10 +37,10 @@ class FlatlandEnvironmentHelper:
             ),
             random_seed=self.random_seed,
             number_of_agents=self.number_of_agents,
-            obs_builder_object=TreeObsForRailEnv(max_depth=2, predictor=ShortestPathPredictorForRailEnv())
+            obs_builder_object=ShortestPathNextStepObservation()
         )
 
-    def get_rail_env(self) -> RailEnv:
+    def get_rail_env(self) -> XRailEnv:
         return self.env
 
     def get_agent_position_and_direction(self, handle):
@@ -49,7 +49,7 @@ class FlatlandEnvironmentHelper:
 
         :param handle: agent reference (handle)
 
-        :return: agent_pos, agent_dir, agent_state, agent.target, is_agent_off_map
+        :return: agent_pos, agent_dir, agent_state, agent_target, is_agent_off_map
         '''
         agent = self.env.agents[handle]
         agent_pos = agent.position
@@ -58,4 +58,3 @@ class FlatlandEnvironmentHelper:
             agent_pos = agent.initial_position
             agent_dir = agent.initial_direction
         return agent_pos, agent_dir, agent.state, agent.target, agent.position == None
-
