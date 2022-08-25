@@ -1,8 +1,10 @@
 from flatland_extensions.FlatlandEnvironmentHelper import FlatlandEnvironmentHelper
+from flatland_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
 from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
 from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
 
 flatland_environment_helper = FlatlandEnvironmentHelper(random_seed=2341)
+flatland_resource_allocator = FlatlandResourceAllocator(flatland_environment_helper=flatland_environment_helper)
 railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helper.get_rail_env())
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 
@@ -33,3 +35,13 @@ switch_pos_cluster_cell_members = railroad_switch_cluster.get_cluster_cell_membe
 
 print(switch_pos_cluster_id)
 print(switch_pos_cluster_cell_members)
+
+# -----------------------------------------------------------------------------------------------------------------
+flatland_resource_allocator.do_debug_plot()
+print(
+    flatland_resource_allocator.allocate_resource(agent_handle=0,
+                                                  positions=agent_pos_cluster_cell_members.switch_cluster_cell_members),
+    flatland_resource_allocator.allocate_resource(agent_handle=0,
+                                                  positions=agent_pos_cluster_cell_members.connecting_edge_cluster_cell_members)
+)
+flatland_resource_allocator.do_debug_plot()
