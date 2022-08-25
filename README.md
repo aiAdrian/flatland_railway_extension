@@ -14,9 +14,6 @@ The initial implementation is authored by Adrian Egli's (aiAdrian) [neurips2020 
   ![RailroadSwitchCluster](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchCluster.png "RailroadSwitchCluster")
 
 - [FlatlandResourceAllocator](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandResourceAllocator.py)
-  ![FlatlandResourceAllocator](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/FlatlandResourceAllocator.png "FlatlandResourceAllocator")
-  
-   
    
 - [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/FlatlandGraphBuilder.py)
  
