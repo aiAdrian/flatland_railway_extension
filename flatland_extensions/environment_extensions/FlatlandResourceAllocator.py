@@ -51,6 +51,13 @@ class FlatlandResourceAllocator:
                     return False
         return True
 
+    def get_assigned_resources(self, agent_handle: int) -> List[Tuple[int, int]]:
+        locked_ref = np.argwhere(self._resource_lock_grid == agent_handle)
+        positions = []
+        for res in locked_ref:
+            positions.append(tuple(res))
+        return positions
+
     def allocate_resource(self, agent_handle: int, positions: List[Tuple[int, int]]) -> bool:
         '''
         Allocates a resource to an agent only if it is free or self-held
