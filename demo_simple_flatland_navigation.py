@@ -15,12 +15,11 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     observations, info = env.reset()
 
     flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_env())
+    flatland_resource_allocator = FlatlandResourceAllocator(env=flatland_environment_helper.get_rail_env())
+    flatland_environment_helper.get_rail_env().activate_flatland_resource_allocator(flatland_resource_allocator)
+    flatland_environment_helper.get_rail_env().activate_railroad_switch_cluster_locking(railroad_switch_cluster)
+
     for step in range(1000):
-
-        flatland_resource_allocator = FlatlandResourceAllocator(env=flatland_environment_helper.get_rail_env())
-        flatland_environment_helper.get_rail_env().activate_flatland_resource_allocator(flatland_resource_allocator)
-        flatland_environment_helper.get_rail_env().activate_railroad_switch_cluster_locking(railroad_switch_cluster)
-
         actions = {}
         for agent_handle in flatland_environment_helper.get_rail_env().get_agent_handles():
             obs = observations[agent_handle]
@@ -38,6 +37,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         if dones["__all__"]:
             break
 
+    flatland_resource_allocator.do_debug_plot()
     print("Please close render window to exit")
     flatland_renderer.start_render_loop()
 

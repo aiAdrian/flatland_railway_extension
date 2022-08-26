@@ -43,7 +43,7 @@ class XRailEnv(RailEnv):
 
     def step(self, action_dict_: Dict[int, RailEnvActions]):
         if self._flatland_resource_allocator is not None:
-            self._flatland_resource_allocator.reset()
+            self._flatland_resource_allocator.reset_locks()
             for agent_handle, agent in enumerate(self.agents):
                 self.allocate_current_resources(agent)
 
