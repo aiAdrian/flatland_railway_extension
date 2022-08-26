@@ -43,7 +43,7 @@ class XRailEnv(RailEnv):
 
     def step(self, action_dict_: Dict[int, RailEnvActions]):
         if self._flatland_resource_allocator is not None:
-            self._flatland_resource_allocator.reset()
+            self._flatland_resource_allocator.reset_locks()
             for agent_handle, agent in enumerate(self.agents):
                 self.allocate_current_resources(agent)
 
@@ -67,15 +67,16 @@ class XRailEnv(RailEnv):
         self._railroad_switch_cluster_connecting_edge_locking = False
 
     def _allocate_resources(self, agent: EnvAgent, position):
-        cluster_id = self._railroad_switch_cluster.get_cluster_id(position)
-        cluster_member = self._railroad_switch_cluster.get_cluster_cell_members(cluster_id)
         resources = [position]
-        if self._railroad_switch_cluster_switch_group_locking:
-            for r in cluster_member.switch_cluster_cell_members:
-                resources.append(r)
-        if self._railroad_switch_cluster_connecting_edge_locking:
-            for r in cluster_member.connecting_edge_cluster_cell_members:
-                resources.append(r)
+        if self._railroad_switch_cluster is not None:
+            cluster_id = self._railroad_switch_cluster.get_cluster_id(position)
+            cluster_member = self._railroad_switch_cluster.get_cluster_cell_members(cluster_id)
+            if self._railroad_switch_cluster_switch_group_locking:
+                for r in cluster_member.switch_cluster_cell_members:
+                    resources.append(r)
+            if self._railroad_switch_cluster_connecting_edge_locking:
+                for r in cluster_member.connecting_edge_cluster_cell_members:
+                    resources.append(r)
         return self._flatland_resource_allocator.allocate_resource(agent.handle, resources)
 
     def allocate_resources_at_position(self, agent: EnvAgent, position: Tuple[int, int]) -> bool:

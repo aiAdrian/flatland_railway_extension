@@ -1,4 +1,4 @@
-from typing import Tuple, List
+from typing import Tuple, List, Union
 
 import numpy as np
 from flatland.envs.rail_env import RailEnv
@@ -7,12 +7,22 @@ from matplotlib import pyplot as plt
 
 class FlatlandResourceAllocator:
     def __init__(self, env: RailEnv):
-
         self.env = env
-        self._resource_lock_grid = \
-            np.ones((self.env.height, self.env.width)) * FlatlandResourceAllocator._free_resource_holder_handle()
+        self._resource_lock_grid: Union[np.array, None] = None
+        self._resource_lock_timestamp: Union[np.array, None] = None
+        self.reset()
 
     def reset(self):
+        '''
+        This method reset whole internal data
+        '''
+        self._resource_lock_timestamp = np.ones((self.env.height, self.env.width)) * (-np.inf)
+        self.reset_locks()
+
+    def reset_locks(self):
+        '''
+        This method reset only the lock grid (map) -> allocated resources.
+        '''
         self._resource_lock_grid = \
             np.ones((self.env.height, self.env.width)) * FlatlandResourceAllocator._free_resource_holder_handle()
 
@@ -73,6 +83,7 @@ class FlatlandResourceAllocator:
             return False
         for pos in positions:
             self._resource_lock_grid[pos] = agent_handle
+            self._resource_lock_timestamp[pos] = self.env._elapsed_steps
         return True
 
     def deallocate_resource(self, agent_handle: int, positions: List[Tuple[int, int]]) -> bool:
@@ -86,22 +97,46 @@ class FlatlandResourceAllocator:
             return False
         for pos in positions:
             self._resource_lock_grid[pos] = FlatlandResourceAllocator._free_resource_holder_handle()
+            self._resource_lock_timestamp[pos] = self.env._elapsed_steps
         return True
 
+    def get_resource_lock_timestamp(self) -> np.array:
+        '''
+        :return: a copy of the lock timestamp map
+        '''
+        return np.copy(self._resource_lock_timestamp)
+
+    def get_resource_lock_grid(self) -> np.array:
+        '''
+        :return: a copy of the lock map
+        '''
+        return np.copy(self._resource_lock_grid)
+
     def do_debug_plot(self):
-        # Setup renderer
-        resource_lock_grid_image = np.copy(self._resource_lock_grid)
+        '''
+        Open a new window and render debug data
+        '''
+        resource_lock_grid_image = self.get_resource_lock_grid()
+        resource_lock_timestamp_image = self.get_resource_lock_timestamp()
 
         for h in range(self.env.height):
             for w in range(self.env.width):
                 if self.env.rail.grid[h][w] == 0:
                     resource_lock_grid_image[h][w] = np.nan
+                    resource_lock_timestamp_image[h][w] = np.nan
 
         plt.rc('font', size=4)
-        ax1 = plt.subplot(1, 1, 1)
+        ax1 = plt.subplot(1, 2, 1)
         plt.imshow(resource_lock_grid_image)
         for (j, i), label in np.ndenumerate(self._resource_lock_grid):
-            if label > 0:
+            if label > -1:
                 ax1.text(i, j, int(label), ha='center', va='center', color='white')
         ax1.set_title('FlatlandResourceAllocator: resource_lock_grid', fontsize=10)
+        ax2 = plt.subplot(1, 2, 2)
+        plt.imshow(resource_lock_timestamp_image)
+        for (j, i), label in np.ndenumerate(self._resource_lock_timestamp):
+            if label > -1:
+                ax2.text(i, j, '{:5.1f}'.format(label), ha='center', va='center', color='white')
+        ax2.set_title('FlatlandResourceAllocator: resource_lock_timestamp', fontsize=10)
+
         plt.show()
