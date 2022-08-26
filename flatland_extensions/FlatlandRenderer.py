@@ -53,9 +53,12 @@ class FlatlandRenderer:
                                      return_image=False)
 
     def start_render_loop(self):
-        while not self.env_renderer.gl.closed:
+        while not self.is_closed():
             self.render()
             time.sleep(0.001)
+
+    def is_closed(self) -> bool:
+        return self.env_renderer.gl.closed
 
     def close(self):
         if self.env_renderer is None:
