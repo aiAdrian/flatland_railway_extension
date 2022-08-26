@@ -8,7 +8,9 @@ from matplotlib import pyplot as plt
 class FlatlandResourceAllocator:
     def __init__(self, env: RailEnv):
         self.env = env
+        self._min_time_step_difference = -np.inf
         self._resource_lock_grid: Union[np.array, None] = None
+        self._reallocate_resource_lock_grid: Union[np.array, None] = None
         self._resource_lock_timestamp: Union[np.array, None] = None
         self.reset()
 
@@ -16,7 +18,11 @@ class FlatlandResourceAllocator:
         '''
         This method reset whole internal data
         '''
-        self._resource_lock_timestamp = np.ones((self.env.height, self.env.width)) * (-np.inf)
+        self._min_time_step_difference = -np.inf
+        self._resource_lock_timestamp = \
+            np.ones((self.env.height, self.env.width)) * (-np.inf)
+        self._reallocate_resource_lock_grid = \
+            np.ones((self.env.height, self.env.width)) * FlatlandResourceAllocator._free_resource_holder_handle()
         self.reset_locks()
 
     def reset_locks(self):
@@ -34,6 +40,13 @@ class FlatlandResourceAllocator:
         '''
         return -1
 
+    def set_minimal_free_time_to_reallocate_other_agent(self, time: int):
+        '''
+        Set the global resource reallocation time
+        :param time: time
+        '''
+        self._min_time_step_difference = time
+
     def is_resource_locked(self, pos: Tuple[int, int]) -> bool:
         '''
         Checks the resource whether it's locked or not (allocated by an agent or not)
@@ -49,7 +62,7 @@ class FlatlandResourceAllocator:
         '''
         return self._resource_lock_grid[pos]
 
-    def _check_resources_before_allocate(self, agent_handle, positions: List[Tuple[int, int]]) -> bool:
+    def _check_resources_before_allocate_or_deallocate(self, agent_handle, positions: List[Tuple[int, int]]) -> bool:
         '''
         This methods checks whether all resources are hold by the agent or are free. If only one resource is not free
         nor hold be passed agent the methods returns false
@@ -61,6 +74,23 @@ class FlatlandResourceAllocator:
             if self.is_resource_locked(pos):
                 if self._get_resource_holder(pos) != agent_handle:
                     return False
+        return True
+
+    def _check_resources_timestamp_before_allocate(self, agent_handle, positions: List[Tuple[int, int]]) -> bool:
+        '''
+        This method checks whether the last lock ( free ) is elder than minimal free time to reallocate other agent
+        :param agent_handle:
+        :param positions: all list of resources passed as cell pos which has to be free
+        :return: True if delta time is ok otherwise false
+        '''
+        for pos in positions:
+            lock = self._reallocate_resource_lock_grid[pos]
+            if agent_handle != lock and lock != FlatlandResourceAllocator._free_resource_holder_handle():
+                lock_time = self._resource_lock_timestamp[pos]
+                if lock_time != np.inf:
+                    delta_time = self.env._elapsed_steps - lock_time
+                    if delta_time < self._min_time_step_difference:
+                        return False
         return True
 
     def get_assigned_resources(self, agent_handle: int) -> List[Tuple[int, int]]:
@@ -79,10 +109,13 @@ class FlatlandResourceAllocator:
         :return: True if the cell is owned by the agent (resource_holder) - either is still holds the resource or
         get it new
         '''
-        if not self._check_resources_before_allocate(agent_handle, positions):
+        if not self._check_resources_before_allocate_or_deallocate(agent_handle, positions):
+            return False
+        if not self._check_resources_timestamp_before_allocate(agent_handle, positions):
             return False
         for pos in positions:
             self._resource_lock_grid[pos] = agent_handle
+            self._reallocate_resource_lock_grid[pos] = agent_handle
             self._resource_lock_timestamp[pos] = self.env._elapsed_steps
         return True
 
@@ -93,10 +126,11 @@ class FlatlandResourceAllocator:
         :param positions: all list of resources passed as cell pos
         :return: true if the resource was succefully deallocated other wise false
         '''
-        if not self._check_resources_before_allocate(agent_handle, positions):
+        if not self._check_resources_before_allocate_or_deallocate(agent_handle, positions):
             return False
         for pos in positions:
             self._resource_lock_grid[pos] = FlatlandResourceAllocator._free_resource_holder_handle()
+            self._reallocate_resource_lock_grid[pos] = agent_handle
             self._resource_lock_timestamp[pos] = self.env._elapsed_steps
         return True
 
@@ -136,7 +170,7 @@ class FlatlandResourceAllocator:
         plt.imshow(resource_lock_timestamp_image)
         for (j, i), label in np.ndenumerate(self._resource_lock_timestamp):
             if label > -1:
-                ax2.text(i, j, '{:5.1f}'.format(label), ha='center', va='center', color='white')
+                ax2.text(i, j, '{:5.1f}'.format(label), ha='center', va='center', color='black')
         ax2.set_title('FlatlandResourceAllocator: resource_lock_timestamp', fontsize=10)
 
         plt.show()
