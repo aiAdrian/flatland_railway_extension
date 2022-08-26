@@ -10,14 +10,16 @@ from flatland_extensions.environment_extensions.FlatlandResourceAllocator import
 
 
 def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
-                   railroad_switch_cluster: RailroadSwitchCluster):
+                   railroad_switch_cluster: RailroadSwitchCluster,
+                   use_cluster_locking=False):
     env = flatland_environment_helper.get_rail_env()
     observations, info = env.reset()
 
     flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_env())
     flatland_resource_allocator = FlatlandResourceAllocator(env=flatland_environment_helper.get_rail_env())
     flatland_environment_helper.get_rail_env().activate_flatland_resource_allocator(flatland_resource_allocator)
-    flatland_environment_helper.get_rail_env().activate_railroad_switch_cluster_locking(railroad_switch_cluster)
+    if use_cluster_locking:
+        flatland_environment_helper.get_rail_env().activate_railroad_switch_cluster_locking(railroad_switch_cluster)
 
     for step in range(1000):
         actions = {}
@@ -37,11 +39,10 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         if dones["__all__"]:
             break
 
-    flatland_resource_allocator.do_debug_plot()
     print("Please close render window to exit")
     flatland_renderer.start_render_loop()
-
     flatland_renderer.close()
+    flatland_resource_allocator.do_debug_plot()
 
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -49,4 +50,5 @@ flatland_environment_helper = FlatlandEnvironmentHelper(random_seed=2341)
 railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helper.get_rail_env())
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 
-run_simulation(flatland_environment_helper, railroad_switch_cluster)
+run_simulation(flatland_environment_helper, railroad_switch_cluster, use_cluster_locking=False)
+run_simulation(flatland_environment_helper, railroad_switch_cluster, use_cluster_locking=True)
