@@ -38,9 +38,12 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         time.sleep(0.01)
         if dones["__all__"]:
             break
+        if flatland_renderer.is_closed():
+            break
 
-    print("Please close render window to exit")
-    flatland_renderer.start_render_loop()
+    if not flatland_renderer.is_closed():
+        print("Please close render window to exit")
+        flatland_renderer.start_render_loop()
     flatland_renderer.close()
     flatland_resource_allocator.do_debug_plot()
 
