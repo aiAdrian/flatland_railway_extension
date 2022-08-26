@@ -6,7 +6,7 @@ https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_exte
 
 ### Features
 - Minimal train following time can be globally controlled 
-- Multi-resource allocation can be implemented. This allows to implement mutual exclusive use of railroad switch cluster or connecting "edge cluster". (
+- Multi-resource allocation can be implemented. This allows to implement mutual exclusive use of railroad switch cluster or connecting "edge cluster" or any other multi ressource allocation problem, such as ["Flankenschutz"](https://de.wikipedia.org/wiki/Fahrstra%C3%9Fe#Flankenschutz) 
 
 ## Information 
 The initial implementation is authored by Adrian Egli's (aiAdrian) [neurips2020 flatland challenge solution (submission)](https://gitlab.aicrowd.com/adrian_egli/neurips2020-flatland-starter-kit)
