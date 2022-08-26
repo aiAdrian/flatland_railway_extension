@@ -9,8 +9,8 @@ https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_exte
 - Multi-resource allocation can be implemented. This allows to implement mutual exclusive use of railroad switch cluster or connecting "edge cluster" or any other multi ressource allocation problem, such as ["Flankenschutz"](https://de.wikipedia.org/wiki/Fahrstra%C3%9Fe#Flankenschutz) 
 
 #### Coming soon 
-- Dynamics - train power based acceleration (physics) and train specific confort breaking (with fix negative acceleration)
-  - Safety policy: No other train between train (length) and breaking distance.
+- Dynamics - train power based acceleration (physics) and train specific "comfort" braking (with fixed negative acceleration).
+  - Will implement as safety policy: No other train can be between end-of-train and braking distance.
 
 ## Information 
 The initial implementation is authored by Adrian Egli's (aiAdrian) [neurips2020 flatland challenge solution (submission)](https://gitlab.aicrowd.com/adrian_egli/neurips2020-flatland-starter-kit)
