@@ -11,12 +11,14 @@ from flatland_extensions.environment_extensions.FlatlandResourceAllocator import
 
 def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
                    railroad_switch_cluster: RailroadSwitchCluster,
-                   use_cluster_locking=False):
+                   use_cluster_locking=False,
+                   minimal_train_following_time=0):
     env = flatland_environment_helper.get_rail_env()
     observations, info = env.reset()
 
     flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_env())
     flatland_resource_allocator = FlatlandResourceAllocator(env=flatland_environment_helper.get_rail_env())
+    flatland_resource_allocator.set_minimal_free_time_to_reallocate_other_agent(minimal_train_following_time)
     flatland_environment_helper.get_rail_env().activate_flatland_resource_allocator(flatland_resource_allocator)
     if use_cluster_locking:
         flatland_environment_helper.get_rail_env().activate_railroad_switch_cluster_locking(railroad_switch_cluster)
@@ -53,5 +55,16 @@ flatland_environment_helper = FlatlandEnvironmentHelper(random_seed=2341)
 railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helper.get_rail_env())
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 
-run_simulation(flatland_environment_helper, railroad_switch_cluster, use_cluster_locking=False)
-run_simulation(flatland_environment_helper, railroad_switch_cluster, use_cluster_locking=True)
+run_simulation(flatland_environment_helper, railroad_switch_cluster,
+               use_cluster_locking=False,
+               minimal_train_following_time=0)
+run_simulation(flatland_environment_helper, railroad_switch_cluster,
+               use_cluster_locking=False,
+               minimal_train_following_time=10)
+
+run_simulation(flatland_environment_helper, railroad_switch_cluster,
+               use_cluster_locking=True,
+               minimal_train_following_time=0)
+run_simulation(flatland_environment_helper, railroad_switch_cluster,
+               use_cluster_locking=True,
+               minimal_train_following_time=10)
