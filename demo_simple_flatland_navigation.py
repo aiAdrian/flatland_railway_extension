@@ -3,7 +3,7 @@ import time
 from flatland.envs.rail_env_action import RailEnvActions
 
 from flatland_extensions.FlatlandEnvironmentHelper import FlatlandEnvironmentHelper
-from flatland_extensions.FlatlandRenderer import FlatlandRenderer
+from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
 from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
 from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
 from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
