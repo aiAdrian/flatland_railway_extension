@@ -10,7 +10,7 @@ https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_exte
 
 #### Coming soon 
 - Dynamics - train power based acceleration (physics) and train specific "comfort" braking (with fixed negative acceleration).
-  - Will implement as safety policy: No other train can be between end-of-train and braking distance.
+  - Will be implemented as safety policy based on the proposed multi-resource allocation technics: No other train can be between end-of-train and braking distance.
 
 ## Information 
 The initial implementation is authored by Adrian Egli's (aiAdrian) [neurips2020 flatland challenge solution (submission)](https://gitlab.aicrowd.com/adrian_egli/neurips2020-flatland-starter-kit)
