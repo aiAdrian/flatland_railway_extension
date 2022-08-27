@@ -9,6 +9,7 @@ from flatland.envs.step_utils import env_utils
 
 from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
 from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
+from flatland_extensions.environment_extensions.XDynamicAgent import XDynamicAgent
 
 
 class XRailEnv(RailEnv):
@@ -83,6 +84,13 @@ class XRailEnv(RailEnv):
             return True
         return self._allocate_resources(agent, current_position)
 
+    def reset_agents(self):
+        super(XRailEnv, self).reset_agents()
+        x_dynamic_agents = []
+        for agent in self.agents:
+            x_dynamic_agents.append(XDynamicAgent(agent))
+        self.agents = x_dynamic_agents
+
     def step(self, action_dict_: Dict[int, RailEnvActions]):
         if self._flatland_resource_allocator is not None:
             self._flatland_resource_allocator.reset_locks()
@@ -110,3 +118,7 @@ class XRailEnv(RailEnv):
                     preprocessed_action = RailEnvActions.STOP_MOVING
 
         return preprocessed_action
+
+    def handle_done_state(self, agent):
+        super(XRailEnv, self).handle_done_state(agent)
+        agent.update_dynamics()
