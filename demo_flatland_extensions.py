@@ -4,7 +4,7 @@
 from data_exports.FlatlandRecifeExporter import FlatlandRecifeExporter
 from flatland_extensions.FlatlandEnvironmentHelper import FlatlandEnvironmentHelper
 from flatland_extensions.FlatlandGraphBuilder import FlatlandGraphBuilder
-from flatland_extensions.FlatlandRenderer import FlatlandRenderer
+from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
 from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
 from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
 
