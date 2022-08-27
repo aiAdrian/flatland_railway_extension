@@ -36,19 +36,14 @@ class XRailEnv(RailEnv):
                                        remove_agents_at_target=remove_agents_at_target,
                                        random_seed=random_seed,
                                        record_steps=record_steps)
+
+        # Flatland Resource Allocator
         self._flatland_resource_allocator: Union[FlatlandResourceAllocator, None] = None
+
+        # Railroad Switch Cluster
         self._railroad_switch_cluster: Union[RailroadSwitchCluster, None] = None
         self._railroad_switch_cluster_switch_group_locking = False
         self._railroad_switch_cluster_connecting_edge_locking = False
-
-    def step(self, action_dict_: Dict[int, RailEnvActions]):
-        if self._flatland_resource_allocator is not None:
-            self._flatland_resource_allocator.reset_locks()
-            for agent_handle, agent in enumerate(self.agents):
-                self.allocate_current_resources(agent)
-
-        observations, all_rewards, done, info = super(XRailEnv, self).step(action_dict_=action_dict_)
-        return observations, all_rewards, done, info
 
     def activate_flatland_resource_allocator(self, flatland_resource_allocator: FlatlandResourceAllocator):
         self._flatland_resource_allocator = flatland_resource_allocator
@@ -87,6 +82,15 @@ class XRailEnv(RailEnv):
         if current_position is None:
             return True
         return self._allocate_resources(agent, current_position)
+
+    def step(self, action_dict_: Dict[int, RailEnvActions]):
+        if self._flatland_resource_allocator is not None:
+            self._flatland_resource_allocator.reset_locks()
+            for agent_handle, agent in enumerate(self.agents):
+                self.allocate_current_resources(agent)
+
+        observations, all_rewards, done, info = super(XRailEnv, self).step(action_dict_=action_dict_)
+        return observations, all_rewards, done, info
 
     def preprocess_action(self, action, agent):
         preprocessed_action = super(XRailEnv, self).preprocess_action(action, agent)
