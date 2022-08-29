@@ -114,9 +114,11 @@ class XDynamicAgent(EnvAgent):
 
     def get_allocated_resource(self) -> List[Tuple[int, int]]:
         if len(self.train_run_path) <= self.currentSection_Train:
-            return []
+            return self.train_run_path
         if len(self.train_run_path) < self.currentSection_ReservationPoint:
             return []
+        if self.currentSection_Train == self.currentSection_ReservationPoint:
+            return [self.train_run_path[self.currentSection_Train]]
         return self.train_run_path[self.currentSection_Train:self.currentSection_ReservationPoint]
 
     def get_allocated_train_point_resource(self) -> Union[Tuple[int, int], None]:
@@ -260,7 +262,8 @@ class XDynamicAgent(EnvAgent):
         self.current_max_velocity = edgeTP.vMax
 
         # euler step: train point
-        self.currentDistance_Train += vTP * timeStep
+        delta_pos_tp = vTP * timeStep
+        self.currentDistance_Train += delta_pos_tp
         self.currentVelocity_Train = vTP + aTP * timeStep
         self.currentAcceleration_Train = aTP
 
@@ -268,9 +271,11 @@ class XDynamicAgent(EnvAgent):
         #   Korrektur des Position aus Bremsweg und aktueller Position. Beachte die Position variiert mit dem
         # 	Verhalten des Zuges, Reservationspunkt Position luft retour, beim Vollbremung.
         bremsweg = 0.5 * (self.currentVelocity_Train * self.currentVelocity_Train) / abs(aMax_break) + self.length
-        deltaPos = (self.currentDistance_Train + bremsweg - self.currentDistance_ReservationPoint)
-        self.currentDistance_ReservationPoint += deltaPos
+        delta_pos_rp = (self.currentDistance_Train + bremsweg - self.currentDistance_ReservationPoint)
+        self.currentDistance_ReservationPoint += delta_pos_rp
         self.currentVelocity_ReservationPoint = vRP + aRP * timeStep
+
+        return delta_pos_tp, delta_pos_rp
 
     def update_dynamics(self):
         self._max_episode_steps = 10000
@@ -280,9 +285,13 @@ class XDynamicAgent(EnvAgent):
                 self.train_run_path.append(self.position)
                 self.currentSection_ReservationPoint = len(self.train_run_path)
 
-            self._update_movement_dynamics()
-            self.move_reservation_point = self.currentDistance_ReservationPoint > len(self.train_run_path) * 400
-            self.currentSection_Train = int(np.floor(self.currentDistance_Train / 400))
+            delta_pos_tp, delta_pos_rp = self._update_movement_dynamics()
+            if delta_pos_rp == 0:
+                self.move_reservation_point = False
+            else:
+                self.move_reservation_point = self.currentDistance_ReservationPoint >= len(self.train_run_path) * 400
+            self.currentSection_Train = min(len(self.train_run_path) - 1,
+                                            int(np.floor(self.currentDistance_Train / 400)))
 
             self.distance_RP.append(self.currentDistance_ReservationPoint)
             self.distance_TP.append(self.currentDistance_Train)

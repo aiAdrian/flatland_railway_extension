@@ -34,7 +34,6 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         velocity_grid[key] = 120
     for key in railroad_switch_analyser.railroad_switches.keys():
         velocity_grid[key] = 80
-        cell_length_grid[key] = 30
     infrastructure_data.set_infrastructure_max_velocity_grid(velocity_grid / 3.6)
     infrastructure_data.set_infrastructure_cell_length_grid(cell_length_grid)
     # share the infrastructure with the agents ( train runs)
