@@ -1,12 +1,14 @@
 import time
 
+import numpy as np
 from flatland.envs.rail_env_action import RailEnvActions
 
 from flatland_extensions.FlatlandEnvironmentHelper import FlatlandEnvironmentHelper
-from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
 from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
 from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
 from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
+from flatland_extensions.environment_extensions.XDynamicAgent import InfrastructureData
+from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
 
 
 def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
@@ -23,7 +25,26 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     if use_cluster_locking:
         flatland_environment_helper.get_rail_env().activate_railroad_switch_cluster_locking(railroad_switch_cluster)
 
-    for step in range(1000):
+    # Create a test infrastrucutre
+    # ---------------------------------------------------------------------------------------------------------------
+    infrastructure_data = InfrastructureData()
+    velocity_grid = np.ones((env.height, env.width)) * 160
+    cell_length_grid = np.ones((env.height, env.width)) * 400
+    for key in railroad_switch_analyser.railroad_switch_neighbours.keys():
+        velocity_grid[key] = 120
+    for key in railroad_switch_analyser.railroad_switches.keys():
+        velocity_grid[key] = 80
+        cell_length_grid[key] = 30
+    infrastructure_data.set_infrastructure_max_velocity_grid(velocity_grid / 3.6)
+    infrastructure_data.set_infrastructure_cell_length_grid(cell_length_grid)
+    # share the infrastructure with the agents ( train runs)
+    for agent in env.agents:
+        agent.set_infrastructure_data(infrastructure_data)
+
+    # ---------------------------------------------------------------------------------------------------------------
+    # Start simulation
+    # ---------------------------------------------------------------------------------------------------------------
+    for step in range(10000):
         actions = {}
         for agent_handle in flatland_environment_helper.get_rail_env().get_agent_handles():
             obs = observations[agent_handle]
@@ -35,9 +56,11 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
             env = flatland_environment_helper.get_rail_env()
             env.dev_obs_dict.update(
                 {agent_handle: flatland_resource_allocator.get_assigned_resources(agent_handle=agent_handle)})
-        flatland_renderer.render(show_observations=True)
 
-        time.sleep(0.01)
+        if step % 10 == 0:
+            flatland_renderer.render(show_observations=True)
+            time.sleep(0.01)
+
         if dones["__all__"]:
             break
         if flatland_renderer.is_closed():
@@ -48,6 +71,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         flatland_renderer.start_render_loop()
     flatland_renderer.close()
     flatland_resource_allocator.do_debug_plot()
+    flatland_environment_helper.get_rail_env().agents[2].do_debug_plot()
 
 
 # -----------------------------------------------------------------------------------------------------------------
