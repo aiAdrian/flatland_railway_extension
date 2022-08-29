@@ -87,7 +87,10 @@ class XRailEnv(RailEnv):
         return self._allocate_resources(agent, [position])
 
     def allocate_current_resources(self, agent: XDynamicAgent) -> bool:
-        return self._allocate_resources(agent, agent.get_allocated_resource())
+        positions = agent.get_allocated_resource()
+        if len(positions) == 0 and agent.position is not None:
+            positions.append(agent.position)
+        return self._allocate_resources(agent, positions)
 
     def reset_agents(self):
         super(XRailEnv, self).reset_agents()
