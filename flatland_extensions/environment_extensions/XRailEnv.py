@@ -98,6 +98,10 @@ class XRailEnv(RailEnv):
                 self.allocate_current_resources(agent)
 
         observations, all_rewards, done, info = super(XRailEnv, self).step(action_dict_=action_dict_)
+
+        for agent in self.agents:
+            agent.update_dynamics()
+
         return observations, all_rewards, done, info
 
     def preprocess_action(self, action, agent):
@@ -119,6 +123,4 @@ class XRailEnv(RailEnv):
 
         return preprocessed_action
 
-    def handle_done_state(self, agent):
-        super(XRailEnv, self).handle_done_state(agent)
-        agent.update_dynamics()
+
