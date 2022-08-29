@@ -32,11 +32,16 @@ class XDynamicAgent(EnvAgent):
         super(XDynamicAgent, self).__init__(original_env_agent.initial_position,
                                             original_env_agent.initial_direction, original_env_agent.direction,
                                             original_env_agent.target)
-        self._copy_original_env_agent(original_env_agent)
+
+        # copy all attributes data from original EnvAgent allocated in RailEnv
+        self._copy_attribute_from_env_agent(original_env_agent)
+
+        # set the extended dynamic agent attributes
         self.set_length(400)
         self.set_mass(1000)
         self.set_rolling_stock(RollingStock())
 
+        # set the internal simulation data (resource allocation, velocity, ... )
         self.current_allocated_resources: List[Tuple[int, int]] = []
         self.current_resource_reservation_point = Tuple[int, int]
 
@@ -70,33 +75,13 @@ class XDynamicAgent(EnvAgent):
         '''
         self.rolling_stock = rolling_stock
 
-    def _copy_original_env_agent(self, env_agent: EnvAgent):
-        self.initial_position = env_agent.initial_position
-        self.initial_direction = env_agent.initial_direction
-        self.direction = env_agent.direction
-        self.target = env_agent.target
-        self.moving = env_agent.moving
-
-        # NEW : EnvAgent - Schedule properties
-        self.earliest_departure = env_agent.earliest_departure
-        self.latest_arrival = env_agent.latest_arrival
-
-        self.handle = env_agent.handle
-
-        # Env step facelift
-        self.speed_counter = env_agent.speed_counter
-        self.action_saver = env_agent.action_saver
-        self.state_machine = env_agent.state_machine
-        self.malfunction_handler = env_agent.malfunction_handler
-
-        self.position = env_agent.position
-
-        # NEW : EnvAgent Reward Handling
-        self.arrival_time = env_agent.arrival_time
-
-        # used in rendering
-        self.old_direction = env_agent.old_direction
-        self.old_position = env_agent.old_position
+    def _copy_attribute_from_env_agent(self, env_agent: EnvAgent):
+        '''
+        Copy all class attribute and it's value from EnvAgent to XDynamicAgent
+        :param env_agent: The original agent created in the RailEnv
+        '''
+        for attribute, value in env_agent.__dict__.items():
+            setattr(self, attribute, value)
 
     def reset(self):
         super(XDynamicAgent, self).reset()
