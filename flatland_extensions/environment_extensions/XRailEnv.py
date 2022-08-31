@@ -95,10 +95,10 @@ class XRailEnv(RailEnv):
 
     def reset_agents(self):
         super(XRailEnv, self).reset_agents()
-        x_dynamic_agents = []
+        x_agents = []
         for agent in self.agents:
-            x_dynamic_agents.append(XAgent(agent))
-        self.agents = x_dynamic_agents
+            x_agents.append(XAgent(agent))
+        self.agents = x_agents
 
     def step(self, action_dict_: Dict[int, RailEnvActions]):
         if self._flatland_resource_allocator is not None:
