@@ -9,6 +9,7 @@ from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
 from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
 from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
 from flatland_extensions.environment_extensions.XDynamicAgent import InfrastructureData
+from flatland_extensions.environment_extensions.XRailEnv import XRailEnv
 from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
 
 
@@ -87,7 +88,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
 
 
 # -----------------------------------------------------------------------------------------------------------------
-flatland_environment_helper = FlatlandEnvironmentHelper(random_seed=2341)
+flatland_environment_helper = FlatlandEnvironmentHelper(rail_env=XRailEnv, random_seed=2341)
 railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helper.get_rail_env())
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 
