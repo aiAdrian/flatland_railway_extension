@@ -109,7 +109,8 @@ class XRailEnv(RailEnv):
 
         self.dones["__all__"] = False
         for agent in self.agents:
-            agent.update_dynamics()
+
+            agent.update_agent_positions()
 
         return observations, all_rewards, done, info
 
@@ -140,7 +141,7 @@ class XRailEnv(RailEnv):
                     preprocessed_action = RailEnvActions.STOP_MOVING
 
         x_agent: XDynamicAgent = agent
-        if not x_agent.move_reservation_point:
+        if not x_agent.update_movement_dynamics():
             self.motionCheck.addAgent(x_agent.handle, x_agent.position, x_agent.position)
             preprocessed_action = RailEnvActions.STOP_MOVING
 
