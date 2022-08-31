@@ -18,7 +18,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     env = flatland_environment_helper.get_rail_env()
     observations, info = env.reset()
 
-    flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_env())
+    flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_env(), show_debug=True)
     flatland_resource_allocator = FlatlandResourceAllocator(env=flatland_environment_helper.get_rail_env())
     flatland_resource_allocator.set_minimal_free_time_to_reallocate_other_agent(minimal_train_following_time)
     flatland_environment_helper.get_rail_env().activate_flatland_resource_allocator(flatland_resource_allocator)
@@ -71,6 +71,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     flatland_renderer.close()
     flatland_resource_allocator.do_debug_plot()
     flatland_environment_helper.get_rail_env().agents[2].do_debug_plot()
+    flatland_environment_helper.get_rail_env().agents[6].do_debug_plot()
 
 
 # -----------------------------------------------------------------------------------------------------------------

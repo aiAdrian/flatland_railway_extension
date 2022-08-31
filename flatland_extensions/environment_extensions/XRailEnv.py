@@ -136,10 +136,15 @@ class XRailEnv(RailEnv):
             if preprocessed_action.is_moving_action():
                 if not self.allocate_resources_at_position(agent, new_position):
                     x_agent.set_hard_brake(True)
+                    self.motionCheck.addAgent(x_agent.handle, x_agent.position, x_agent.position)
                     preprocessed_action = RailEnvActions.STOP_MOVING
 
         x_agent: XDynamicAgent = agent
         if not x_agent.move_reservation_point:
+            self.motionCheck.addAgent(x_agent.handle, x_agent.position, x_agent.position)
             preprocessed_action = RailEnvActions.STOP_MOVING
+
+        if preprocessed_action == RailEnvActions.DO_NOTHING:
+            preprocessed_action = RailEnvActions.MOVE_FORWARD
 
         return preprocessed_action

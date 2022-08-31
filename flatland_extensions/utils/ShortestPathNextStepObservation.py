@@ -3,6 +3,7 @@ from typing import List
 import numpy as np
 from flatland.core.env_observation_builder import ObservationBuilder
 from flatland.core.grid.grid4_utils import get_new_position
+from flatland.envs.rail_env_action import RailEnvActions
 
 
 class ShortestPathNextStepObservation(ObservationBuilder):
@@ -19,7 +20,7 @@ class ShortestPathNextStepObservation(ObservationBuilder):
     def reset(self):
         pass
 
-    def get(self, handle: int = 0) -> List[int]:
+    def get(self, handle: int = 0) -> List[RailEnvActions]:
         agent = self.env.agents[handle]
 
         if agent.position:
@@ -33,7 +34,7 @@ class ShortestPathNextStepObservation(ObservationBuilder):
         # organize them as [left, forward, right], relative to the current orientation
         # If only one transition is possible, the forward branch is aligned with it.
         if num_transitions == 1:
-            return [1]
+            return [RailEnvActions.MOVE_FORWARD]
         else:
             min_distances = []
             for direction in [(agent.direction + i) % 4 for i in range(-1, 2)]:
@@ -44,6 +45,5 @@ class ShortestPathNextStepObservation(ObservationBuilder):
                 else:
                     min_distances.append(np.inf)
 
-            return [np.argmin(min_distances)]
+            return [RailEnvActions(np.argmin(min_distances))]
 
-        return [1]
