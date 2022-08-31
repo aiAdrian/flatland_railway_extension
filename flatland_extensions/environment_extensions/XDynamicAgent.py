@@ -116,20 +116,26 @@ class XDynamicAgent(EnvAgent):
         if len(self.train_run_path) <= self.currentSection_Train:
             return self.train_run_path
         if len(self.train_run_path) < self.currentSection_ReservationPoint:
-            return []
+            if self.position is None:
+                return []
+            return [self.position]
         if self.currentSection_Train == self.currentSection_ReservationPoint:
             return [self.train_run_path[self.currentSection_Train]]
         return self.train_run_path[self.currentSection_Train:self.currentSection_ReservationPoint]
 
     def get_allocated_train_point_resource(self) -> Union[Tuple[int, int], None]:
         if len(self.train_run_path) <= self.currentSection_Train:
+            if self.position is None:
+                return None
             return self.position
         return self.train_run_path[self.currentSection_Train]
 
     def get_allocated_reservation_point_resource(self) -> Union[Tuple[int, int], None]:
         if len(self.train_run_path) == 0:
+            if self.position is None:
+                return None
             return self.position
-        return self.position  # self.train_run_path[len(self.train_run_path) - 1]
+        return self.train_run_path[len(self.train_run_path) - 1]
 
     def _update_movement_dynamics(self):
         timeStep = 1.0
