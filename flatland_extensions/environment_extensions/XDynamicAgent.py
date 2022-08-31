@@ -123,13 +123,13 @@ class XDynamicAgent(EnvAgent):
 
     def get_allocated_train_point_resource(self) -> Union[Tuple[int, int], None]:
         if len(self.train_run_path) <= self.currentSection_Train:
-            return None
+            return self.position
         return self.train_run_path[self.currentSection_Train]
 
     def get_allocated_reservation_point_resource(self) -> Union[Tuple[int, int], None]:
         if len(self.train_run_path) == 0:
-            return None
-        return self.train_run_path[len(self.train_run_path) - 1]
+            return self.position
+        return self.position  # self.train_run_path[len(self.train_run_path) - 1]
 
     def _update_movement_dynamics(self):
         timeStep = 1.0
@@ -149,6 +149,8 @@ class XDynamicAgent(EnvAgent):
 
         edgeTP = Edge(self.get_allocated_train_point_resource(), self._infrastructure_data)
         edgeRP = Edge(self.get_allocated_reservation_point_resource(), self._infrastructure_data)
+
+        vMax = np.min(np.array([edgeTP.vMax, edgeRP.vMax, vMax, vMax]))
 
         # gradient : weighted sum over train length
         gradientTrasseLen = max(self.length, float(1.0))
