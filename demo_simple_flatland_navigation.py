@@ -69,6 +69,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         print("Please close render window to exit")
         flatland_renderer.start_render_loop()
     flatland_renderer.close()
+    railroad_switch_cluster.do_debug_plot()
     flatland_resource_allocator.do_debug_plot()
     flatland_environment_helper.get_rail_env().agents[2].do_debug_plot()
     flatland_environment_helper.get_rail_env().agents[6].do_debug_plot()
