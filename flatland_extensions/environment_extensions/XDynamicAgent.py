@@ -4,6 +4,8 @@ import numpy as np
 from flatland.envs.agent_utils import EnvAgent
 from matplotlib import pyplot as plt
 
+from flatland_extensions.environment_extensions.XAgent import XAgent
+
 
 class RollingStock:
     def __init__(self,
@@ -45,7 +47,6 @@ class InfrastructureData:
     def set_infrastructure_gradient_grid(self, infrastructure_gradient_grid: np.array):
         self._infrastructure_gradient_grid = infrastructure_gradient_grid
 
-
     def get_velocity(self, res: Tuple[int, int]):
         if res is None:
             return 200 / 3.6
@@ -81,14 +82,9 @@ class Edge:
             self.vMax = infrastructure_data.get_velocity(res)
 
 
-class XDynamicAgent(EnvAgent):
+class XDynamicAgent(XAgent):
     def __init__(self, original_env_agent: EnvAgent):
-        super(XDynamicAgent, self).__init__(original_env_agent.initial_position,
-                                            original_env_agent.initial_direction, original_env_agent.direction,
-                                            original_env_agent.target)
-
-        # copy all attributes data from original EnvAgent allocated in RailEnv
-        self._copy_attribute_from_env_agent(original_env_agent)
+        super(XDynamicAgent, self).__init__(original_env_agent)
 
         # set the extended dynamic agent attributes
         self.set_length(100)
@@ -344,13 +340,12 @@ class XDynamicAgent(EnvAgent):
         '''
         self.rolling_stock = rolling_stock
 
-    def _copy_attribute_from_env_agent(self, env_agent: EnvAgent):
-        '''
-        Copy all class attribute and it's value from EnvAgent to XDynamicAgent
-        :param env_agent: The original agent created in the RailEnv
-        '''
-        for attribute, value in env_agent.__dict__.items():
-            setattr(self, attribute, value)
+
+    def all_resource_ok(self, resource_allocation_ok):
+        self.set_hard_brake(not resource_allocation_ok)
+
+    def update_agent(self):
+        self.update_agent_positions()
 
     def set_hard_brake(self, hard_brake):
         self.hard_brake = hard_brake

@@ -7,6 +7,7 @@ from flatland.envs.rail_env_action import RailEnvActions
 from flatland_extensions.FlatlandEnvironmentHelper import FlatlandEnvironmentHelper
 from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
 from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
+from flatland_extensions.environment_extensions.FlatlandDynamics import FlatlandDynamics
 from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
 from flatland_extensions.environment_extensions.XDynamicAgent import InfrastructureData
 from flatland_extensions.environment_extensions.XRailEnv import XRailEnv
@@ -48,8 +49,8 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     # Create a test infrastrucutre
     # ---------------------------------------------------------------------------------------------------------------
     # share the infrastructure with the agents ( train runs)
-    for agent in env.agents:
-        agent.set_infrastructure_data(create_infrastructure_data(flatland_environment_helper.get_rail_env()))
+    #for agent in env.agents:
+    #    agent.set_infrastructure_data(create_infrastructure_data(flatland_environment_helper.get_rail_env()))
 
     # ---------------------------------------------------------------------------------------------------------------
     # Start simulation
@@ -67,7 +68,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
             env.dev_obs_dict.update(
                 {agent_handle: flatland_resource_allocator.get_assigned_resources(agent_handle=agent_handle)})
 
-        if step % 20 == 0:
+        if step % 5 == 0:
             flatland_renderer.render(show_observations=True)
             time.sleep(0.01)
 
@@ -88,7 +89,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
 
 
 # -----------------------------------------------------------------------------------------------------------------
-flatland_environment_helper = FlatlandEnvironmentHelper(rail_env=XRailEnv, random_seed=2341)
+flatland_environment_helper = FlatlandEnvironmentHelper(rail_env=FlatlandDynamics, random_seed=2341)
 railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helper.get_rail_env())
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 
