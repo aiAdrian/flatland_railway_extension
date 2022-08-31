@@ -34,12 +34,17 @@ class InfrastructureData:
         # infrastructure
         self._infrastructure_max_velocity_grid: Union[np.array, None] = None
         self._infrastructure_cell_length_grid: Union[np.array, None] = None
+        self._infrastructure_gradient_grid: Union[np.array, None] = None
 
     def set_infrastructure_max_velocity_grid(self, infrastructure_max_velocity_grid: np.array):
         self._infrastructure_max_velocity_grid = infrastructure_max_velocity_grid
 
     def set_infrastructure_cell_length_grid(self, infrastructure_cell_length_grid: np.array):
         self._infrastructure_cell_length_grid = infrastructure_cell_length_grid
+
+    def set_infrastructure_gradient_grid(self, infrastructure_gradient_grid: np.array):
+        self._infrastructure_gradient_grid = infrastructure_gradient_grid
+
 
     def get_velocity(self, res: Tuple[int, int]):
         if res is None:
@@ -54,6 +59,13 @@ class InfrastructureData:
         if self._infrastructure_cell_length_grid is not None:
             return self._infrastructure_cell_length_grid[res[0], res[1]]
         return 400
+
+    def get_gradient(self, res: Tuple[int, int]):
+        if res is None:
+            return 0
+        if self._infrastructure_gradient_grid is not None:
+            return self._infrastructure_gradient_grid[res[0], res[1]]
+        return 0
 
 
 class Edge:
@@ -79,7 +91,7 @@ class XDynamicAgent(EnvAgent):
         self._copy_attribute_from_env_agent(original_env_agent)
 
         # set the extended dynamic agent attributes
-        self.set_length(400)
+        self.set_length(100)
         self.set_mass(1000)
         self.set_rolling_stock(RollingStock())
 
@@ -88,20 +100,21 @@ class XDynamicAgent(EnvAgent):
         self._infrastructure_data: Union[InfrastructureData, None] = None
 
         # set the internal simulation data (resource allocation, velocity, ... )
-        self.train_run_path: List[Tuple[int, int]] = []
-        self.train_run_distance: List[float] = []
-        self.currentSection_ReservationPoint = 0
-        self.currentSection_Train = 0
+        self.visited_cell_path: List[Tuple[int, int]] = []
+        self.visited_cell_distance: List[float] = []
+        self.visited_cell_path_reservation_point_index = 0
+        self.visited_cell_path_end_of_agent_index = 0
+        self.visited_cell_path_reservation_point_distance = 0
+        self.visited_cell_path_end_of_agent_distance = 0
 
-        self.currentVelocity_ReservationPoint: float = 0.0
-        self.currentDistance_ReservationPoint: float = 0.0
-        self.currentVelocity_Train: float = 0.0
-        self.currentAcceleration_Train: float = 0.0
-        self.currentDistance_Train: float = 0.0
+        self.current_velocity_reservation_point: float = 0.0
+        self.current_velocity_agent: float = 0.0
+        self.current_acceleration_agent: float = 0.0
         self.current_max_velocity: float = 0.0
+        self.current_distance_reservation_point: float = 0.0
+        self.current_distance_agent: float = 0.0
 
         self.hard_brake = False
-        self.move_reservation_point = True
 
         self.distance_RP = []
         self.distance_TP = []
@@ -113,35 +126,30 @@ class XDynamicAgent(EnvAgent):
         self._infrastructure_data = infrastructure_data
 
     def get_allocated_resource(self) -> List[Tuple[int, int]]:
-        if len(self.train_run_path) <= self.currentSection_Train:
-            return self.train_run_path
-        if len(self.train_run_path) < self.currentSection_ReservationPoint:
-            if self.position is None:
-                return []
-            return [self.position]
-        if self.currentSection_Train == self.currentSection_ReservationPoint:
-            return [self.train_run_path[self.currentSection_Train]]
-        return self.train_run_path[self.currentSection_Train:self.currentSection_ReservationPoint]
+        if len(self.visited_cell_path) <= self.visited_cell_path_end_of_agent_index:
+            return self.visited_cell_path
+        if len(self.visited_cell_path) < self.visited_cell_path_reservation_point_index:
+            return []
+        if self.visited_cell_path_end_of_agent_index == self.visited_cell_path_reservation_point_index:
+            return [self.visited_cell_path[self.visited_cell_path_end_of_agent_index]]
+        return self.visited_cell_path[
+               self.visited_cell_path_end_of_agent_index:self.visited_cell_path_reservation_point_index]
 
     def get_allocated_train_point_resource(self) -> Union[Tuple[int, int], None]:
-        if len(self.train_run_path) <= self.currentSection_Train:
-            if self.position is None:
-                return None
-            return self.position
-        return self.train_run_path[self.currentSection_Train]
+        if len(self.visited_cell_path) <= self.visited_cell_path_end_of_agent_index:
+            return None
+        return self.visited_cell_path[self.visited_cell_path_end_of_agent_index]
 
     def get_allocated_reservation_point_resource(self) -> Union[Tuple[int, int], None]:
-        if len(self.train_run_path) == 0:
-            if self.position is None:
-                return None
-            return self.position
-        return self.train_run_path[len(self.train_run_path) - 1]
+        if len(self.visited_cell_path) == 0:
+            return None
+        return self.visited_cell_path[len(self.visited_cell_path) - 1]
 
-    def _update_movement_dynamics(self):
+    def update_movement_dynamics(self):
         timeStep = 1.0
 
-        vRP = self.currentVelocity_ReservationPoint
-        vTP = self.currentVelocity_Train
+        vRP = self.current_velocity_reservation_point
+        vTP = self.current_velocity_agent
 
         aMax_acceleration = self.rolling_stock.a_max_acceleration
         aMax_break = self.rolling_stock.a_max_break
@@ -150,21 +158,20 @@ class XDynamicAgent(EnvAgent):
 
         # calculate the minimal vMax between TrainPoint(TP) and ReservationPoint(RP) and estimate as well
         # the distance with const current velocity
-        csRP = self.currentSection_ReservationPoint
-        csTP = self.currentSection_Train
+        csRP = self.visited_cell_path_reservation_point_index
+        csTP = self.visited_cell_path_end_of_agent_index
 
         edgeTP = Edge(self.get_allocated_train_point_resource(), self._infrastructure_data)
         edgeRP = Edge(self.get_allocated_reservation_point_resource(), self._infrastructure_data)
 
-        vMax = np.min(np.array([edgeTP.vMax, edgeRP.vMax, vMax, vMax]))
-
         # gradient : weighted sum over train length
+        ts_distance = (self.current_distance_agent - self.visited_cell_path_end_of_agent_distance)
         gradientTrasseLen = max(self.length, float(1.0))
-        gradientSplitLen = min(gradientTrasseLen, max(float(0.0), edgeTP.distance - self.currentDistance_Train))
+        gradientSplitLen = min(gradientTrasseLen, max(float(0.0), ts_distance))
         meanGradient = (edgeTP.gradient * gradientSplitLen + edgeRP.gradient * (
                 gradientTrasseLen - gradientSplitLen)) / gradientTrasseLen
 
-        distanceBetween_csRP_csTP = max(float(0.0), edgeTP.distance - self.currentDistance_Train)
+        distanceBetween_csRP_csTP = max(float(0.0), edgeTP.distance - ts_distance)
         if (csRP - csTP) > 1:
             distanceUpdateAllowed = True
             internVMax: float = edgeTP.vMax
@@ -225,9 +232,9 @@ class XDynamicAgent(EnvAgent):
 
         # Break
         doBreak = vTP > vMax  # i.e. break - if and only if coasting is not enough (vTP + aTP * timeStep)
-        if doBreak and self.currentAcceleration_Train >= 0:
+        if doBreak and self.current_acceleration_agent >= 0:
             deltaBremsweg = 0.5 * (vTP * vTP - vMax * vMax) / abs(aMax_break) + self.length
-            # float restDistanz = (edgeTP->distance - trasseSecTP->currentDistance_Train);
+            # float restDistanz = (edgeTP->distance - trasseSecTP->current_distance_agent);
             if (distanceBetween_csRP_csTP - deltaBremsweg) > (edgeTP.vMax * timeStep):
                 doBreak = False
                 vMax = vTP
@@ -243,7 +250,7 @@ class XDynamicAgent(EnvAgent):
             if a < abs(aTP):
                 aTP = -a
 
-            if self.currentAcceleration_Train >= 0:
+            if self.current_acceleration_agent >= 0:
                 vTP += aTP * timeStep
 
             aRP = 0.0
@@ -271,40 +278,49 @@ class XDynamicAgent(EnvAgent):
 
         # euler step: train point
         delta_pos_tp = vTP * timeStep
-        self.currentDistance_Train += delta_pos_tp
-        self.currentVelocity_Train = vTP + aTP * timeStep
-        self.currentAcceleration_Train = aTP
+        self.current_distance_agent += delta_pos_tp
+        self.current_velocity_agent = vTP + aTP * timeStep
+        self.current_acceleration_agent = aTP
 
         # euler step: reservation point
         #   Korrektur des Position aus Bremsweg und aktueller Position. Beachte die Position variiert mit dem
         # 	Verhalten des Zuges, Reservationspunkt Position luft retour, beim Vollbremung.
-        bremsweg = 0.5 * (self.currentVelocity_Train * self.currentVelocity_Train) / abs(aMax_break) + self.length
-        delta_pos_rp = (self.currentDistance_Train + bremsweg - self.currentDistance_ReservationPoint)
-        self.currentDistance_ReservationPoint += delta_pos_rp
-        self.currentVelocity_ReservationPoint = vRP + aRP * timeStep
+        bremsweg = 0.5 * (self.current_velocity_agent * self.current_velocity_agent) / abs(aMax_break) + self.length
+        delta_pos_rp = (self.current_distance_agent + bremsweg - self.current_distance_reservation_point)
+        self.current_distance_reservation_point += delta_pos_rp
+        self.current_velocity_reservation_point = vRP + aRP * timeStep
 
-        return delta_pos_tp, delta_pos_rp
+        # check and allow reservation point move forward
+        move_reservation_point = \
+            self.current_distance_reservation_point >= self.visited_cell_path_reservation_point_distance
 
-    def update_dynamics(self):
+        return move_reservation_point
+
+    def update_agent_positions(self):
         self._max_episode_steps = 10000
         pos = self.position
         if pos is not None:
-            if pos not in self.train_run_path:
-                self.train_run_path.append(self.position)
-                self.currentSection_ReservationPoint = len(self.train_run_path)
+            if pos not in self.visited_cell_path:
+                self.visited_cell_path.append(self.position)
+                cell_data = Edge(pos, self._infrastructure_data)
+                self.visited_cell_path_reservation_point_distance += cell_data.distance
+                self.visited_cell_distance.append(self.visited_cell_path_reservation_point_distance)
+                self.visited_cell_path_reservation_point_index = len(self.visited_cell_path)
 
-            delta_pos_tp, delta_pos_rp = self._update_movement_dynamics()
-            if delta_pos_rp == 0:
-                self.move_reservation_point = False
+            # update current position of the agent with respect to visited cells
+            end_of_agent_idx = np.argwhere(np.array(self.visited_cell_distance) > self.current_distance_agent)
+            if len(end_of_agent_idx) == 0:
+                self.visited_cell_path_end_of_agent_index = 0
             else:
-                self.move_reservation_point = self.currentDistance_ReservationPoint >= len(self.train_run_path) * 400
-            self.currentSection_Train = min(len(self.train_run_path) - 1,
-                                            int(np.floor(self.currentDistance_Train / 400)))
-
-            self.distance_RP.append(self.currentDistance_ReservationPoint)
-            self.distance_TP.append(self.currentDistance_Train)
-            self.a_TP.append(self.currentAcceleration_Train)
-            self.velocity_TP.append(self.currentVelocity_Train)
+                self.visited_cell_path_end_of_agent_index = end_of_agent_idx[0][0]
+            if self.visited_cell_path_end_of_agent_index >= self.visited_cell_path_reservation_point_index:
+                self.visited_cell_path_end_of_agent_index = self.visited_cell_path_reservation_point_index - 1
+            self.visited_cell_path_end_of_agent_distance = \
+                self.visited_cell_distance[self.visited_cell_path_end_of_agent_index]
+            self.distance_RP.append(self.current_distance_reservation_point)
+            self.distance_TP.append(self.current_distance_agent)
+            self.a_TP.append(self.current_acceleration_agent)
+            self.velocity_TP.append(self.current_velocity_agent)
             self.max_velocity_TP.append(self.current_max_velocity)
 
     def set_length(self, length: float):
@@ -342,19 +358,16 @@ class XDynamicAgent(EnvAgent):
     def reset(self):
         super(XDynamicAgent, self).reset()
 
-    def do_debug_plot(self):
+    def do_debug_plot(self, idx=1, nbr_agents=1, show=True):
         plt.rc('font', size=12)
-        ax1 = plt.subplot(3, 1, 1)
+
+        ax1 = plt.subplot(nbr_agents, 2, 1 + (idx - 1) * 2)
         plt.plot(self.distance_TP[1:], np.array(self.velocity_TP[1:]) * 3.6)
         plt.plot(self.distance_TP[1:], np.array(self.max_velocity_TP[1:]) * 3.6)
         ax1.set_title('Distance vs. velocity', fontsize=10)
 
-        ax2 = plt.subplot(3, 1, 2)
-        plt.plot(self.distance_TP[1:], np.array(self.distance_RP[1:]) - np.array(self.distance_TP[1:]))
-        ax2.set_title('Distance vs. braking distance + train length', fontsize=10)
-
-        ax3 = plt.subplot(3, 1, 3)
+        ax2 = plt.subplot(nbr_agents, 2, 2 + (idx - 1) * 2)
         plt.plot(self.distance_TP[1:], self.a_TP[1:])
-        ax3.set_title('Distance vs. Acceleration', fontsize=10)
-
-        plt.show()
+        ax2.set_title('Distance vs. Acceleration', fontsize=10)
+        if show:
+            plt.show()
