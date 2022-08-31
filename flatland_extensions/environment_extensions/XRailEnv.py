@@ -8,6 +8,7 @@ from flatland.envs.step_utils import env_utils
 
 from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
 from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
+from flatland_extensions.environment_extensions.XAgent import XAgent
 from flatland_extensions.environment_extensions.XDynamicAgent import XDynamicAgent
 
 
@@ -64,7 +65,7 @@ class XRailEnv(RailEnv):
         self._railroad_switch_cluster_switch_group_locking = False
         self._railroad_switch_cluster_connecting_edge_locking = False
 
-    def _allocate_resources(self, agent: XDynamicAgent, positions: List[Tuple[int, int]]):
+    def _allocate_resources(self, agent: XAgent, positions: List[Tuple[int, int]]):
         if self._flatland_resource_allocator is None:
             return True
         resources = positions
@@ -83,10 +84,10 @@ class XRailEnv(RailEnv):
                                 resources.append(r)
         return self._flatland_resource_allocator.allocate_resource(agent.handle, resources)
 
-    def allocate_resources_at_position(self, agent: XDynamicAgent, position: Tuple[int, int]) -> bool:
+    def allocate_resources_at_position(self, agent: XAgent, position: Tuple[int, int]) -> bool:
         return self._allocate_resources(agent, [position])
 
-    def allocate_current_resources(self, agent: XDynamicAgent) -> bool:
+    def allocate_current_resources(self, agent: XAgent) -> bool:
         positions = agent.get_allocated_resource()
         if len(positions) == 0 and agent.position is not None:
             positions.append(agent.position)
@@ -96,21 +97,25 @@ class XRailEnv(RailEnv):
         super(XRailEnv, self).reset_agents()
         x_dynamic_agents = []
         for agent in self.agents:
-            x_dynamic_agents.append(XDynamicAgent(agent))
+            x_dynamic_agents.append(XAgent(agent))
         self.agents = x_dynamic_agents
 
     def step(self, action_dict_: Dict[int, RailEnvActions]):
         if self._flatland_resource_allocator is not None:
             self._flatland_resource_allocator.reset_locks()
             for agent_handle, agent in enumerate(self.agents):
-                self.allocate_current_resources(agent)
+                x_agent: XAgent = agent
+                x_agent.all_resource_ok(self.allocate_current_resources(agent))
+        else:
+            for agent_handle, agent in enumerate(self.agents):
+                x_agent: XAgent = agent
+                x_agent.all_resource_ok(True)
 
         observations, all_rewards, done, info = super(XRailEnv, self).step(action_dict_=action_dict_)
 
         self.dones["__all__"] = False
         for agent in self.agents:
-
-            agent.update_agent_positions()
+            agent.update_agent()
 
         return observations, all_rewards, done, info
 
@@ -118,8 +123,7 @@ class XRailEnv(RailEnv):
         return 0
 
     def preprocess_action(self, action, agent):
-        x_agent: XDynamicAgent = agent
-        x_agent.set_hard_brake(False)
+        x_agent: XAgent = agent
 
         preprocessed_action = super(XRailEnv, self).preprocess_action(action, agent)
 
@@ -136,16 +140,8 @@ class XRailEnv(RailEnv):
 
             if preprocessed_action.is_moving_action():
                 if not self.allocate_resources_at_position(agent, new_position):
-                    x_agent.set_hard_brake(True)
+                    x_agent.all_resource_ok(True)
                     self.motionCheck.addAgent(x_agent.handle, x_agent.position, x_agent.position)
                     preprocessed_action = RailEnvActions.STOP_MOVING
-
-        x_agent: XDynamicAgent = agent
-        if not x_agent.update_movement_dynamics():
-            self.motionCheck.addAgent(x_agent.handle, x_agent.position, x_agent.position)
-            preprocessed_action = RailEnvActions.STOP_MOVING
-
-        if preprocessed_action == RailEnvActions.DO_NOTHING:
-            preprocessed_action = RailEnvActions.MOVE_FORWARD
 
         return preprocessed_action
