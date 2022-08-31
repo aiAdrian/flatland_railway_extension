@@ -23,7 +23,10 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     flatland_resource_allocator.set_minimal_free_time_to_reallocate_other_agent(minimal_train_following_time)
     flatland_environment_helper.get_rail_env().activate_flatland_resource_allocator(flatland_resource_allocator)
     if use_cluster_locking:
-        flatland_environment_helper.get_rail_env().activate_railroad_switch_cluster_locking(railroad_switch_cluster)
+        flatland_environment_helper.get_rail_env().activate_railroad_switch_cluster_locking(
+            railroad_switch_cluster,
+            railroad_switch_cluster_switch_group_locking=True,
+            railroad_switch_cluster_connecting_edge_locking=False)
 
     # Create a test infrastrucutre
     # ---------------------------------------------------------------------------------------------------------------
@@ -76,7 +79,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
 
 
 # -----------------------------------------------------------------------------------------------------------------
-flatland_environment_helper = FlatlandEnvironmentHelper(random_seed=2341)
+flatland_environment_helper = FlatlandEnvironmentHelper(random_seed=1)
 railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helper.get_rail_env())
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 
