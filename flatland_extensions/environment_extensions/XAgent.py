@@ -34,5 +34,5 @@ class XAgent(EnvAgent):
     def reset(self):
         super(XAgent, self).reset()
 
-    def do_debug_plot(self, idx=1, nbr_agents=1, show=True):
+    def do_debug_plot(self, idx=1, nbr_agents=1, show=True, show_title=True):
         pass
