@@ -27,8 +27,10 @@ The initial implementation is authored by Adrian Egli's (aiAdrian) [neurips2020 
  
   
 ## Working code 
-- [Google coLab notebook - Recife export ](https://github.com/aiAdrian/flatland_railway_extension/blob/master/Flatland_recife.ipynb)
+- [Google coLab notebook - Recife export](https://github.com/aiAdrian/flatland_railway_extension/blob/master/Flatland_recife.ipynb)
 - [Google coLab notebook - Simulation with multi-resource reservation](https://github.com/aiAdrian/flatland_railway_extension/blob/master/Flatland_Resource_Allocation.ipynb)
+- [Google coLab notebook - Flatland dynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/Flatland_Dynamics.ipynb)
+
 
 
 
