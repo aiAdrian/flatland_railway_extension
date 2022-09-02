@@ -1,3 +1,8 @@
+# Idea: Adrian Egli / Erik Nygren
+# Permission to use - If you use this or any idea out of this code for a
+# publication, you must credit the authors. No commerical
+# use allowed.
+
 '''
 The Flatland simulator does not have any train run dynamics implemented. Flatland Dynamics extends flatland to simulate
 railway dynamics with a dynamics/physical layer. This code meant as a proof-of-concept to show how dynamics can be
