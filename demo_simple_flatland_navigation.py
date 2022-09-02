@@ -67,7 +67,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
             env.dev_obs_dict.update(
                 {agent_handle: flatland_resource_allocator.get_assigned_resources(agent_handle=agent_handle)})
 
-        if step % 100 == 0:
+        if step % 10 == 0:
             flatland_renderer.render(show_observations=True)
             time.sleep(0.01)
 
