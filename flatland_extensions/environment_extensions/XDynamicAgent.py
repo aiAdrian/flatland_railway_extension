@@ -89,7 +89,7 @@ class XDynamicAgent(XAgent):
 
         # set the extended dynamic agent attributes
         self.set_length(100)
-        self.set_mass(1000)
+        self.set_mass(300)
         self.set_rolling_stock(RollingStock())
 
         # infrastructure
@@ -352,7 +352,7 @@ class XDynamicAgent(XAgent):
 
         ax1 = plt.subplot(nbr_agents, 2, 1 + (idx - 1) * 2)
         plt.plot(self.distance_TP[1:], np.array(self.velocity_TP[1:]) * 3.6)
-        plt.plot(self.distance_TP[1:], np.array(self.max_velocity_TP[1:]) * 3.6)
+        plt.plot(self.distance_TP[1:] + self.length, np.array(self.max_velocity_TP[1:]) * 3.6)
         ax1.set_title('Distance vs. velocity', fontsize=10)
 
         ax2 = plt.subplot(nbr_agents, 2, 2 + (idx - 1) * 2)
