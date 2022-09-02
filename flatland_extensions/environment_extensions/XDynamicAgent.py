@@ -80,6 +80,7 @@ class Edge:
         if infrastructure_data is not None:
             self.distance = infrastructure_data.get_cell_length(res)
             self.vMax = infrastructure_data.get_velocity(res)
+            self.gradient = infrastructure_data.get_gradient(res)
 
 
 class XDynamicAgent(XAgent):
@@ -125,7 +126,9 @@ class XDynamicAgent(XAgent):
         if len(self.visited_cell_path) <= self.visited_cell_path_end_of_agent_index:
             return self.visited_cell_path
         if len(self.visited_cell_path) < self.visited_cell_path_reservation_point_index:
-            return []
+            if self.position is None:
+                return []
+            return [self.position]
         if self.visited_cell_path_end_of_agent_index == self.visited_cell_path_reservation_point_index:
             return [self.visited_cell_path[self.visited_cell_path_end_of_agent_index]]
         return self.visited_cell_path[
@@ -133,7 +136,7 @@ class XDynamicAgent(XAgent):
 
     def get_allocated_train_point_resource(self) -> Union[Tuple[int, int], None]:
         if len(self.visited_cell_path) <= self.visited_cell_path_end_of_agent_index:
-            return None
+            return self.position
         return self.visited_cell_path[self.visited_cell_path_end_of_agent_index]
 
     def get_allocated_reservation_point_resource(self) -> Union[Tuple[int, int], None]:
@@ -150,46 +153,35 @@ class XDynamicAgent(XAgent):
         aMax_acceleration = self.rolling_stock.a_max_acceleration
         aMax_break = self.rolling_stock.a_max_break
 
-        vMax = self.v_max_simulation
-
-        # calculate the minimal vMax between TrainPoint(TP) and ReservationPoint(RP) and estimate as well
-        # the distance with const current velocity
-        csRP = self.visited_cell_path_reservation_point_index
-        csTP = self.visited_cell_path_end_of_agent_index
-
         edgeTP = Edge(self.get_allocated_train_point_resource(), self._infrastructure_data)
         edgeRP = Edge(self.get_allocated_reservation_point_resource(), self._infrastructure_data)
 
-        # gradient : weighted sum over train length
-        ts_distance = (self.current_distance_agent - self.visited_cell_path_end_of_agent_distance)
-        gradientTrasseLen = max(self.length, float(1.0))
-        gradientSplitLen = min(gradientTrasseLen, max(float(0.0), ts_distance))
-        meanGradient = (edgeTP.gradient * gradientSplitLen + edgeRP.gradient * (
-                gradientTrasseLen - gradientSplitLen)) / gradientTrasseLen
+        self.current_max_velocity = edgeTP.vMax
 
-        distanceBetween_csRP_csTP = max(float(0.0), edgeTP.distance - ts_distance)
-        if (csRP - csTP) > 1:
-            distanceUpdateAllowed = True
-            internVMax: float = edgeTP.vMax
-            trasseDistanceGradient: float = 0
-            if (csTP < csRP):
-                meanGradient = 0.0
+        vMax_array = np.array([edgeTP.vMax, edgeRP.vMax, self.rolling_stock.vMaxTraction, self.v_max_simulation])
+        vMax = np.min(vMax_array)
+        if self.handle == 3:
+            print(self.handle, vMax * 3.6, vMax_array * 3.6)
 
-            for k, res in enumerate(self.get_allocated_resource()):
-                internVMax = min(self.rolling_stock.vMaxTraction, internVMax)
-                ts = Edge(res, self._infrastructure_data)
-                internVMax = min(ts.vMax, internVMax)
-                if vTP > internVMax:
-                    distanceUpdateAllowed = False
+        pos_on_edge = self.current_distance_agent - self.visited_cell_path_end_of_agent_distance
+        distanceBetween_csRP_csTP = max(0.0, edgeTP.distance - pos_on_edge)
+        allocted_ressources_list = self.get_allocated_resource()
+        internVMax = edgeTP.vMax
+        distanceUpdateAllowed = True
+        # TODO: gradient : weighted sum over train length
+        meanGradient = 0
+        for i_res, res in enumerate(allocted_ressources_list):
+            edge = Edge(res, self._infrastructure_data)
+            internVMax = min(internVMax, edge.vMax)
+            if vTP > internVMax:
+                distanceUpdateAllowed = False
+            if distanceUpdateAllowed and i_res > 0:
+                distanceBetween_csRP_csTP += edge.distance
 
-                if distanceUpdateAllowed and (k > csTP):
-                    distanceBetween_csRP_csTP += ts.distance
+        vMax = min(vMax, internVMax)
 
-                aMax_break = min(aMax_break, self.rolling_stock.a_max_break * ts.rndBreakFactor)
-                aMax_acceleration = min(aMax_acceleration, self.rolling_stock.a_max_acceleration * ts.rndBreakFactor)
-            vMax = min(internVMax, vMax)
-            if trasseDistanceGradient > 0:
-                meanGradient /= trasseDistanceGradient
+        if self.handle == 3:
+            print(self.handle, vMax * 3.6)
 
         # Resistances / Laufwiderstand
         wRun = self.rolling_stock.C + self.rolling_stock.K * vTP * vTP * 0.01296
@@ -270,8 +262,6 @@ class XDynamicAgent(XAgent):
             aRP = 0.0
             vRP = 0.0
 
-        self.current_max_velocity = edgeTP.vMax
-
         # euler step: train point
         delta_pos_tp = vTP * timeStep
         self.current_distance_agent += delta_pos_tp
@@ -279,16 +269,20 @@ class XDynamicAgent(XAgent):
         self.current_acceleration_agent = aTP
 
         # euler step: reservation point
-        #   Korrektur des Position aus Bremsweg und aktueller Position. Beachte die Position variiert mit dem
+        #   Korrektur der Position aus Bremsweg und aktueller Position. Beachte die Position variiert mit dem
         # 	Verhalten des Zuges, Reservationspunkt Position luft retour, beim Vollbremung.
         bremsweg = 0.5 * (self.current_velocity_agent * self.current_velocity_agent) / abs(aMax_break) + self.length
-        delta_pos_rp = (self.current_distance_agent + bremsweg - self.current_distance_reservation_point)
+        delta_pos_rp = max(0.0, (self.current_distance_agent + bremsweg) - self.current_distance_reservation_point)
         self.current_distance_reservation_point += delta_pos_rp
         self.current_velocity_reservation_point = vRP + aRP * timeStep
 
         # check and allow reservation point move forward
         move_reservation_point = \
-            self.current_distance_reservation_point >= self.visited_cell_path_reservation_point_distance
+            self.current_distance_reservation_point > self.visited_cell_path_reservation_point_distance
+
+        if self.handle == 3:
+            print(self.handle, 'distanceBetween_RP_and_TP {:5.1f} \t bremsweg: {:5.1f} vTP {:4.1f} vRP {:4.1f} vMax {'
+                               ':4.1f}'.format(distanceBetween_csRP_csTP, bremsweg, vTP * 3.6, vRP * 3.6, vMax * 3.6))
 
         return move_reservation_point
 
@@ -306,7 +300,8 @@ class XDynamicAgent(XAgent):
             # update current position of the agent with respect to visited cells
             end_of_agent_idx = np.argwhere(np.array(self.visited_cell_distance) > self.current_distance_agent)
             if len(end_of_agent_idx) == 0:
-                self.visited_cell_path_end_of_agent_index = 0
+                if len(self.visited_cell_distance) == 0:
+                    self.visited_cell_path_end_of_agent_index = 0
             else:
                 self.visited_cell_path_end_of_agent_index = end_of_agent_idx[0][0]
             if self.visited_cell_path_end_of_agent_index >= self.visited_cell_path_reservation_point_index:
@@ -339,7 +334,6 @@ class XDynamicAgent(XAgent):
         :param rolling_stock: a reference to the rolling stock object
         '''
         self.rolling_stock = rolling_stock
-
 
     def all_resource_ok(self, resource_allocation_ok):
         self.set_hard_brake(not resource_allocation_ok)

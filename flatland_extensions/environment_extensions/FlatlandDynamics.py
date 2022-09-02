@@ -30,11 +30,15 @@ moved due of a locked (occupied) cell, the train has to break.
 
 # import all flatland dependance
 
+from typing import Dict, Union, Tuple, List
+
 from flatland.core.env_observation_builder import ObservationBuilder
 from flatland.envs.observations import GlobalObsForRailEnv
 from flatland.envs.rail_env_action import RailEnvActions
 from flatland.envs.step_utils import env_utils
 
+from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
+from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
 from flatland_extensions.environment_extensions.XDynamicAgent import XDynamicAgent
 from flatland_extensions.environment_extensions.XRailEnv import XRailEnv
 
@@ -65,6 +69,33 @@ class FlatlandDynamics(XRailEnv):
                                                random_seed=random_seed,
                                                record_steps=record_steps)
 
+        # Flatland Resource Allocator
+        self._flatland_resource_allocator: Union[FlatlandResourceAllocator, None] = None
+
+        # Railroad Switch Cluster
+        self._railroad_switch_cluster: Union[RailroadSwitchCluster, None] = None
+        self._railroad_switch_cluster_switch_group_locking = False
+        self._railroad_switch_cluster_connecting_edge_locking = False
+
+    def activate_flatland_resource_allocator(self, flatland_resource_allocator: FlatlandResourceAllocator):
+        self._flatland_resource_allocator = flatland_resource_allocator
+
+    def deactivate_flatland_resource_allocator(self):
+        self._flatland_resource_allocator = None
+
+    def activate_railroad_switch_cluster_locking(self,
+                                                 railroad_switch_cluster: RailroadSwitchCluster,
+                                                 railroad_switch_cluster_switch_group_locking=True,
+                                                 railroad_switch_cluster_connecting_edge_locking=True):
+        self._railroad_switch_cluster = railroad_switch_cluster
+        self._railroad_switch_cluster_switch_group_locking = railroad_switch_cluster_switch_group_locking
+        self._railroad_switch_cluster_connecting_edge_locking = railroad_switch_cluster_connecting_edge_locking
+
+    def deactivate_railroad_switch_cluster_locking(self):
+        self._railroad_switch_cluster = None
+        self._railroad_switch_cluster_switch_group_locking = False
+        self._railroad_switch_cluster_connecting_edge_locking = False
+
     def reset_agents(self):
         super(XRailEnv, self).reset_agents()
         x_dynamic_agents = []
@@ -72,31 +103,30 @@ class FlatlandDynamics(XRailEnv):
             x_dynamic_agents.append(XDynamicAgent(agent))
         self.agents = x_dynamic_agents
 
-    def preprocess_action(self, action, agent):
-        x_agent: XDynamicAgent = agent
-
-        preprocessed_action = super(XRailEnv, self).preprocess_action(action, agent)
-
+    def step(self, action_dict_: Dict[int, RailEnvActions]):
         if self._flatland_resource_allocator is not None:
-            # Try moving actions on current position
-            current_position, current_direction = agent.position, agent.direction
-            if current_position is None:  # Agent not added on map yet
-                current_position, current_direction = agent.initial_position, agent.initial_direction
+            self._flatland_resource_allocator.reset_locks()
+            for agent_handle, agent in enumerate(self.agents):
+                agent.all_resource_ok(self.allocate_current_resources(agent))
+        else:
+            for agent_handle, agent in enumerate(self.agents):
+                agent.all_resource_ok(True)
 
-            new_position, new_direction = env_utils.apply_action_independent(preprocessed_action,
-                                                                             self.rail,
-                                                                             current_position,
-                                                                             current_direction)
+        observations, all_rewards, done, info = super(XRailEnv, self).step(action_dict_=action_dict_)
 
-            if preprocessed_action.is_moving_action():
-                if not self.allocate_resources_at_position(agent, new_position):
-                    x_agent.all_resource_ok(True)
-                    self.motionCheck.addAgent(x_agent.handle, x_agent.position, x_agent.position)
-                    preprocessed_action = RailEnvActions.STOP_MOVING
+        self.dones["__all__"] = False
+        for agent in self.agents:
+            agent.update_agent()
 
-        x_agent: XDynamicAgent = agent
-        if not x_agent.update_movement_dynamics():
-            self.motionCheck.addAgent(x_agent.handle, x_agent.position, x_agent.position)
+        return observations, all_rewards, done, info
+
+    def _handle_end_reward(self, agent):
+        return 0
+
+    def post_preprocess_action(self, action, agent):
+        preprocessed_action = action
+        if not agent.update_movement_dynamics():
+            self.motionCheck.addAgent(agent.handle, agent.position, agent.position)
             preprocessed_action = RailEnvActions.STOP_MOVING
 
         if preprocessed_action == RailEnvActions.DO_NOTHING:
