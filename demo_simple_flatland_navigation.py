@@ -67,7 +67,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
             env.dev_obs_dict.update(
                 {agent_handle: flatland_resource_allocator.get_assigned_resources(agent_handle=agent_handle)})
 
-        if step % 5 == 0:
+        if step % 100 == 0:
             flatland_renderer.render(show_observations=True)
             time.sleep(0.01)
 
@@ -80,9 +80,8 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         print("Please close render window to exit")
         flatland_renderer.start_render_loop()
     flatland_renderer.close()
-    if False:
-        railroad_switch_cluster.do_debug_plot()
-        flatland_resource_allocator.do_debug_plot()
+    railroad_switch_cluster.do_debug_plot()
+    flatland_resource_allocator.do_debug_plot()
 
     flatland_environment_helper.get_rail_env().agents[3].do_debug_plot(1, 1, True)
     for i_agent, agent in enumerate(flatland_environment_helper.get_rail_env().agents):
