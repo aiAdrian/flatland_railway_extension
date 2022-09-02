@@ -346,16 +346,18 @@ class XDynamicAgent(XAgent):
     def reset(self):
         super(XDynamicAgent, self).reset()
 
-    def do_debug_plot(self, idx=1, nbr_agents=1, show=True):
+    def do_debug_plot(self, idx=1, nbr_agents=1, show=True, show_title=True):
         plt.rc('font', size=12)
 
         ax1 = plt.subplot(nbr_agents, 2, 1 + (idx - 1) * 2)
         plt.plot(self.distance_TP[1:], np.array(self.velocity_TP[1:]) * 3.6)
         plt.plot(np.array(self.distance_TP[1:]) - self.length, np.array(self.max_velocity_TP[1:]) * 3.6)
-        ax1.set_title('Distance vs. velocity', fontsize=10)
+        if show_title:
+            ax1.set_title('Distance vs. velocity', fontsize=10)
 
         ax2 = plt.subplot(nbr_agents, 2, 2 + (idx - 1) * 2)
         plt.plot(self.distance_TP[1:], self.a_TP[1:])
-        ax2.set_title('Distance vs. Acceleration', fontsize=10)
+        if show_title:
+            ax2.set_title('Distance vs. Acceleration', fontsize=10)
         if show:
             plt.show()
