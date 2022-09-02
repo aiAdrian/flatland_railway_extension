@@ -4,33 +4,31 @@
 # use allowed.
 
 '''
-The Flatland simulator does not have any train run dynamics implemented. Flatland Dynamics extends flatland to simulate
-railway dynamics with a dynamics/physical layer. This code meant as a proof-of-concept to show how dynamics can be
-integrated. The goal must be that all trains(agents) follow physical policy to accelerate. The acceleration must be
-based on real train parameters such as train weight, train length and traction power. The braking will be implemented
-with a fixed physical delay. The physical delay will be a parameter which can be set per train (agent).
+The flatland simulator has no train running dynamics implemented. Flatland Dynamics extends Flatland to simulation
+Path dynamics with a dynamics/physics layer. This code is intended as a proof of concept to show how dynamic can be
+integrated. The goal must be that all trains (agents) follow the physical guideline to accelerate. The acceleration must be
+based on real train parameters such as train weight, train length and traction power. Braking is carried out
+with fixed physical delay. The physical delay is a parameter that can be set per train (agent).
 
-To simulate dynamics the simulator must be ensure that each train(agent) can break just before it will collide by any
-others. This requires a new safety layer. Up to now flatland just ensures that there will be no more than maximum one
-agent per cell. And a train (agent) can only be at one cell at once. This must be extended as well. Due of the
-braking distance which can vary from zero (train doesn’t move) up to many meters (train is moving). The braking
-distance strongly depends on the train speed. Thus, flatland has to ensure that one train (agent) can allocate many
-cells and free them later. The allocation and freeze will no longer be restricted to one cell. Thus a cell can have
-more than occupied or free. It can also be in state reserved. Reserved will mean that the train is not yet in the
-cell by the cell is still occupied due of it’s braking distance. The state reserved must not be implemented.
-It can be implemented with occupied. But it’s important to understand that a train (agent) has more than two “cell
-reservation state per cell”. Once a cell is locked (reserved, occupied) it will be for all other agents occupied
-and they cannot enter.
+In order to simulate the dynamics, the simulator must ensure that each train (agent) can break before colliding from one
+other. This requires a new security layer. So far, Flatland only ensures that there is no more than a maximum of one
+active agent per cell. And an agent can only be in one cell at a time. This must also be extended. Due to the
+braking distance, which can vary from zero (train is not moving) to many meters (train is moving). The braking
+distance is highly dependent on train speed. So Flatland has to make sure that the agent can assign many
+cells and free them later. Allocation and freezing are no longer limited to one cell.
+The agent can reserve, hold and free a cell later on. Reserved means that the train has not yet arrived
+at the cell but the cell is still occupied due to their braking distance. The reserved state must not be explicitly implemented.
+Once a cell is locked (reserved, occupied), it is occupied for all other agents and they cannot enter anymore.
 
-Implementation idea: The simulator simulates with current agent position and direction the reservation point – this
-is in flatland the current behavior. The agent can navigate as it will  with default flatland. Instead of the
-real train run, we simulate virtual train run. braking distance and train (agent). But we must change the
-occupied handling. A new feature is, that we must simulate the free point. The free point simulates the end of the
-train. When the end of the train leaves a cell - it will be freezing the occupied cell. The dynamics will calculate
-the speed for allocating (reservation point) – braking distance and train run speed. Each cell needs the "distance"
-or "length" information. There will be a minimal cell length, which depends on the simulation time step.
-The reservation point cannot move faster than one cell per simulation step. If the reservation point cannot be
-moved due of a locked (occupied) cell, the train has to break.
+Implementation idea: The simulator simulates the reservation point with the current agent position and direction - this one
+is the current behavior in the Flatland. The agent can navigate freely with the standard Flatland actions. Instead of
+real train we simulate virtual the train at end of reservation area - braking distance and train lenght (agent) are locked for all
+other agents. But we have to change that manned handling. What is new is that we have to simulate the free point. The free point
+simulates the end of the train. If the end of the turn leaves a cell, the occupied cell is frozen. The dynamic is calculated
+the speed for the assignment (reservation point) – braking distance and train speed. Every cell needs the "distance"
+or "length" information. There is a minimum cell length that depends on the simulation time step.
+The reservation point cannot move faster than one cell per simulation step. If the reservation point can not be
+moved because of a locked (occupied) cell, the train must pause.
 '''
 
 # import all flatland dependance
