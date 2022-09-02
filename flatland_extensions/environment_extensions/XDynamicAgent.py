@@ -145,6 +145,8 @@ class XDynamicAgent(XAgent):
         return self.visited_cell_path[len(self.visited_cell_path) - 1]
 
     def update_movement_dynamics(self):
+        if self.position is None:
+            return True
         timeStep = 1.0
 
         vRP = self.current_velocity_reservation_point
@@ -313,6 +315,8 @@ class XDynamicAgent(XAgent):
             self.a_TP.append(self.current_acceleration_agent)
             self.velocity_TP.append(self.current_velocity_agent)
             self.max_velocity_TP.append(self.current_max_velocity)
+        else:
+            self.set_hard_brake(True)
 
     def set_length(self, length: float):
         '''
@@ -352,7 +356,7 @@ class XDynamicAgent(XAgent):
 
         ax1 = plt.subplot(nbr_agents, 2, 1 + (idx - 1) * 2)
         plt.plot(self.distance_TP[1:], np.array(self.velocity_TP[1:]) * 3.6)
-        plt.plot(self.distance_TP[1:] + self.length, np.array(self.max_velocity_TP[1:]) * 3.6)
+        plt.plot(np.array(self.distance_TP[1:]) - self.length, np.array(self.max_velocity_TP[1:]) * 3.6)
         ax1.set_title('Distance vs. velocity', fontsize=10)
 
         ax2 = plt.subplot(nbr_agents, 2, 2 + (idx - 1) * 2)
