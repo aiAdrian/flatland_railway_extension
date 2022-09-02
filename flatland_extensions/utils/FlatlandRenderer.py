@@ -6,17 +6,18 @@ from flatland.utils.rendertools import RenderTool
 
 
 class FlatlandRenderer:
-    def __init__(self, env: RailEnv):
+    def __init__(self, env: RailEnv, show_debug=False):
         self.env = env
-        self._create_renderer()
+        self._create_renderer(show_debug)
 
     def set_env(self, env: RailEnv):
         self.env = env
         self.env_renderer.env = self.env
         self.env_renderer.reset()
 
-    def _create_renderer(self):
+    def _create_renderer(self, show_debug):
         self.env_renderer = RenderTool(self.env,
+                                       show_debug=show_debug,
                                        screen_width=self.env.width * 40,
                                        screen_height=self.env.height * 25)
         self.env_renderer.reset()

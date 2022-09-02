@@ -16,6 +16,7 @@ ClusterCellMembers = collections.namedtuple('ClusterInformation',
                                             'switch_cluster_cell_members '
                                             'connecting_edge_cluster_cell_members')
 
+#### TODO - connected edge is not correct computed --- !!!!! BUG FIX REQUIRED
 
 class RailroadSwitchCluster:
     def __init__(self, railroad_switch_analyser: RailroadSwitchAnalyser):
