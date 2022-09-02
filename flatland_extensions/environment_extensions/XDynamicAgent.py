@@ -1,4 +1,7 @@
 # Idea: Adrian Egli / Erik Nygren
+# Permission to use - If you use this or any idea out of this code for a
+# publication, you must credit the authors. No commerical
+# use allowed.
 from typing import Tuple, List, Union
 
 import numpy as np
