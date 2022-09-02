@@ -162,8 +162,6 @@ class XDynamicAgent(XAgent):
 
         vMax_array = np.array([edgeTP.vMax, edgeRP.vMax, self.rolling_stock.vMaxTraction, self.v_max_simulation])
         vMax = np.min(vMax_array)
-        if self.handle == 3:
-            print(self.handle, vMax * 3.6, vMax_array * 3.6)
 
         pos_on_edge = self.current_distance_agent - self.visited_cell_path_end_of_agent_distance
         distanceBetween_csRP_csTP = max(0.0, edgeTP.distance - pos_on_edge)
@@ -181,9 +179,6 @@ class XDynamicAgent(XAgent):
                 distanceBetween_csRP_csTP += edge.distance
 
         vMax = min(vMax, internVMax)
-
-        if self.handle == 3:
-            print(self.handle, vMax * 3.6)
 
         # Resistances / Laufwiderstand
         wRun = self.rolling_stock.C + self.rolling_stock.K * vTP * vTP * 0.01296
@@ -281,10 +276,6 @@ class XDynamicAgent(XAgent):
         # check and allow reservation point move forward
         move_reservation_point = \
             self.current_distance_reservation_point > self.visited_cell_path_reservation_point_distance
-
-        if self.handle == 3:
-            print(self.handle, 'distanceBetween_RP_and_TP {:5.1f} \t bremsweg: {:5.1f} vTP {:4.1f} vRP {:4.1f} vMax {'
-                               ':4.1f}'.format(distanceBetween_csRP_csTP, bremsweg, vTP * 3.6, vRP * 3.6, vMax * 3.6))
 
         return move_reservation_point
 
