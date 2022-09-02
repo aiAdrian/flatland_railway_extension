@@ -16,8 +16,8 @@ from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
 
 def create_infrastructure_data(env: RailEnv) -> InfrastructureData:
     infrastructure_data = InfrastructureData()
-    velocity_grid = np.ones((env.height, env.width)) * 180
-    cell_length_grid = np.ones((env.height, env.width)) * 800
+    velocity_grid = np.ones((env.height, env.width)) * 160
+    cell_length_grid = np.ones((env.height, env.width)) * 400
     gradient_grid = np.zeros((env.height, env.width))
     for key in railroad_switch_analyser.railroad_switch_neighbours.keys():
         velocity_grid[key] = 120
@@ -49,8 +49,11 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     # Create a test infrastrucutre
     # ---------------------------------------------------------------------------------------------------------------
     # share the infrastructure with the agents ( train runs)
-    #for agent in env.agents:
-    #    agent.set_infrastructure_data(create_infrastructure_data(flatland_environment_helper.get_rail_env()))
+    for agent in env.agents:
+        try:
+            agent.set_infrastructure_data(create_infrastructure_data(flatland_environment_helper.get_rail_env()))
+        except:
+            pass
 
     # ---------------------------------------------------------------------------------------------------------------
     # Start simulation
@@ -81,15 +84,21 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         print("Please close render window to exit")
         flatland_renderer.start_render_loop()
     flatland_renderer.close()
-    railroad_switch_cluster.do_debug_plot()
-    flatland_resource_allocator.do_debug_plot()
+    if False:
+        railroad_switch_cluster.do_debug_plot()
+        flatland_resource_allocator.do_debug_plot()
+
+    flatland_environment_helper.get_rail_env().agents[6].do_debug_plot(1, 1, True)
+    flatland_environment_helper.get_rail_env().agents[2].do_debug_plot(1, 1, True)
     for i_agent, agent in enumerate(flatland_environment_helper.get_rail_env().agents):
         n_agents = flatland_environment_helper.get_rail_env().get_num_agents()
         agent.do_debug_plot(i_agent + 1, n_agents, i_agent + 1 == n_agents)
 
 
 # -----------------------------------------------------------------------------------------------------------------
-flatland_environment_helper = FlatlandEnvironmentHelper(rail_env=FlatlandDynamics, random_seed=2341)
+rail_env_class = XRailEnv
+rail_env_class = FlatlandDynamics
+flatland_environment_helper = FlatlandEnvironmentHelper(rail_env=rail_env_class, random_seed=2341)
 railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helper.get_rail_env())
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 
