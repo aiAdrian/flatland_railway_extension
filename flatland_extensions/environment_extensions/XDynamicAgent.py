@@ -1,3 +1,4 @@
+# Idea: Adrian Egli / Erik Nygren
 from typing import Tuple, List, Union
 
 import numpy as np
