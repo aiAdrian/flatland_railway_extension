@@ -13,7 +13,7 @@ from flatland_extensions.environment_extensions.XDynamicAgent import Infrastruct
 from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
 
 
-def create_infrastructure_data(env: RailEnv) -> InfrastructureData:
+def create_infrastructure_data(env: RailEnv, railroad_switch_analyser: RailroadSwitchAnalyser) -> InfrastructureData:
     infrastructure_data = InfrastructureData()
     cell_length_grid = np.ones((env.height, env.width)) * 400
     gradient_grid = np.zeros((env.height, env.width))
@@ -30,6 +30,7 @@ def create_infrastructure_data(env: RailEnv) -> InfrastructureData:
 
 def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
                    railroad_switch_cluster: RailroadSwitchCluster,
+                   railroad_switch_analyser: RailroadSwitchAnalyser,
                    use_cluster_locking=False,
                    minimal_train_following_time=0):
     env = flatland_environment_helper.get_rail_env()
@@ -45,11 +46,13 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
             railroad_switch_cluster_switch_group_locking=True,
             railroad_switch_cluster_connecting_edge_locking=False)
 
-    # Create a test infrastrucutre
+    # Create a test infrastructure
     # ---------------------------------------------------------------------------------------------------------------
     # share the infrastructure with the agents ( train runs)
     for agent in env.agents:
-        agent.set_infrastructure_data(create_infrastructure_data(flatland_environment_helper.get_rail_env()))
+        agent.set_infrastructure_data(
+            create_infrastructure_data(flatland_environment_helper.get_rail_env(), railroad_switch_analyser)
+        )
 
     # ---------------------------------------------------------------------------------------------------------------
     # Start simulation
@@ -94,16 +97,16 @@ flatland_environment_helper = FlatlandEnvironmentHelper(rail_env=FlatlandDynamic
 railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helper.get_rail_env())
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 
-run_simulation(flatland_environment_helper, railroad_switch_cluster,
+run_simulation(flatland_environment_helper, railroad_switch_cluster, railroad_switch_analyser,
                use_cluster_locking=False,
                minimal_train_following_time=0)
-run_simulation(flatland_environment_helper, railroad_switch_cluster,
+run_simulation(flatland_environment_helper, railroad_switch_cluster, railroad_switch_analyser,
                use_cluster_locking=False,
                minimal_train_following_time=10)
 
-run_simulation(flatland_environment_helper, railroad_switch_cluster,
+run_simulation(flatland_environment_helper, railroad_switch_cluster, railroad_switch_analyser,
                use_cluster_locking=True,
                minimal_train_following_time=0)
-run_simulation(flatland_environment_helper, railroad_switch_cluster,
+run_simulation(flatland_environment_helper, railroad_switch_cluster, railroad_switch_analyser,
                use_cluster_locking=True,
                minimal_train_following_time=10)
