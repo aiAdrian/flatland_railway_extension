@@ -9,7 +9,6 @@ from flatland.envs.step_utils import env_utils
 from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
 from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
 from flatland_extensions.environment_extensions.XAgent import XAgent
-from flatland_extensions.environment_extensions.XDynamicAgent import XDynamicAgent
 
 
 class XRailEnv(RailEnv):
@@ -104,12 +103,10 @@ class XRailEnv(RailEnv):
         if self._flatland_resource_allocator is not None:
             self._flatland_resource_allocator.reset_locks()
             for agent_handle, agent in enumerate(self.agents):
-                x_agent: XAgent = agent
-                x_agent.all_resource_ok(self.allocate_current_resources(agent))
+                agent.all_resource_ok(self.allocate_current_resources(agent))
         else:
             for agent_handle, agent in enumerate(self.agents):
-                x_agent: XAgent = agent
-                x_agent.all_resource_ok(True)
+                agent.all_resource_ok(True)
 
         observations, all_rewards, done, info = super(XRailEnv, self).step(action_dict_=action_dict_)
 
@@ -122,9 +119,10 @@ class XRailEnv(RailEnv):
     def _handle_end_reward(self, agent):
         return 0
 
-    def preprocess_action(self, action, agent):
-        x_agent: XAgent = agent
+    def post_preprocess_action(self, action, agent):
+        return action
 
+    def preprocess_action(self, action, agent):
         preprocessed_action = super(XRailEnv, self).preprocess_action(action, agent)
 
         if self._flatland_resource_allocator is not None:
@@ -140,8 +138,10 @@ class XRailEnv(RailEnv):
 
             if preprocessed_action.is_moving_action():
                 if not self.allocate_resources_at_position(agent, new_position):
-                    x_agent.all_resource_ok(True)
-                    self.motionCheck.addAgent(x_agent.handle, x_agent.position, x_agent.position)
+                    agent.all_resource_ok(False)
+                    self.motionCheck.addAgent(agent.handle, agent.position, agent.position)
                     preprocessed_action = RailEnvActions.STOP_MOVING
+
+        preprocessed_action = self.post_preprocess_action(preprocessed_action, agent)
 
         return preprocessed_action
