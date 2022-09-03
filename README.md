@@ -40,4 +40,4 @@ The initial implementation is authored by Adrian Egli's (aiAdrian) [neurips2020 
 
 
 ##### Permission to use  
-If you use this or any idea out of this code for in any academic publication - you must credit the authors. No commerical use allowed.
+If you use this or any idea out of this code for/in any academic publication - you must credit the authors. No commerical use allowed.
