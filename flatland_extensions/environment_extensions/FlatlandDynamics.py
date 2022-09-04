@@ -1,7 +1,10 @@
 # Idea: Adrian Egli / Erik Nygren
-# Permission to use - If you use this or any idea out of this code for a
-# publication, you must credit the authors. No commerical
-# use allowed.
+#
+# Permission to use:
+# ----------------------------------------------------------------------------------------------------------
+# If you use this or any idea out of this code for/in any academic publication - you must credit the authors.
+# No commercial use allowed - neither the underlaying idea nor the implementation.
+# ----------------------------------------------------------------------------------------------------------
 
 '''
 The flatland simulator has no agent movement dynamics implemented. Flatland Dynamics expands Flatland with
