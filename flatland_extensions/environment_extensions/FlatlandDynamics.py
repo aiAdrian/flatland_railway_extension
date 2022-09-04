@@ -4,18 +4,23 @@
 # use allowed.
 
 '''
-The flatland simulator has no train running dynamics implemented. Flatland Dynamics extends Flatland to simulate the agent movement with physics/dynamics. 
-This code is intended as a proof of concept to show how dynamics can be integrated into Flatland. The goal of this extension is to show how all agents can follow physical movement policy for acceleration/braking. The acceleration is
-based on realworld parameters such as train weight, train length and traction power (rolling stock). Braking is implemented with fixed physical delay. The physical delay is a parameter that can be set for each agent separately. 
-The raison behind this fixed delay (negative acceleration) is that this can be quite easy be implemented in fixed time-step (forward) simulation. 
+The flatland simulator has no agent movement dynamics implemented. Flatland Dynamics expands Flatland with
+agent movement dynamics (physics). This python code is intended as a proof of concept to show how dynamics can be
+integrated into Flatland. The goal of this expansion is to show how all agents perform realistic
+under acceleration/braking movements and interact with each other. The acceleration is based on realworld parameters
+such as train weight, train length and traction power (rolling stock). Braking is implemented with fixed physical
+delay. The physical delay is a parameter that can be set for each agent separately. The reason behind this fixed delay
+(negative acceleration) is that this can be quite easy be implemented in a fixed time-step simulation where the next
+state only depends on the current state.
 
-In order to simulate the dynamics, the simulator must ensure that each agent can brake before colliding from one
-other. The braking distance can vary from zero (train is not moving) to many meters (train is moving). The braking
-distance is highly dependent on train speed. The braking distance and train length can be longer then one cell length. The agent can reserve, hold and free a cell. 
-Reserved means that the train has not yet arrived
-at the cell but the cell is still occupied due, but not physicaly occupied. The reserved state must not be explicitly implemented.
-Once a cell is locked (reserved, occupied), it is occupied for all other agents and they cannot enter anymore. Flatland must be able to lock more then one cell per agent. 
-This requires an other extension. This requirement is implemented in python class: FlatlandResourceAllocator.
+In order to simulate the dynamics, the simulator must ensure that each agent can brake before colliding with
+others. The braking distance can vary from zero (train is not moving) to many meters (train is moving). The braking
+distance is highly dependent on train speed. The braking distance plus the train length can be longer then one cell's
+length. Therefore the agent must be capable to reserve resources (cell). Reserved means that the train has not yet
+arrived at the cell but the cell is still occupied due, but not physicaly occupied. The reserved state must not be
+explicitly implemented. Once a cell is locked (reserved, occupied), it is occupied for all other agents and it
+can't be allocated by other agents. Flatland must be able to lock more then one cell per agent. This
+requires an other extension. This requirement is implemented in python class: FlatlandResourceAllocator.
 
 Implementation idea: The simulator simulates the reservation point with the current agent position and direction - this one
 is the current behavior in the Flatland. The agent can navigate freely with the standard Flatland actions. Instead of
@@ -30,12 +35,11 @@ moved because of a locked (occupied) cell, the train must pause.
 
 # import all flatland dependance
 
-from typing import Dict, Union, Tuple, List
+from typing import Dict, Union
 
 from flatland.core.env_observation_builder import ObservationBuilder
 from flatland.envs.observations import GlobalObsForRailEnv
 from flatland.envs.rail_env_action import RailEnvActions
-from flatland.envs.step_utils import env_utils
 
 from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
 from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
