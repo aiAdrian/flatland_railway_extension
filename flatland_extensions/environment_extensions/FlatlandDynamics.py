@@ -10,7 +10,7 @@ based on realworld parameters such as train weight, train length and traction po
 
 In order to simulate the dynamics, the simulator must ensure that each agent can brake before colliding from one
 other. The braking distance can vary from zero (train is not moving) to many meters (train is moving). The braking
-distance is highly dependent on train speed. As the braking distance and train length can be longer then one cell length. The agent can reserve, hold and free a cell. 
+distance is highly dependent on train speed. The braking distance and train length can be longer then one cell length. The agent can reserve, hold and free a cell. 
 Reserved means that the train has not yet arrived
 at the cell but the cell is still occupied due, but not physicaly occupied. The reserved state must not be explicitly implemented.
 Once a cell is locked (reserved, occupied), it is occupied for all other agents and they cannot enter anymore. Flatland must be able to lock more then one cell per agent. 
