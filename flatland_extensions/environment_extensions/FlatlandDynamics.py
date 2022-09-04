@@ -25,15 +25,16 @@ Once a cell is locked (reserved, occupied), it is occupied for all other agents 
 agents. Flatland must be able to lock more then one cell per agent. This requires an other extension and it's
 implemented in python class: FlatlandResourceAllocator.
 
-Implementation idea: The simulator simulates the reservation point with the current agent position and direction - this one
-is the current behavior in the Flatland. The agent can navigate freely with the standard Flatland actions. Instead of
-real train we simulate virtual the train at end of reservation area - braking distance and train lenght (agent) are locked for all
-other agents. But we have to change that manned handling. What is new is that we have to simulate the free point. The free point
-simulates the end of the train. If the end of the turn leaves a cell, the occupied cell is frozen. The dynamic is calculated
-the speed for the assignment (reservation point) – braking distance and train speed. Every cell needs the "distance"
-or "length" information. There is a minimum cell length that depends on the simulation time step.
-The reservation point cannot move faster than one cell per simulation step. If the reservation point can not be
-moved because of a locked (occupied) cell, the train must pause.
+Implementation idea: The simulator simulates the reservation point with the common Flatland's agent position and
+direction - the reseravtion point (agent) behaves as any agent does in Flatland. The agent can navigate
+freely with the standard Flatland actions.
+Instead of real train we simulate virtual the train at end of reservation area - braking distance plus train lenght
+are locked for all other agents. But we have to change that manned handling. What is new is that we have to simulate
+the free point. The free point simulates the end of the train. If the end of the turn leaves a cell, the occupied
+cell is frozen. The dynamic is calculated the speed for the assignment (reservation point) – braking distance and
+train speed. Every cell needs the "distance" or "length" information. There is a minimum cell length that depends on
+the simulation time step. The reservation point cannot move faster than one cell per simulation step. If the
+reservation point can not be moved because of a locked (occupied) cell, the train must stop.
 '''
 
 # import all flatland dependance
