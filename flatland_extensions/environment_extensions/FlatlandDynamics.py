@@ -4,10 +4,10 @@
 # use allowed.
 
 '''
-The flatland simulator has no train running dynamics implemented. Flatland Dynamics extends Flatland to simulation
-Path dynamics with a dynamics/physics layer. This code is intended as a proof of concept to show how dynamic can be
-integrated. The goal must be that all trains (agents) follow the physical guideline to accelerate. The acceleration must be
-based on real train parameters such as train weight, train length and traction power. Braking is carried out
+The flatland simulator has no train running dynamics implemented. Flatland Dynamics extends Flatland to train/agent simulation
+Movement with dynamics/physics layer. This code is intended as a proof of concept to show how dynamics can be
+integrated. The goal of this extension is that all trains (agents) follow the physical movement policy for acceleration/braking. The acceleration must be
+based on real train parameters such as train weight, train length and traction power (rolling stock). Braking is carried out
 with fixed physical delay. The physical delay is a parameter that can be set per train (agent).
 
 In order to simulate the dynamics, the simulator must ensure that each train (agent) can break before colliding from one
