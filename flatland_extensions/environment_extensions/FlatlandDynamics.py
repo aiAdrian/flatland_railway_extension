@@ -4,9 +4,10 @@
 # use allowed.
 
 '''
-The flatland simulator has no train running dynamics implemented. Flatland Dynamics extends Flatland to simulate the agent movement with physics/dynamics. This code is intended as a proof of concept to show how dynamics can be
-integrated into Flatland. The goal of this extension is to show how all agents can follow the physical movement policy for acceleration/braking. The acceleration is
-based on realworld parameters such as train weight, train length and traction power (rolling stock). Braking is implemented with fixed physical delay. The physical delay is a parameter that can be set for each agent separately.
+The flatland simulator has no train running dynamics implemented. Flatland Dynamics extends Flatland to simulate the agent movement with physics/dynamics. 
+This code is intended as a proof of concept to show how dynamics can be integrated into Flatland. The goal of this extension is to show how all agents can follow physical movement policy for acceleration/braking. The acceleration is
+based on realworld parameters such as train weight, train length and traction power (rolling stock). Braking is implemented with fixed physical delay. The physical delay is a parameter that can be set for each agent separately. 
+The raison behind this fixed delay (negative acceleration) is that this can be quite easy be implemented in fixed time-step (forward) simulation. 
 
 In order to simulate the dynamics, the simulator must ensure that each agent can brake before colliding from one
 other. The braking distance can vary from zero (train is not moving) to many meters (train is moving). The braking
