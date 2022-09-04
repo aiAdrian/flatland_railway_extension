@@ -19,11 +19,12 @@ state only depends on the current state.
 In order to simulate the dynamics, the simulator must ensure that each agent can brake before colliding with
 others. The braking distance can vary from zero (train is not moving) to many meters (train is moving). The braking
 distance is highly dependent on train speed. The braking distance plus the train length can be longer then one cell's
-length. Therefore the agent must be capable to reserve resources (cell). Reserved means that the train has not yet
-arrived at the cell but the cell is still occupied. The reserved state must not be explicitly implemented.
-Once a cell is locked (reserved, occupied), it is occupied for all other agents and it can't be allocated by other
-agents. Flatland must be able to lock more then one cell per agent. This requires an other extension and it's
-implemented in python class: FlatlandResourceAllocator.
+length. Therefore the agent must be capable to reserve one or more resources (cell). Reserved means that the
+train has not yet arrived at the cell but the cell is still occupied. The reserved state must not be explicitly
+implemented. Once a cell is locked (reserved, occupied), it is occupied for all other agents and it can't be
+allocated by other agents. Therefore Flatland must be able to lock more then one cell per agent. This requires a
+multiple resource allocation function which is implemented as a further extension in the Python class:
+FlatlandResourceAllocator.
 
 Implementation idea: The simulator simulates the reservation point with the common Flatland's agent position and
 direction - the reseravtion point (agent) behaves as any agent does in Flatland. The agent can navigate
