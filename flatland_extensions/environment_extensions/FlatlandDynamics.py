@@ -10,7 +10,7 @@ integrated. The goal of this extension is that all trains (agents) follow the ph
 based on real train parameters such as train weight, train length and traction power (rolling stock). Braking is carried out
 with fixed physical delay. The physical delay is a parameter that can be set per train (agent).
 
-In order to simulate the dynamics, the simulator must ensure that each train (agent) can break before colliding from one
+In order to simulate the dynamics, the simulator must ensure that each train (agent) can brake before colliding from one
 other. This requires a new security layer. So far, Flatland only ensures that there is no more than a maximum of one
 active agent per cell. And an agent can only be in one cell at a time. This must also be extended. Due to the
 braking distance, which can vary from zero (train is not moving) to many meters (train is moving). The braking
