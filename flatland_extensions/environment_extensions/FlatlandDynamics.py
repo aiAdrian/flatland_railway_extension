@@ -31,12 +31,13 @@ direction - the reseravtion point behaves as the agent's position does in Flatla
 with the standard Flatland actions. To simulate the agent with dynamic movement a second point will be used. The
 point where the end of agent (train) freeze the reservation is call train-end-point. Train-end-point plus the train
 length plus the braking distance is equal to agent's position (reservation point). The whole area in between has to
-be locked for the agent. In consequence no other agent can be in between. What is new is that we have to simulate
-the free point. If the agent travels the reservation point moves forward and the train can accelerate or hold the
-current velocity constant. If the agent can not go further due of an resource conflict, it has to braking. This
-instantly braking ensures that the agent can stop before it will collide. To ensure that this works for a descrete
-world the cell length has some restrictions. One of the restriction is that the cell length can not be smaller than
-the reservation point can move forward. To control this the simulation step can adjusted or the cell length.
+be locked for the agent. In consequence no other agent can be in between. If the agents moves the reservation point
+forward the train can accelerate or can hold the current velocity constant. If the agent can not go further due of an
+resource conflict, it has to brake instantly. This instantly braking ensures that the agent can stop before it will
+collide. To ensure that this works for a discrete world the cell length has to be restricted to the maximum allowed
+reservation point forward step. Thus the cell length can not be smaller than the reservation point can move forward
+at one step. Because Flatland can only make one cell step at one time step. To control this the simulation time step
+can be adjusted or the cell length.
 '''
 
 # import all flatland dependance
