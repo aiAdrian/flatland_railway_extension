@@ -26,16 +26,17 @@ allocated by other agents. Therefore Flatland must be able to lock more then one
 multiple resource allocation function which is implemented as a further extension in the Python class:
 FlatlandResourceAllocator.
 
-Implementation idea: The simulator simulates the reservation point with the common Flatland's agent position and
-direction - the reseravtion point (agent) behaves as any agent does in Flatland. The agent can navigate
-freely with the standard Flatland actions. Instead of real train we simulate virtually the train at end of
-reservation area - braking distance plus train lenght are locked for all other agents. But we have to change
-that manned handling. What is new is that we have to simulate the free point. The free point simulates the end of the
-train. If the end of the turn leaves a cell, the occupied cell is frozen. The dynamic is calculated the speed for
-the assignment (reservation point) – braking distance and train speed. Every cell needs the "distance" or "length"
-information. There is a minimum cell length that depends on the simulation time step. The reservation point cannot
-move faster than one cell per simulation step. If the reservation point can not be moved because of a locked (occupied)
-cell, the train must stop.
+Implementation idea: The simulator simulates a reservation point with the usual Flatland's agent position and
+direction - the reseravtion point behaves as the agent's position does in Flatland. The agent can navigate freely
+with the standard Flatland actions. To simulate the agent with dynamic movement a second point will be used. The
+point where the end of agent (train) freeze the reservation is call train-end-point. Train-end-point plus the train
+length plus the braking distance is equal to agent's position (reservation point). The whole area in between has to
+be locked for the agent. In consequence no other agent can be in between. What is new is that we have to simulate
+the free point. If the agent travels the reservation point moves forward and the train can accelerate or hold the
+current velocity constant. If the agent can not go further due of an resource conflict, it has to braking. This
+instantly braking ensures that the agent can stop before it will collide. To ensure that this works for a descrete
+world the cell length has some restrictions. One of the restriction is that the cell length can not be smaller than
+the reservation point can move forward. To control this the simulation step can adjusted or the cell length.
 '''
 
 # import all flatland dependance
