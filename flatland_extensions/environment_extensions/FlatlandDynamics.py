@@ -32,10 +32,11 @@ with the standard Flatland action calls. To simulate the agent with dynamic move
 second point of interest is the end-of-agent (train). When the end-of-agent leaves a cell, it is no longer occupied.
 The underlaying cell will be deallocated. End-of-agent position plus the train length plus the braking distance in
 the direction of travel is equal to agent's position. The entire space in between agent's position and end-of-agent is
-occupied for mutual exclusive use for the agent. Consequently, no other agent can intervene. If the agent moves forward,
-he must change position. A position change requires the allocation of a new resource. If the resource allocation fails,
-the can not move. Due of the resource allocation conflict, the agent has to brake instantly to ensure that he  can stop
-before colliding. If the agent can move, it can accelerate, keep the current speed constant or brake. However,
+occupied for mutual exclusive use for the agent. Consequently, no other train can be between the braking distance and
+the train. If the agent moves forward, he must change position. A position change requires the allocation of a new
+resource. If the resource allocation fails, the agent can not move. Due of the resource allocation conflict,
+the agent has to brake instantly. Only if the agent brakes immediately is it guaranteed that the agent will
+stop before the colliding.. If the agent can move, it can accelerate, keep the current speed constant or brake. However,
 the agent is forced to comply with the underlying speed restrictions. If the maximum allowed speed is less than the
 current speed, the agent accelerates. If the maximum speed is equal to the current speed, the agent keeps the current
 speed constant. And finally, if the current speed is greater than the maximum allowed speed, the agent brakes.
