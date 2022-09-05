@@ -26,18 +26,26 @@ allocated by other agents. Therefore Flatland must be able to lock more then one
 multiple resource allocation function which is implemented as a further extension in the Python class:
 FlatlandResourceAllocator.
 
-Implementation idea: The simulator simulates a reservation point with the usual Flatland's agent position and
-direction - the reseravtion point behaves as the agent's position does in Flatland. The agent can navigate freely
-with the standard Flatland actions. To simulate the agent with dynamic movement a second point will be used. The
-point where the end of agent (train) freeze the reservation is call train-end-point. Train-end-point plus the train
-length plus the braking distance is equal to agent's position (reservation point). The whole area in between has to
-be locked for the agent. In consequence no other agent can be in between. If the agents moves the reservation point
-forward the train can accelerate or can hold the current velocity constant. If the agent can not go further due of an
-resource conflict, it has to brake instantly. This instantly braking ensures that the agent can stop before it will
-collide. To ensure that this works for a discrete world the cell length has to be restricted to the maximum allowed
-reservation point forward step. Thus the cell length can not be smaller than the reservation point can move forward
-at one step. Because Flatland can only make one cell step at one time step. To control this the simulation time step
-can be adjusted or the cell length.
+Implementation idea: The Flatland Dynamics simulates a reservation point for each agent with the usual agent
+position. The reservation point behaves as the agent's position does in Flatland. The agent can navigate freely
+with the standard Flatland action calls. To simulate the agent with dynamic movement a second point will be used. The
+second point of interest is the end-of-agent (train). When the end-of-agent leaves a cell, it is no longer occupied.
+The underlaying cell will be deallocated. End-of-agent position plus the train length plus the braking distance in
+the direction of travel is equal to agent's position. The entire space in between agent's position and end-of-agent is
+occupied for mutual exclusive use for the agent. Consequently, no other agent can intervene. If the agent moves forward,
+he must change position. A position change requires the allocation of a new resource. If the resource allocation fails,
+the can not move. Due of the resource allocation conflict, the agent has to brake instantly to ensure that he  can stop
+before colliding. If the agent can move, it can accelerate, keep the current speed constant or brake. However,
+the agent is forced to comply with the underlying speed restrictions. If the maximum allowed speed is less than the
+current speed, the agent accelerates. If the maximum speed is equal to the current speed, the agent keeps the current
+speed constant. And finally, if the current speed is greater than the maximum allowed speed, the agent brakes.
+The maximum allowed speed is the minimum of all local maximum allowed velocity of all occupied cells between the agent's
+end and the reservation point (agent's position) and the maximum allowed speed of the agent.
+
+To ensure this works for a discrete world, is the minimal cell length limited to the maximum allowed reservation
+point forward step. Thus the cell length can not be smaller than the reservation point can move on at one simulation
+time step. The reason behind this limitation is that Flatland can only change one cell at one time step. To control
+this limitation the simulation time step can be adjusted or the cell length.
 '''
 
 # import all flatland dependance
