@@ -8,6 +8,8 @@ flatland_resource_allocator = FlatlandResourceAllocator(env=flatland_environment
 railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helper.get_rail_env())
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 
+railroad_switch_cluster.do_debug_plot()
+
 agent_pos, agent_dir, agent_state, agent_target, is_agent_off_map = \
     flatland_environment_helper.get_agent_position_and_direction(handle=0)
 
@@ -15,6 +17,8 @@ agent_pos, agent_dir, agent_state, agent_target, is_agent_off_map = \
 print('Test: agent_pos', agent_pos)
 agent_pos_cluster_id = railroad_switch_cluster.get_cluster_id(agent_pos)
 agent_pos_cluster_cell_members = railroad_switch_cluster.get_cluster_cell_members(agent_pos_cluster_id)
+
+print(railroad_switch_cluster.connecting_edge_clusters)
 
 print(agent_pos_cluster_id)
 print(agent_pos_cluster_cell_members)
