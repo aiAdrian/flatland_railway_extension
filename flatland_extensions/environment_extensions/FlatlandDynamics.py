@@ -48,6 +48,28 @@ point forward step. Thus the cell length can not be smaller than the reservation
 time step. The reason behind this limitation is that Flatland can only change one cell at one time step. To control
 this limitation the simulation time step can be adjusted or the cell length.
 
+
+
+Agent occupation space view
+___ ___ ___ __E LLL LL_ ___ ___ ___ ___ _P_ ___ ___ ___ ___ ___ ___ ___ ___ ___
+              |______|::::::::::::::::::::
+                Train    Braking distance
+
+ P  : Agent position (Flatland)
+ E  : End-of-agent (Train end)
+ L  : Agent length (Train length)
+
+
+
+Resource occupation view
+___ ___ ___ _X_ _X_ _X_ _X_ _X_ _X_ _X_ _X_ ___ ___ ___ ___ ___ ___ ___ ___ ___
+
+_X_ : Locked ( allocated cell/resource )
+___ : free cell / resource
+
+
+
+See also
 FlatlandDynamics.py
 DynamicAgent.py
 RollingStock.py
