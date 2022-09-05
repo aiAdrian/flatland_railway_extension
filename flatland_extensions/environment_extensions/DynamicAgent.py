@@ -274,7 +274,7 @@ class DynamicAgent(XAgent):
         super(DynamicAgent, self).reset()
 
     def do_debug_plot(self, idx=1, nbr_agents=1, show=True, show_title=True):
-        plt.rc('font', size=12)
+        plt.rc('font', size=6)
 
         ax1 = plt.subplot(nbr_agents, 2, 1 + (idx - 1) * 2)
         plt.plot(self.distance_TP[1:], np.array(self.velocity_TP[1:]) * 3.6)

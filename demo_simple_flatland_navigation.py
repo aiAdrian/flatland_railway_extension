@@ -89,7 +89,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     flatland_environment_helper.get_rail_env().agents[3].do_debug_plot(1, 1, True)
     for i_agent, agent in enumerate(flatland_environment_helper.get_rail_env().agents):
         n_agents = flatland_environment_helper.get_rail_env().get_num_agents()
-        agent.do_debug_plot(i_agent + 1, n_agents, i_agent + 1 == n_agents)
+        agent.do_debug_plot(i_agent + 1, n_agents, i_agent + 1 == n_agents, i_agent == 0)
 
 
 # -----------------------------------------------------------------------------------------------------------------
