@@ -53,7 +53,7 @@ this limitation the simulation time step can be adjusted or the cell length.
 Agent occupation space view
 ___ ___ ___ __E LLL LL_ ___ ___ ___ ___ _P_ ___ ___ ___ ___ ___ ___ ___ ___ ___
               |______|::::::::::::::::::::
-                Train    Braking distance
+                train   braking distance
 
  P  : Agent position (Flatland)
  E  : End-of-agent (Train end)
