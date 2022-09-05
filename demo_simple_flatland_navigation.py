@@ -31,7 +31,8 @@ def create_infrastructure_data(env: RailEnv, railroad_switch_analyser: RailroadS
 def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
                    railroad_switch_cluster: RailroadSwitchCluster,
                    railroad_switch_analyser: RailroadSwitchAnalyser,
-                   use_cluster_locking=False,
+                   use_cluster_switch_group_locking=False,
+                   use_connecting_edge_locking=False,
                    minimal_train_following_time=0):
     env = flatland_environment_helper.get_rail_env()
     observations, info = env.reset()
@@ -40,11 +41,11 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     flatland_resource_allocator = FlatlandResourceAllocator(env=flatland_environment_helper.get_rail_env())
     flatland_resource_allocator.set_minimal_free_time_to_reallocate_other_agent(minimal_train_following_time)
     flatland_environment_helper.get_rail_env().activate_flatland_resource_allocator(flatland_resource_allocator)
-    if use_cluster_locking:
+    if use_cluster_switch_group_locking or use_connecting_edge_locking:
         flatland_environment_helper.get_rail_env().activate_railroad_switch_cluster_locking(
             railroad_switch_cluster,
-            railroad_switch_cluster_switch_group_locking=True,
-            railroad_switch_cluster_connecting_edge_locking=False)
+            railroad_switch_cluster_switch_group_locking=use_cluster_switch_group_locking,
+            railroad_switch_cluster_connecting_edge_locking=use_connecting_edge_locking)
 
     # Create a test infrastructure
     # ---------------------------------------------------------------------------------------------------------------
@@ -98,15 +99,28 @@ railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helpe
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 
 run_simulation(flatland_environment_helper, railroad_switch_cluster, railroad_switch_analyser,
-               use_cluster_locking=False,
+               use_cluster_switch_group_locking=False,
+               use_connecting_edge_locking=False,
                minimal_train_following_time=0)
 run_simulation(flatland_environment_helper, railroad_switch_cluster, railroad_switch_analyser,
-               use_cluster_locking=False,
+               use_cluster_switch_group_locking=False,
+               use_connecting_edge_locking=False,
                minimal_train_following_time=10)
 
 run_simulation(flatland_environment_helper, railroad_switch_cluster, railroad_switch_analyser,
-               use_cluster_locking=True,
+               use_cluster_switch_group_locking=True,
+               use_connecting_edge_locking=False,
                minimal_train_following_time=0)
 run_simulation(flatland_environment_helper, railroad_switch_cluster, railroad_switch_analyser,
-               use_cluster_locking=True,
+               use_cluster_switch_group_locking=True,
+               use_connecting_edge_locking=False,
+               minimal_train_following_time=10)
+
+run_simulation(flatland_environment_helper, railroad_switch_cluster, railroad_switch_analyser,
+               use_cluster_switch_group_locking=True,
+               use_connecting_edge_locking=True,
+               minimal_train_following_time=0)
+run_simulation(flatland_environment_helper, railroad_switch_cluster, railroad_switch_analyser,
+               use_cluster_switch_group_locking=True,
+               use_connecting_edge_locking=True,
                minimal_train_following_time=10)

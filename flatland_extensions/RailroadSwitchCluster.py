@@ -7,6 +7,7 @@ from flatland.core.grid.grid4_utils import get_new_position
 from flatland.envs.fast_methods import fast_count_nonzero, fast_argmax
 from matplotlib import pyplot as plt
 
+from flatland_extensions.FlatlandGraphBuilder import FlatlandGraphBuilder
 from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
 
 ClusterRefID = collections.namedtuple('ClusterRefID',
@@ -16,7 +17,6 @@ ClusterCellMembers = collections.namedtuple('ClusterInformation',
                                             'switch_cluster_cell_members '
                                             'connecting_edge_cluster_cell_members')
 
-#### TODO - connected edge is not correct computed --- !!!!! BUG FIX REQUIRED
 
 class RailroadSwitchCluster:
     def __init__(self, railroad_switch_analyser: RailroadSwitchAnalyser):
@@ -24,8 +24,29 @@ class RailroadSwitchCluster:
         self.env = self.railroad_switch_analyser.get_rail_env()
         self.railroad_switch_clusters = {}
         self.connecting_edge_clusters = {}
-        self._cluster_all_non_switches()
+        self._cluster_connecting_edge()
         self._cluster_all_switches()
+
+    def _cluster_connecting_edge(self):
+        self.connecting_edge_cluster_grid = np.zeros((self.env.height, self.env.width))
+
+        flatland_graph_builder = FlatlandGraphBuilder(railroad_switch_analyser=self.railroad_switch_analyser)
+        flatland_graph_builder.activate_simplified()
+        edges = flatland_graph_builder.get_edges()
+        cluster_id = 1
+        for idx_edge, edge in enumerate(edges):
+            resources = flatland_graph_builder.get_edge_resource(edge)
+            update_cluster_id = 0
+            for res in resources:
+                if res in self.railroad_switch_analyser.railroad_switches.keys():
+                    continue
+                v = self.connecting_edge_cluster_grid[res]
+                if v == 0:
+                    self.connecting_edge_cluster_grid[res] = cluster_id
+                    update_cluster_id = 1
+            if update_cluster_id == 1:
+                self.connecting_edge_clusters.update({cluster_id: resources})
+            cluster_id += update_cluster_id
 
     def get_cluster_id(self, pos: Tuple[int, int]) -> ClusterRefID:
         return ClusterRefID(switch_cluster_ref=self.railroad_switch_cluster_grid[pos],
@@ -127,58 +148,6 @@ class RailroadSwitchCluster:
                     pos_data.append(working_position)
                     self.railroad_switch_clusters.update({root: pos_data})
 
-    def _cluster_all_non_switches(self):
-        info_image = np.zeros((self.env.height, self.env.width))
-        for h in range(self.env.height):
-            for w in range(self.env.width):
-                # look one step forward
-                if self.env.rail.grid[h][w] > 0:
-                    info_image[(h, w)] = 1
-
-        for key in self.railroad_switch_analyser.railroad_switches.keys():
-            info_image[key] = 0
-        for key in self.railroad_switch_analyser.railroad_switch_neighbours.keys():
-            info_image[key] = 0
-
-        # build clusters
-        self._find_connected_clusters_and_label(info_image)
-        self.connecting_edge_cluster_grid = self.railroad_switch_cluster_grid.copy()
-        self.connecting_edge_clusters = self.railroad_switch_clusters.copy()
-
-        data2upate = []
-        updatedEdge = []
-        for edge in self.railroad_switch_analyser.railroad_switch_neighbours.keys():
-            for idir in range(4):
-                possible_transitions = self.env.rail.get_transitions(*edge, idir)
-                for new_direction in range(4):
-                    if possible_transitions[new_direction] == 1:
-                        new_position = get_new_position(edge, new_direction)
-                        cid = self.connecting_edge_cluster_grid[new_position]
-                        if (cid > 0) and (not (edge in updatedEdge)):
-                            data2upate.append([edge, cid])
-                            updatedEdge.append(edge)
-
-        for d in data2upate:
-            pos = d[0]
-            cid = d[1]
-            self.connecting_edge_cluster_grid[pos] = cid
-            c = self.connecting_edge_clusters.get(cid, [])
-            c.append(pos)
-            self.connecting_edge_clusters.update({cid: c})
-
-        info_image = np.zeros((self.env.height, self.env.width))
-        for e in self.railroad_switch_analyser.railroad_switch_neighbours.keys():
-            if not (e in updatedEdge):
-                info_image[e] = 1
-        self._find_connected_clusters_and_label(info_image)
-        connecting_edge_cluster2 = self.railroad_switch_clusters.copy()
-        for ce in connecting_edge_cluster2.keys():
-            es = connecting_edge_cluster2.get(ce)
-            m = np.max(self.connecting_edge_cluster_grid) + 1
-            self.connecting_edge_clusters.update({m: es})
-            for e in es:
-                self.connecting_edge_cluster_grid[e] = m
-
     def _cluster_all_switches(self):
         # mark railroad switches
         info_image = np.zeros((self.env.height, self.env.width))
@@ -214,7 +183,7 @@ class RailroadSwitchCluster:
         print('connecting_edge_clusters')
         print(self.connecting_edge_clusters)
 
-        plt.rc('font', size=4)
+        plt.rc('font', size=6)
         ax1 = plt.subplot(1, 2, 1)
         plt.imshow(connecting_edge_cluster_grid_image)
         for (j, i), label in np.ndenumerate(self.connecting_edge_cluster_grid):
