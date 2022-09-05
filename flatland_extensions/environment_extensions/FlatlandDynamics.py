@@ -36,7 +36,7 @@ occupied for mutual exclusive use for the agent. Consequently, no other train ca
 the train. If the agent moves forward, he must change position. A position change requires the allocation of a new
 resource. If the resource allocation fails, the agent can not move. Due of the resource allocation conflict,
 the agent has to brake instantly. Only if the agent brakes immediately is it guaranteed that the agent will
-stop before the colliding.. If the agent can move, it can accelerate, keep the current speed constant or brake. However,
+stop before the colliding. If the agent can move, it can accelerate, keep the current speed constant or brake. However,
 the agent is forced to comply with the underlying speed restrictions. If the maximum allowed speed is less than the
 current speed, the agent accelerates. If the maximum speed is equal to the current speed, the agent keeps the current
 speed constant. And finally, if the current speed is greater than the maximum allowed speed, the agent brakes.
