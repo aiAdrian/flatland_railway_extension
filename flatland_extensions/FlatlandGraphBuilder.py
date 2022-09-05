@@ -1,5 +1,5 @@
 import copy
-from typing import Dict, Tuple
+from typing import Dict, Tuple, List
 from typing import Union
 
 import networkx as nx
@@ -8,6 +8,7 @@ import numpy as np
 from flatland.core.grid.grid4_utils import get_new_position
 from flatland.envs.fast_methods import fast_position_equal, fast_argmax
 from matplotlib import pyplot as plt
+from networkx.classes.reportviews import OutEdgeView
 
 from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
 
@@ -30,6 +31,9 @@ class FlatlandGraphBuilder:
 
     def get_nodes(self) -> Union[Dict[str, Tuple[int, int, float]], None]:
         return self._nodes
+
+    def get_edges(self) -> OutEdgeView:
+        return self._graph.edges
 
     def _create_full_graph(self):
         graph = nx.DiGraph()
@@ -125,6 +129,10 @@ class FlatlandGraphBuilder:
         self._ordering_edge_resources(graph)
 
         return graph, nodes, from_vertex_edge_map
+
+    def get_edge_resource(self, edge) -> List[Tuple[int, int]]:
+        edge_data = self._graph.get_edge_data(edge[0], edge[1])
+        return edge_data.get('resources')
 
     def _ordering_edge_resources(self, graph: nx.DiGraph):
         # ---------------- ordering edge resource
