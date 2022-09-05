@@ -14,7 +14,7 @@ class XAgent(EnvAgent):
 
     def _copy_attribute_from_env_agent(self, env_agent: EnvAgent):
         '''
-        Copy all class attribute and it's value from EnvAgent to XDynamicAgent
+        Copy all class attribute and it's value from EnvAgent to DynamicAgent
         :param env_agent: The original agent created in the RailEnv
         '''
         for attribute, value in env_agent.__dict__.items():

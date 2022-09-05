@@ -8,88 +8,15 @@ import numpy as np
 from flatland.envs.agent_utils import EnvAgent
 from matplotlib import pyplot as plt
 
+from flatland_extensions.environment_extensions.DynamicsResourceData import DynamicsResourceData
+from flatland_extensions.environment_extensions.InfrastructureData import InfrastructureData
+from flatland_extensions.environment_extensions.RollingStock import RollingStock
 from flatland_extensions.environment_extensions.XAgent import XAgent
 
 
-class RollingStock:
-    def __init__(self,
-                 max_traction=210000.0,
-                 v_max_traction=50.0,
-                 a_max_acceleration=10.0,
-                 a_max_break=-0.1,
-                 mass_factor=1.05,
-                 k=0.5,
-                 c=2.5):
-        self.maxTraction: float = max_traction
-        self.vMaxTraction: float = v_max_traction
-        self.set_a_max_acceleration(a_max_acceleration)
-        self.set_a_max_break(a_max_break)
-        self.massFactor: float = mass_factor
-        self.K: float = k
-        self.C: float = c
-
-    def set_a_max_acceleration(self, a_max_acceleration):
-        self.a_max_acceleration = a_max_acceleration
-
-    def set_a_max_break(self, a_max_break):
-        self.a_max_break = a_max_break
-
-
-class InfrastructureData:
-    def __init__(self):
-        # infrastructure
-        self._infrastructure_max_velocity_grid: Union[np.array, None] = None
-        self._infrastructure_cell_length_grid: Union[np.array, None] = None
-        self._infrastructure_gradient_grid: Union[np.array, None] = None
-
-    def set_infrastructure_max_velocity_grid(self, infrastructure_max_velocity_grid: np.array):
-        self._infrastructure_max_velocity_grid = infrastructure_max_velocity_grid
-
-    def set_infrastructure_cell_length_grid(self, infrastructure_cell_length_grid: np.array):
-        self._infrastructure_cell_length_grid = infrastructure_cell_length_grid
-
-    def set_infrastructure_gradient_grid(self, infrastructure_gradient_grid: np.array):
-        self._infrastructure_gradient_grid = infrastructure_gradient_grid
-
-    def get_velocity(self, res: Tuple[int, int]):
-        if res is None:
-            return 200 / 3.6
-        if self._infrastructure_max_velocity_grid is not None:
-            return self._infrastructure_max_velocity_grid[res[0], res[1]]
-        return 200 / 3.6
-
-    def get_cell_length(self, res: Tuple[int, int]):
-        if res is None:
-            return 400
-        if self._infrastructure_cell_length_grid is not None:
-            return self._infrastructure_cell_length_grid[res[0], res[1]]
-        return 400
-
-    def get_gradient(self, res: Tuple[int, int]):
-        if res is None:
-            return 0
-        if self._infrastructure_gradient_grid is not None:
-            return self._infrastructure_gradient_grid[res[0], res[1]]
-        return 0
-
-
-class Edge:
-    def __init__(self, res: Tuple[int, int], infrastructure_data: InfrastructureData):
-        self.gradient: float = 0.0
-        self.distance: float = 400
-        self.vMax: float = 200 / 3.6
-        self.backward = False
-        self.rndBreakFactor = 1.0
-
-        if infrastructure_data is not None:
-            self.distance = infrastructure_data.get_cell_length(res)
-            self.vMax = infrastructure_data.get_velocity(res)
-            self.gradient = infrastructure_data.get_gradient(res)
-
-
-class XDynamicAgent(XAgent):
+class DynamicAgent(XAgent):
     def __init__(self, original_env_agent: EnvAgent):
-        super(XDynamicAgent, self).__init__(original_env_agent)
+        super(DynamicAgent, self).__init__(original_env_agent)
 
         # set the extended dynamic agent attributes
         self.set_length(100)
@@ -159,8 +86,8 @@ class XDynamicAgent(XAgent):
         aMax_acceleration = self.rolling_stock.a_max_acceleration
         aMax_break = self.rolling_stock.a_max_break
 
-        edgeTP = Edge(self.get_allocated_train_point_resource(), self._infrastructure_data)
-        edgeRP = Edge(self.get_allocated_reservation_point_resource(), self._infrastructure_data)
+        edgeTP = DynamicsResourceData(self.get_allocated_train_point_resource(), self._infrastructure_data)
+        edgeRP = DynamicsResourceData(self.get_allocated_reservation_point_resource(), self._infrastructure_data)
 
         self.current_max_velocity = edgeTP.vMax
 
@@ -175,7 +102,7 @@ class XDynamicAgent(XAgent):
         # TODO: gradient : weighted sum over train length
         meanGradient = 0
         for i_res, res in enumerate(allocted_ressources_list):
-            edge = Edge(res, self._infrastructure_data)
+            edge = DynamicsResourceData(res, self._infrastructure_data)
             internVMax = min(internVMax, edge.vMax)
             if vTP > internVMax:
                 distanceUpdateAllowed = False
@@ -289,7 +216,7 @@ class XDynamicAgent(XAgent):
         if pos is not None:
             if pos not in self.visited_cell_path:
                 self.visited_cell_path.append(self.position)
-                cell_data = Edge(pos, self._infrastructure_data)
+                cell_data = DynamicsResourceData(pos, self._infrastructure_data)
                 self.visited_cell_path_reservation_point_distance += cell_data.distance
                 self.visited_cell_distance.append(self.visited_cell_path_reservation_point_distance)
                 self.visited_cell_path_reservation_point_index = len(self.visited_cell_path)
@@ -344,7 +271,7 @@ class XDynamicAgent(XAgent):
         self.hard_brake = hard_brake
 
     def reset(self):
-        super(XDynamicAgent, self).reset()
+        super(DynamicAgent, self).reset()
 
     def do_debug_plot(self, idx=1, nbr_agents=1, show=True, show_title=True):
         plt.rc('font', size=12)
