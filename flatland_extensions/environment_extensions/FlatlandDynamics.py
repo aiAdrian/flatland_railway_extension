@@ -46,6 +46,11 @@ To ensure this works for a discrete world, is the minimal cell length limited to
 point forward step. Thus the cell length can not be smaller than the reservation point can move on at one simulation
 time step. The reason behind this limitation is that Flatland can only change one cell at one time step. To control
 this limitation the simulation time step can be adjusted or the cell length.
+
+FlatlandDynamics.py
+DynamicAgent.py
+RollingStock.py
+InfrastructureData.py
 '''
 
 # import all flatland dependance
@@ -58,7 +63,7 @@ from flatland.envs.rail_env_action import RailEnvActions
 
 from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
 from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
-from flatland_extensions.environment_extensions.XDynamicAgent import XDynamicAgent
+from flatland_extensions.environment_extensions.DynamicAgent import DynamicAgent
 from flatland_extensions.environment_extensions.XRailEnv import XRailEnv
 
 
@@ -119,7 +124,7 @@ class FlatlandDynamics(XRailEnv):
         super(XRailEnv, self).reset_agents()
         x_dynamic_agents = []
         for agent in self.agents:
-            x_dynamic_agents.append(XDynamicAgent(agent))
+            x_dynamic_agents.append(DynamicAgent(agent))
         self.agents = x_dynamic_agents
 
     def step(self, action_dict_: Dict[int, RailEnvActions]):
