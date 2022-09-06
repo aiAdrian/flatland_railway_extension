@@ -9,8 +9,11 @@ from matplotlib import pyplot as plt
 
 
 class RailroadSwitchAnalyser:
-    def __init__(self, env: RailEnv):
+    def __init__(self, env: RailEnv, handle_diamond_crossing_as_a_switch=True, handle_dead_end_as_a_switch=True):
         self.env = env
+
+        self.handle_diamond_crossing_as_a_switch = handle_diamond_crossing_as_a_switch
+        self.handle_dead_end_as_a_switch = handle_dead_end_as_a_switch
 
         # reset the internal data structures used for agent can choose
         self.railroad_switches = {}
@@ -45,11 +48,13 @@ class RailroadSwitchAnalyser:
                 if self.env.rail.is_dead_end(pos):
                     # dead-end
                     self.railroad_dead_end.append(pos)
-                    self.railroad_switches.update({pos: [i for i in range(4)]})
+                    if self.handle_dead_end_as_a_switch:
+                        self.railroad_switches.update({pos: [i for i in range(4)]})
                 if self.env.rail.grid[h][w] == diamond:
                     # diamond crossing
                     self.railroad_diamond_crossing.append(pos)
-                    self.railroad_switches.update({pos: [i for i in range(4)]})
+                    if self.handle_diamond_crossing_as_a_switch:
+                        self.railroad_switches.update({pos: [i for i in range(4)]})
 
     def _find_all_railroad_switch_neighbours(self):
         '''
