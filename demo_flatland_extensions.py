@@ -1,6 +1,8 @@
 # http://recife.univ-eiffel.fr/sharedData/data_format_documentation/
 
 # import all flatland dependance
+import time
+
 from data_exports.FlatlandRecifeExporter import FlatlandRecifeExporter
 from flatland_extensions.FlatlandEnvironmentHelper import FlatlandEnvironmentHelper
 from flatland_extensions.FlatlandGraphBuilder import FlatlandGraphBuilder
@@ -60,16 +62,19 @@ print_agent_information(flatland_environment_helper, railroad_switch_analyser)
 railroad_switch_cluster.do_debug_plot()
 
 # ---------- FlatlandGraphBuilder--------------------------------------------------------------------------------------
+flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_env())
 for agent_handle in flatland_environment_helper.get_rail_env().get_agent_handles():
     agent_pos, agent_dir, agent_state, agent_target, agent_is_off_map = \
         flatland_environment_helper.get_agent_position_and_direction(handle=agent_handle)
     flatland_environment_helper.get_rail_env().agents[agent_handle].position = agent_pos
     flatland_graph_builder.prepare_observation_data_plot(agent_pos, agent_dir, agent_target)
 
-    flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_env())
-    flatland_renderer.start_render_loop()
-    flatland_renderer.close()
+    flatland_renderer.render()
+    time.sleep(2.0)
 
     flatland_environment_helper.get_rail_env().agents[agent_handle].position = None
 
+flatland_renderer.close()
+
+# ---------- FlatlandGraphBuilder--------------------------------------------------------------------------------------
 flatland_graph_builder.render()
