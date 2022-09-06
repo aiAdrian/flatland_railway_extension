@@ -1,5 +1,6 @@
-import numpy as np
+from typing import Tuple
 
+import numpy as np
 # import all flatland dependance
 from flatland.core.grid.grid4_utils import get_new_position
 from flatland.envs.fast_methods import fast_count_nonzero
@@ -28,6 +29,9 @@ class RailroadSwitchAnalyser:
         :returns
         '''
         self.railroad_switches = {}
+        self.railroad_dead_end = []
+        self.railroad_diamond_crossing = []
+        diamond = int('1000010000100001', 2)
         for h in range(self.env.height):
             for w in range(self.env.width):
                 pos = (h, w)
@@ -38,6 +42,14 @@ class RailroadSwitchAnalyser:
                         directions = self.railroad_switches.get(pos, [])
                         directions.append(direction)
                         self.railroad_switches.update({pos: directions})
+                if self.env.rail.is_dead_end(pos):
+                    # dead-end
+                    self.railroad_dead_end.append(pos)
+                    self.railroad_switches.update({pos: [i for i in range(4)]})
+                if self.env.rail.grid[h][w] == diamond:
+                    # diamond crossing
+                    self.railroad_diamond_crossing.append(pos)
+                    self.railroad_switches.update({pos: [i for i in range(4)]})
 
     def _find_all_railroad_switch_neighbours(self):
         '''
@@ -116,6 +128,12 @@ class RailroadSwitchAnalyser:
 
     def get_rail_env(self) -> RailEnv:
         return self.env
+
+    def is_diamond_crossing(self, pos: Tuple[int, int]) -> bool:
+        return pos in self.railroad_diamond_crossing
+
+    def is_dead_end(self, pos: Tuple[int, int]) -> bool:
+        return pos in self.railroad_dead_end
 
     def do_debug_plot(self):
         # Setup renderer
