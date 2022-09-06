@@ -16,6 +16,8 @@ Completely new experiments can be carried out using these extensions. The curren
 The goal of this extension is that researchers can show where the limitaitons and streights of their methods lie. Some optimization methods will not be able to deal with the driving dynamics or only very limited, some algorithms are not suitable for dealing with multiple resource allocation problems and others are very slow to solve the problem. Others fites perfectly to one of the problem. It will be very exciting to see where the respective limits lie and whether someone find a real-time solver of any kind of those problems. 
 
 ## Information 
+![RailroadSwitchAnalyser](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/flatland_scenario.png "Flatland example scene")
+
 The initial implementation is authored by Adrian Egli's (aiAdrian) [neurips2020 flatland challenge solution (submission)](https://gitlab.aicrowd.com/adrian_egli/neurips2020-flatland-starter-kit)
 
 - [RailroadSwitchAnalyser](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/RailroadSwitchAnalyser.py)
