@@ -93,6 +93,12 @@ class FlatlandGraphBuilder:
                     #
                     # check neighbour nodes (otherwise the methods removes to much nodes)
                     #
+                    node_pos, node_dir = self.get_node_pos_dir(node)
+                    if self.railroad_switch_analyser.is_diamond_crossing(node_pos):
+                        continue
+                    if self.railroad_switch_analyser.is_dead_end(node_pos):
+                        continue
+
                     if graph.out_degree(in_vert) == 1 and graph.in_degree(out_vert) == 1:
                         # add new edge
                         graph.add_edge(in_vert, out_vert)
@@ -163,13 +169,17 @@ class FlatlandGraphBuilder:
         label = 'cell_pos:{}|len:{:3.0f}'.format(res_info, self.get_edge_weight(edge))
         return label
 
+    def get_node_pos_dir(self, node_str: str):
+        pos_xy_dir = self.get_nodes().get(node_str)
+        pos = pos_xy_dir[:2]
+        dir = pos_xy_dir[2]
+        return pos, dir
+
     def render(self, render_direction_layer=True):
         nodes = self.get_graph().nodes()
         positions = {}
         for n in nodes:
-            pos_xy_dir = self.get_nodes().get(n)
-            pos = pos_xy_dir[:2]
-            dir = pos_xy_dir[2]
+            pos, dir = self.get_node_pos_dir(n)
             if render_direction_layer:
                 x = pos[0] + self.railroad_switch_analyser.get_rail_env().width * (dir % 2)
                 y = pos[1] + self.railroad_switch_analyser.get_rail_env().height * (dir // 2)
