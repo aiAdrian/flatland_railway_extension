@@ -153,7 +153,10 @@ class DynamicAgent(XAgent):
             # float restDistanz = (edgeTP->distance - trasseSecTP->current_distance_agent);
             if (distanceBetween_csRP_csTP - deltaBremsweg) > (edgeTP.vMax * timeStep):
                 doBreak = False
-                vMax = vTP
+                vMax = min(vMax, vTP)
+
+        if vMax < vTP:
+            doBreak = True
 
         # overwrite vMax if hardBreak is set
         if self.hard_brake:
