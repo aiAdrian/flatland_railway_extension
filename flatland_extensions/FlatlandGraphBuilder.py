@@ -1,3 +1,6 @@
+# TODO - maybe it's worth taking a look inside
+# >> https://gitlab.aicrowd.com/flatland/flatland-contrib/-/blob/master/notebooks/simple-graph-plot-2022.ipynb
+
 import copy
 from typing import Dict, Tuple, List
 from typing import Union
