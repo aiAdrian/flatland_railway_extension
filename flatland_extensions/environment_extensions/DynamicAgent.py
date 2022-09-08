@@ -155,6 +155,8 @@ class DynamicAgent(XAgent):
                 doBreak = False
                 vMax = min(vMax, vTP)
 
+        #  TODO : added this to fix issue https://github.com/aiAdrian/flatland_railway_extension/issues/16
+        #  TODO : but this must be checked again -> what is the requirement. Is this good enough?
         if vMax < vTP:
             doBreak = True
 
