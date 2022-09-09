@@ -100,14 +100,13 @@ class DynamicAgent(XAgent):
         intern_vMax_array = np.array([edgeTP.vMax, self.rolling_stock.vMaxTraction, self.v_max_simulation])
         internVMax = np.min(intern_vMax_array)
         distanceUpdateAllowed = True
+
+        # ---------------------------------------------------------------------------------------------------
         # TODO: gradient : weighted sum over train length
-        if self.handle == 3:
-            print('delta {:8.1f} cell {:8.1f} TP {:8.1f} agent {:8.1f} RP {:8.1f} '.format(distanceBetween_csRP_csTP,
-                                                                             edgeTP.distance,
-                                                                             self.visited_cell_path_end_of_agent_distance,
-                                                                             self.current_distance_agent,
-                                                                             self.visited_cell_path_reservation_point_distance))
+        # https://github.com/aiAdrian/flatland_railway_extension/issues/24
         meanGradient = 0
+        # ---------------------------------------------------------------------------------------------------
+
         for i_res, res in enumerate(allocted_ressources_list):
             edge = DynamicsResourceData(res, self._infrastructure_data)
             internVMax = min(internVMax, edge.vMax)
@@ -153,20 +152,26 @@ class DynamicAgent(XAgent):
         aRP = max(0.0, aTP)
         aRP = aRP + aRP * aRP / abs(aMax_brake)
 
-        # braking
-        #
-        do_brake = vTP > vMax  # i.e. brake - if and only if coasting is not enough (vTP + aTP * timeStep)
-        if do_brake and self.current_acceleration_agent >= 0:
-            deltaBremsweg = 0.5 * (vTP * vTP - vMax * vMax) / abs(aMax_brake) + self.length
-            # float restDistanz = (edgeTP->distance - trasseSecTP->current_distance_agent);
-            if (distanceBetween_csRP_csTP - deltaBremsweg) > (edgeTP.vMax * timeStep):
-                do_brake = False
-                vMax = vTP
+        # --------------------------------------------------------------------------------------------------------
+        # Braking has to be decoupled from this code (do a refactoring) -> method/object which allows to
+        # change braking strategy (behaviour)
+        # --------------------------------------------------------------------------------------------------------
+        # https://github.com/aiAdrian/flatland_railway_extension/issues/23
 
-        #  TODO : added this to fix issue https://github.com/aiAdrian/flatland_railway_extension/issues/16
-        #  TODO : but this must be checked again -> what is the requirement. Is this good enough?
-        # if vMax < vTP:
-        #    do_brake = True
+        # Braking: yes - but ....
+        do_brake = vTP > vMax  # i.e. brake - if and only if coasting is not enough (vTP + aTP * timeStep)
+
+        # coasting ?
+        coasting = True
+        if coasting:
+            if do_brake and self.current_acceleration_agent >= 0:
+                deltaBremsweg = 0.5 * (vTP * vTP - vMax * vMax) / abs(aMax_brake) + self.length
+                # float restDistanz = (edgeTP->distance - trasseSecTP->current_distance_agent);
+                if (distanceBetween_csRP_csTP - deltaBremsweg) > (edgeTP.vMax * timeStep):
+                    do_brake = False
+                    vMax = vTP
+
+        # --------------------------------------------------------------------------------------------------------
 
         # overwrite vMax if hard_brake is set
         if self.hard_brake:
