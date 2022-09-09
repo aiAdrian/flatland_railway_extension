@@ -84,7 +84,7 @@ class DynamicAgent(XAgent):
         vTP = self.current_velocity_agent
 
         aMax_acceleration = self.rolling_stock.a_max_acceleration
-        aMax_break = self.rolling_stock.a_max_break
+        aMax_brake = self.rolling_stock.a_max_braking
 
         edgeTP = DynamicsResourceData(self.get_allocated_train_point_resource(), self._infrastructure_data)
         edgeRP = DynamicsResourceData(self.get_allocated_reservation_point_resource(), self._infrastructure_data)
@@ -94,12 +94,19 @@ class DynamicAgent(XAgent):
         vMax_array = np.array([edgeTP.vMax, edgeRP.vMax, self.rolling_stock.vMaxTraction, self.v_max_simulation])
         vMax = np.min(vMax_array)
 
-        pos_on_edge = self.current_distance_agent - self.visited_cell_path_end_of_agent_distance
+        pos_on_edge = self.visited_cell_path_end_of_agent_distance - self.current_distance_agent
         distanceBetween_csRP_csTP = max(0.0, edgeTP.distance - pos_on_edge)
         allocted_ressources_list = self.get_allocated_resource()
-        internVMax = edgeTP.vMax
+        intern_vMax_array = np.array([edgeTP.vMax, self.rolling_stock.vMaxTraction, self.v_max_simulation])
+        internVMax = np.min(intern_vMax_array)
         distanceUpdateAllowed = True
         # TODO: gradient : weighted sum over train length
+        if self.handle == 3:
+            print('delta {:8.1f} cell {:8.1f} TP {:8.1f} agent {:8.1f} RP {:8.1f} '.format(distanceBetween_csRP_csTP,
+                                                                             edgeTP.distance,
+                                                                             self.visited_cell_path_end_of_agent_distance,
+                                                                             self.current_distance_agent,
+                                                                             self.visited_cell_path_reservation_point_distance))
         meanGradient = 0
         for i_res, res in enumerate(allocted_ressources_list):
             edge = DynamicsResourceData(res, self._infrastructure_data)
@@ -142,31 +149,32 @@ class DynamicAgent(XAgent):
 
         aTP = (tTP / self.mass - wRun * 9.81) * 0.001 / self.rolling_stock.massFactor
         if aTP < 0.0:
-            aMax_break = aMax_break + aTP
+            aMax_brake = aMax_brake + aTP
         aRP = max(0.0, aTP)
-        aRP = aRP + aRP * aRP / abs(aMax_break)
+        aRP = aRP + aRP * aRP / abs(aMax_brake)
 
-        # Break
-        doBreak = vTP > vMax  # i.e. break - if and only if coasting is not enough (vTP + aTP * timeStep)
-        if doBreak and self.current_acceleration_agent >= 0:
-            deltaBremsweg = 0.5 * (vTP * vTP - vMax * vMax) / abs(aMax_break) + self.length
+        # braking
+        #
+        do_brake = vTP > vMax  # i.e. brake - if and only if coasting is not enough (vTP + aTP * timeStep)
+        if do_brake and self.current_acceleration_agent >= 0:
+            deltaBremsweg = 0.5 * (vTP * vTP - vMax * vMax) / abs(aMax_brake) + self.length
             # float restDistanz = (edgeTP->distance - trasseSecTP->current_distance_agent);
             if (distanceBetween_csRP_csTP - deltaBremsweg) > (edgeTP.vMax * timeStep):
-                doBreak = False
-                vMax = min(vMax, vTP)
+                do_brake = False
+                vMax = vTP
 
         #  TODO : added this to fix issue https://github.com/aiAdrian/flatland_railway_extension/issues/16
         #  TODO : but this must be checked again -> what is the requirement. Is this good enough?
-        if vMax < vTP:
-            doBreak = True
+        # if vMax < vTP:
+        #    do_brake = True
 
-        # overwrite vMax if hardBreak is set
+        # overwrite vMax if hard_brake is set
         if self.hard_brake:
             vMax = 0.0
 
         # check what the train driver has to do
-        if doBreak or self.hard_brake:
-            aTP = aMax_break
+        if do_brake or self.hard_brake:
+            aTP = aMax_brake
             a = (vTP - vMax) / timeStep
             if a < abs(aTP):
                 aTP = -a
@@ -204,7 +212,7 @@ class DynamicAgent(XAgent):
         # euler step: reservation point
         #   Korrektur der Position aus Bremsweg und aktueller Position. Beachte die Position variiert mit dem
         # 	Verhalten des Zuges, Reservationspunkt Position luft retour, beim Vollbremung.
-        bremsweg = 0.5 * (self.current_velocity_agent * self.current_velocity_agent) / abs(aMax_break) + self.length
+        bremsweg = 0.5 * (self.current_velocity_agent * self.current_velocity_agent) / abs(aMax_brake) + self.length
         delta_pos_rp = max(0.0, (self.current_distance_agent + bremsweg) - self.current_distance_reservation_point)
         self.current_distance_reservation_point += delta_pos_rp
         self.current_velocity_reservation_point = vRP + aRP * timeStep
