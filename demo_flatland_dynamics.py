@@ -43,7 +43,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         agent.set_infrastructure_data(
             create_infrastructure_data(flatland_environment_helper.get_rail_env(), railroad_switch_analyser)
         )
-        agent.rolling_stock.a_max_break = -0.15
+        agent.rolling_stock.a_max_braking = -0.15
         agent.set_mass(500)
 
     # ---------------------------------------------------------------------------------------------------------------
