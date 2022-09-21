@@ -9,7 +9,7 @@ class DynamicsResourceData:
         self.distance: float = 400
         self.vMax: float = 200 / 3.6
         self.backward = False
-        self.rnd_breking_factor = 1.0
+        self.random_braking_factor = 1.0
 
         if infrastructure_data is not None:
             self.distance = infrastructure_data.get_cell_length(res)
