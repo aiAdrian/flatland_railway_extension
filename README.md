@@ -29,7 +29,9 @@ The goal of this extension package is that researchers can show where the limits
 
 - [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandDynamics.py)
   
-  The diagram shows the speed diagram for each train. The distance covered [m] is plotted on the x-axis. The speed in kilometers per hour [km/h] is shown on the y-axis. The orange curve shows the maximum allowed speed. The blue curve is the simulated speed. The length of the train is easy to see because the last axle of the train must have allowed a higher speed, otherwise the train will not accelerate.
+  The diagram on the left shows the speed diagram for each train. The traveled distance [m] is plotted on the x-axis. The speed in kilometers per hour [km/h] is shown on the y-axis. The orange curve shows the maximum allowed speed. The blue curve is the simulated speed. The length of the train is easy to see because the last axle of the train must have allowed a higher speed, otherwise the train will not accelerate.
+
+The diagram on the right shows the acculeration [m/s] on the y-axis.  On the x-axis traveled distance [m] is plotted again.
 
  ![FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics.png "FlatlandDynamics")
 
