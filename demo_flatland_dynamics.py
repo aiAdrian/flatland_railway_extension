@@ -10,7 +10,7 @@ from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
 from flatland_extensions.environment_extensions.FlatlandDynamics import FlatlandDynamics
 from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
 from flatland_extensions.environment_extensions.InfrastructureData import InfrastructureData
-from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
+from flatland_extensions.utils.FlatlandDynamicsRenderer import FlatlandDynamicsRenderer
 
 
 def create_infrastructure_data(env: RailEnv, railroad_switch_analyser: RailroadSwitchAnalyser) -> InfrastructureData:
@@ -30,11 +30,15 @@ def create_infrastructure_data(env: RailEnv, railroad_switch_analyser: RailroadS
 
 def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
                    railroad_switch_cluster: RailroadSwitchCluster,
-                   railroad_switch_analyser: RailroadSwitchAnalyser):
+                   railroad_switch_analyser: RailroadSwitchAnalyser,
+                   enable_moving_block_resource_allocation_strategy=False):
     env = flatland_environment_helper.get_rail_env()
     observations, info = env.reset()
 
-    flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_env(), show_debug=True)
+    flatland_renderer = FlatlandDynamicsRenderer(
+        env=flatland_environment_helper.get_rail_env(),
+        show_debug=True,
+        show_agents=False)
 
     # Create a test infrastructure
     # ---------------------------------------------------------------------------------------------------------------
@@ -49,11 +53,14 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     # ---------------------------------------------------------------------------------------------------------------
     # Start simulation
     # ---------------------------------------------------------------------------------------------------------------
-    for step in range(10000):
+    flatland_resource_allocator = FlatlandResourceAllocator(env=flatland_environment_helper.get_rail_env())
+    flatland_resource_allocator.set_minimal_free_time_to_reallocate_other_agent(120)
 
-        flatland_resource_allocator = FlatlandResourceAllocator(env=flatland_environment_helper.get_rail_env())
+    for step in range(10000):
+        flatland_renderer.set_flatland_resource_allocator(flatland_resource_allocator)
         flatland_environment_helper.get_rail_env().activate_flatland_resource_allocator(flatland_resource_allocator)
-        flatland_environment_helper.get_rail_env().activate_railroad_switch_cluster_locking(railroad_switch_cluster)
+        if not enable_moving_block_resource_allocation_strategy:
+            flatland_environment_helper.get_rail_env().activate_railroad_switch_cluster_locking(railroad_switch_cluster)
 
         actions = {}
         for agent_handle in flatland_environment_helper.get_rail_env().get_agent_handles():
@@ -61,11 +68,6 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
             actions.update({agent_handle: RailEnvActions(obs[0])})
 
         observations, all_rewards, dones, info = env.step(actions)
-
-        for agent_handle in flatland_environment_helper.get_rail_env().get_agent_handles():
-            env = flatland_environment_helper.get_rail_env()
-            env.dev_obs_dict.update(
-                {agent_handle: flatland_resource_allocator.get_assigned_resources(agent_handle=agent_handle)})
 
         if step % 10 == 0:
             flatland_renderer.render(show_observations=True)
@@ -92,4 +94,7 @@ flatland_environment_helper = FlatlandEnvironmentHelper(rail_env=FlatlandDynamic
 railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helper.get_rail_env())
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
 
-run_simulation(flatland_environment_helper, railroad_switch_cluster, railroad_switch_analyser)
+run_simulation(flatland_environment_helper,
+               railroad_switch_cluster,
+               railroad_switch_analyser,
+               enable_moving_block_resource_allocation_strategy=False)
