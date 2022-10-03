@@ -2,12 +2,13 @@ import time
 
 # import all flatland dependance
 from flatland.envs.rail_env import RailEnv
-from flatland.utils.rendertools import RenderTool
+from flatland.utils.rendertools import RenderTool, AgentRenderVariant
 
 
 class FlatlandRenderer:
-    def __init__(self, env: RailEnv, show_debug=False):
+    def __init__(self, env: RailEnv, show_debug=False, show_agents=True):
         self.env = env
+        self.show_agents = show_agents
         self._create_renderer(show_debug)
 
     def set_env(self, env: RailEnv):
@@ -17,6 +18,7 @@ class FlatlandRenderer:
 
     def _create_renderer(self, show_debug):
         self.env_renderer = RenderTool(self.env,
+                                       agent_render_variant=AgentRenderVariant.BOX_ONLY,
                                        show_debug=show_debug,
                                        screen_width=self.env.width * 40,
                                        screen_height=self.env.height * 25)
@@ -42,7 +44,7 @@ class FlatlandRenderer:
             self._disable_background_rendering()
 
         self.env_renderer.render_env(show=show,
-                                     show_agents=True,  # whether to include agents
+                                     show_agents=self.show_agents,  # whether to include agents
                                      show_inactive_agents=False,  # whether to show agents before they start
                                      show_observations=show_observations,
                                      show_predictions=show_predictions,
