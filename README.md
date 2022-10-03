@@ -55,7 +55,9 @@ Green resources are still occupied. They are intended to approximately simulate 
 
 ## Links 
 [Flatland Challenge](https://www.aicrowd.com/search?utf8=%E2%9C%93&q=flatland)
+
 [Flatland introduction](https://flatland.aicrowd.com/getting-started/env.html)
+
 [Nagel-Schrekenberg-Model](https://en.wikipedia.org/wiki/Nagel%E2%80%93Schreckenberg_model)
 
 
