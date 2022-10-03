@@ -47,6 +47,9 @@ class FlatlandResourceAllocator:
         '''
         self._min_time_step_difference = time
 
+    def get_minimal_free_time(self) -> int:
+        return self._min_time_step_difference
+
     def is_resource_locked(self, pos: Tuple[int, int]) -> bool:
         '''
         Checks the resource whether it's locked or not (allocated by an agent or not)
@@ -66,7 +69,7 @@ class FlatlandResourceAllocator:
         '''
         This methods checks whether all resources are hold by the agent or are free. If only one resource is not free
         nor hold be passed agent the methods returns false
-        :param agent_handle:
+        :param agent_handle: the agent handle reference to the resource_holder
         :param positions: all list of resources passed as cell pos which has to be free
         :return: True if all resources are free or hold by passed agent otherwise returns false
         '''
@@ -76,10 +79,26 @@ class FlatlandResourceAllocator:
                     return False
         return True
 
+    def get_resources_free_time(self, position: Tuple[int, int]) -> float:
+        '''
+        This methods calculates the resource free-time (delta-time since last reservation), this means the duration in
+        time steps since last reservation.
+        :param agent_handle: the agent handle reference to the resource_holder
+        :param position: the resource to calculate the delta time
+        :return: delta-time since last reservation
+        '''
+        delta_time = np.inf
+        lock = self._reallocate_resource_lock_grid[position]
+        if lock != FlatlandResourceAllocator._free_resource_holder_handle():
+            lock_time = self._resource_lock_timestamp[position]
+            if lock_time != np.inf:
+                delta_time = self.env._elapsed_steps - lock_time
+        return delta_time
+
     def _check_resources_timestamp_before_allocate(self, agent_handle, positions: List[Tuple[int, int]]) -> bool:
         '''
         This method checks whether the last lock ( free ) is elder than minimal free time to reallocate other agent
-        :param agent_handle:
+        :param agent_handle: the agent handle reference to the resource_holder
         :param positions: all list of resources passed as cell pos which has to be free
         :return: True if delta time is ok otherwise false
         '''
