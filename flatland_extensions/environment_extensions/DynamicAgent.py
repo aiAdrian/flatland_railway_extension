@@ -32,6 +32,7 @@ class DynamicAgent(XAgent):
         self.visited_cell_distance: List[float] = []
         self.visited_cell_path_reservation_point_index = 0
         self.visited_cell_path_end_of_agent_index = 0
+        self.visited_cell_path_start_of_agent_index = 0
         self.visited_cell_path_reservation_point_distance = 0
         self.visited_cell_path_end_of_agent_distance = 0
 
@@ -239,7 +240,7 @@ class DynamicAgent(XAgent):
                 self.visited_cell_distance.append(self.visited_cell_path_reservation_point_distance)
                 self.visited_cell_path_reservation_point_index = len(self.visited_cell_path)
 
-            # update current position of the agent with respect to visited cells
+            # update current position of the agent's end with respect to visited cells
             end_of_agent_idx = np.argwhere(np.array(self.visited_cell_distance) > self.current_distance_agent)
             if len(end_of_agent_idx) == 0:
                 if len(self.visited_cell_distance) == 0:
@@ -248,6 +249,19 @@ class DynamicAgent(XAgent):
                 self.visited_cell_path_end_of_agent_index = end_of_agent_idx[0][0]
             if self.visited_cell_path_end_of_agent_index >= self.visited_cell_path_reservation_point_index:
                 self.visited_cell_path_end_of_agent_index = self.visited_cell_path_reservation_point_index - 1
+
+            # update current position of the agent' start with respect to visited cells
+            start_of_agent_idx = np.argwhere(np.array(self.visited_cell_distance) >
+                                             self.current_distance_agent + self.length)
+            if len(start_of_agent_idx) == 0:
+                if len(self.visited_cell_distance) == 0:
+                    self.visited_cell_path_start_of_agent_index = 0
+            else:
+                self.visited_cell_path_start_of_agent_index = start_of_agent_idx[0][0]
+            if self.visited_cell_path_start_of_agent_index >= self.visited_cell_path_reservation_point_index:
+                self.visited_cell_path_start_of_agent_index = self.visited_cell_path_reservation_point_index - 1
+
+            # update positions and distances
             self.visited_cell_path_end_of_agent_distance = \
                 self.visited_cell_distance[self.visited_cell_path_end_of_agent_index]
             self.distance_RP.append(self.current_distance_reservation_point)
