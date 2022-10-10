@@ -23,7 +23,7 @@ The goal of this extension package is that researchers can show where the limits
 
 - [RailroadSwitchAnalyser](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/RailroadSwitchAnalyser.py)
   
-  The graph on the left shows all crossings (switches) and the graph on the right shows all switch neighbours. A switch neighbours is an infrastructure element that has an intersection as its neighbour.
+  The graph on the left shows all crossings (switches) and the graph on the right shows all switch neighbours. A switch neighbours is an infrastructure element that has an intersection (crossing) as its neighbour.
   
   ![RailroadSwitchAnalyser](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchAnalyser.png "RailroadSwitchAnalyser")
 
