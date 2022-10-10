@@ -30,7 +30,7 @@ The goal of this extension package is that researchers can show where the limits
 
 - [RailroadSwitchCluster](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/utils/FlatlandDynamicsRenderer.py)
   
-  The left graph shows all connecting edges (cluster). The number shows the cluster id. Cells with the same cluster id belongs to the same cluster. On the right the graph shows all switch clusters. A switch cluster contains one or more crossing (switch) cells where each switch within the cluster are all neighbors. The switches in the same cluster have the same switch cluster id. 
+  The left graph shows all connecting edges (cluster). The number shows the cluster id. Cells with the same cluster id belong to the same cluster. On the right the graph shows all switch clusters. A switch cluster contains one or more crossing (switch) cells where each switch within the cluster are all neighbors. The switches in the same cluster have the same switch cluster id. 
   
   ![RailroadSwitchCluster](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchCluster.png "RailroadSwitchCluster")
 
