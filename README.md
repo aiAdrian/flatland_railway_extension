@@ -22,10 +22,18 @@ The goal of this extension package is that researchers can show where the limits
 
 
 - [RailroadSwitchAnalyser](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/RailroadSwitchAnalyser.py)
+  
+  The graph on the left shows all crossings (switches) and the graph on the right shows all switch neighbours. A switch neighbours is an infrastructure element that has an intersection as its neighbour.
+  
   ![RailroadSwitchAnalyser](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchAnalyser.png "RailroadSwitchAnalyser")
 
+
 - [RailroadSwitchCluster](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/utils/FlatlandDynamicsRenderer.py)
+  
+  The left graph shows all connecting edges (cluster). The number shows the cluster id. Cells with the same cluster id belongs to the same cluster. On the right the graph shows all switch clusters. A switch cluster contains one or more crossing (switch) cells where each switch within the cluster are all neighbors. The switches in the same cluster have the same switch cluster id. 
+  
   ![RailroadSwitchCluster](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchCluster.png "RailroadSwitchCluster")
+
 
 - [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandDynamics.py)
   
