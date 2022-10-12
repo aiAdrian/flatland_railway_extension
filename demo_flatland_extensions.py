@@ -70,7 +70,7 @@ for agent_handle in flatland_environment_helper.get_rail_env().get_agent_handles
     flatland_graph_builder.prepare_observation_data_plot(agent_pos, agent_dir, agent_target)
 
     flatland_renderer.render()
-    time.sleep(2.0)
+    time.sleep(0.5)
 
     flatland_environment_helper.get_rail_env().agents[agent_handle].position = None
 
