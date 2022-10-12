@@ -78,14 +78,12 @@ InfrastructureData.py
 
 # import all flatland dependance
 
-from typing import Dict, Union
+from typing import Dict
 
 from flatland.core.env_observation_builder import ObservationBuilder
 from flatland.envs.observations import GlobalObsForRailEnv
 from flatland.envs.rail_env_action import RailEnvActions
 
-from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
-from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
 from flatland_extensions.environment_extensions.DynamicAgent import DynamicAgent
 from flatland_extensions.environment_extensions.XRailEnv import XRailEnv
 
@@ -115,33 +113,6 @@ class FlatlandDynamics(XRailEnv):
                                                remove_agents_at_target=remove_agents_at_target,
                                                random_seed=random_seed,
                                                record_steps=record_steps)
-
-        # Flatland Resource Allocator
-        self._flatland_resource_allocator: Union[FlatlandResourceAllocator, None] = None
-
-        # Railroad Switch Cluster
-        self._railroad_switch_cluster: Union[RailroadSwitchCluster, None] = None
-        self._railroad_switch_cluster_switch_group_locking = False
-        self._railroad_switch_cluster_connecting_edge_locking = False
-
-    def activate_flatland_resource_allocator(self, flatland_resource_allocator: FlatlandResourceAllocator):
-        self._flatland_resource_allocator = flatland_resource_allocator
-
-    def deactivate_flatland_resource_allocator(self):
-        self._flatland_resource_allocator = None
-
-    def activate_railroad_switch_cluster_locking(self,
-                                                 railroad_switch_cluster: RailroadSwitchCluster,
-                                                 railroad_switch_cluster_switch_group_locking=True,
-                                                 railroad_switch_cluster_connecting_edge_locking=True):
-        self._railroad_switch_cluster = railroad_switch_cluster
-        self._railroad_switch_cluster_switch_group_locking = railroad_switch_cluster_switch_group_locking
-        self._railroad_switch_cluster_connecting_edge_locking = railroad_switch_cluster_connecting_edge_locking
-
-    def deactivate_railroad_switch_cluster_locking(self):
-        self._railroad_switch_cluster = None
-        self._railroad_switch_cluster_switch_group_locking = False
-        self._railroad_switch_cluster_connecting_edge_locking = False
 
     def reset_agents(self):
         super(XRailEnv, self).reset_agents()
