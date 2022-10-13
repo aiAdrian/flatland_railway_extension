@@ -6,7 +6,7 @@ https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_exte
 
 ## Features
 - Minimal train following time can be globally controlled 
-- Multi-resource allocation can be implemented. This allows to implement mutual exclusive use of railroad switch cluster, connecting "edge cluster" and/or any other multi-ressource allocation problem - Railway-specific features can be implemented, e.g  ["Fahrstrassenausschluss"](https://de.wikipedia.org/wiki/Fahrstra%C3%9Fe), .. , ["Flankenschutz"](https://de.wikipedia.org/wiki/Fahrstra%C3%9Fe#Flankenschutz) 
+- Multi-resource allocation can be implemented. This allows to implement mutual exclusive use of railroad switch cluster, connecting "edge cluster" and/or any other multi-ressource allocation problems - Railway-specific features can be implemented, e.g  ["Fahrstrassenausschluss"](https://de.wikipedia.org/wiki/Fahrstra%C3%9Fe), .. , ["Flankenschutz"](https://de.wikipedia.org/wiki/Fahrstra%C3%9Fe#Flankenschutz) 
  
 - Dynamics - train power based acceleration (physics) and train specific "comfort" braking (with fixed negative acceleration).
 
@@ -23,14 +23,14 @@ The goal of this extension package is that researchers can show where the limits
 
 - [RailroadSwitchAnalyser](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/RailroadSwitchAnalyser.py)
   
-  The graph on the left shows all crossings (switches) and the graph on the right shows all switch neighbours. A switch neighbours is an infrastructure element that has an intersection (crossing) as its neighbour.
+  The illustration on the left shows all crossings (switches) and the illustration on the right shows all switch neighbours. A switch neighbours is an infrastructure element that has an intersection (crossing) as its neighbour.
   
   ![RailroadSwitchAnalyser](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchAnalyser.png "RailroadSwitchAnalyser")
 
 
 - [RailroadSwitchCluster](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/utils/FlatlandDynamicsRenderer.py)
   
-  The left graph shows all connecting edges (cluster). The number shows the cluster id. Cells with the same cluster id belong to the same cluster. On the right the graph shows all switch clusters. A switch cluster contains one or more crossing (switch) cells where each switch within the cluster are all neighbors. The switches in the same cluster have the same switch cluster id. 
+  The left illustration shows all connecting edges (cluster). The number shows the cluster id. Cells with the same cluster id belong to the same cluster. The right illustration shows all switch clusters. A switch cluster contains one or more crossing (switch) cells where each switch within the cluster are all neighbors. The switches in the same cluster have the same switch cluster id. 
   
   ![RailroadSwitchCluster](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchCluster.png "RailroadSwitchCluster")
 
