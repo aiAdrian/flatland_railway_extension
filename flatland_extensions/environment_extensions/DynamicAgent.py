@@ -79,79 +79,89 @@ class DynamicAgent(XAgent):
     def update_movement_dynamics(self):
         if self.position is None:
             return True
-        timeStep = 1.0
+        time_step = 1.0
 
-        vRP = self.current_velocity_reservation_point
-        vTP = self.current_velocity_agent
+        velocity_reservation_point = self.current_velocity_reservation_point
+        velocity_agent_tp = self.current_velocity_agent
 
-        aMax_acceleration = self.rolling_stock.a_max_acceleration
-        aMax_brake = self.rolling_stock.a_max_braking
+        a_max_acceleration = self.rolling_stock.a_max_acceleration
+        a_max_braking = self.rolling_stock.a_max_braking
 
-        edgeTP = DynamicsResourceData(self.get_allocated_train_point_resource(), self._infrastructure_data)
-        edgeRP = DynamicsResourceData(self.get_allocated_reservation_point_resource(), self._infrastructure_data)
+        edge_train_point = \
+            DynamicsResourceData(self.get_allocated_train_point_resource(), self._infrastructure_data)
+        edge_reservation_point = \
+            DynamicsResourceData(self.get_allocated_reservation_point_resource(), self._infrastructure_data)
 
-        self.current_max_velocity = edgeTP.vMax
+        self.current_max_velocity = edge_train_point.max_velocity
 
-        vMax_array = np.array([edgeTP.vMax, edgeRP.vMax, self.rolling_stock.vMaxTraction, self.v_max_simulation])
-        vMax = np.min(vMax_array)
+        velocity_max_array = np.array([edge_train_point.max_velocity, edge_reservation_point.max_velocity,
+                                       self.rolling_stock.velocity_max_traction, self.v_max_simulation])
+        max_velocity = np.min(velocity_max_array)
 
         pos_on_edge = self.visited_cell_path_end_of_agent_distance - self.current_distance_agent
-        distanceBetween_csRP_csTP = max(0.0, edgeTP.distance - pos_on_edge)
-        allocted_ressources_list = self.get_allocated_resource()
-        intern_vMax_array = np.array([edgeTP.vMax, self.rolling_stock.vMaxTraction, self.v_max_simulation])
-        internVMax = np.min(intern_vMax_array)
-        distanceUpdateAllowed = True
+        distance_between_cs_rp_cs_tp = max(0.0, edge_train_point.distance - pos_on_edge)
+        allocated_resources_list = self.get_allocated_resource()
+        intern_max_velocity_array = np.array([edge_train_point.max_velocity, self.rolling_stock.velocity_max_traction,
+                                              self.v_max_simulation])
+        intern_max_velocity = np.min(intern_max_velocity_array)
+        distance_update_allowed = True
 
         # ---------------------------------------------------------------------------------------------------
         # TODO: gradient : weighted sum over train length
         # https://github.com/aiAdrian/flatland_railway_extension/issues/24
-        meanGradient = 0
+        mean_gradient = 0
         # ---------------------------------------------------------------------------------------------------
 
-        for i_res, res in enumerate(allocted_ressources_list):
+        for i_res, res in enumerate(allocated_resources_list):
             edge = DynamicsResourceData(res, self._infrastructure_data)
-            internVMax = min(internVMax, edge.vMax)
-            if vTP > internVMax:
-                distanceUpdateAllowed = False
-            if distanceUpdateAllowed and i_res > 0:
-                distanceBetween_csRP_csTP += edge.distance
+            intern_max_velocity = min(intern_max_velocity, edge.max_velocity)
+            if velocity_agent_tp > intern_max_velocity:
+                distance_update_allowed = False
+            if distance_update_allowed and i_res > 0:
+                distance_between_cs_rp_cs_tp += edge.distance
 
-        vMax = min(vMax, internVMax)
+        max_velocity = min(max_velocity, intern_max_velocity)
 
-        # Resistances / Laufwiderstand
-        wRun = self.rolling_stock.C + self.rolling_stock.K * vTP * vTP * 0.01296
+        # run resistances
+        train_run_resistance = self.rolling_stock.C + self.rolling_stock.K * velocity_agent_tp * velocity_agent_tp * 0.01296
 
-        # Steigung
-        if edgeTP.backward:
-            wRun = wRun - meanGradient
+        # slop gradient
+        if edge_train_point.backward:
+            train_run_resistance = train_run_resistance - mean_gradient
         else:
-            wRun = wRun + meanGradient
+            train_run_resistance = train_run_resistance + mean_gradient
 
-        # Accelerate
-        aTP = aMax_acceleration
-        a = max(float(0.0), vMax - vTP) / timeStep
-        if (a < aTP):
-            aTP = a
-        #  Resistance
-        W = wRun
+        # accelerate
+        acceleration_train_point = a_max_acceleration
+        acceleration = max(float(0.0), max_velocity - velocity_agent_tp) / time_step
+        if acceleration < acceleration_train_point:
+            acceleration_train_point = acceleration
 
-        if aTP > 0.0:
-            W = W + self.rolling_stock.massFactor * aTP * 100.0
+        # resistance
+        total_resistance = train_run_resistance
 
-        # Traction    needed
-        W = W * self.mass * 9.81
-        tTP = self.rolling_stock.maxTraction
-        if vTP > self.rolling_stock.vMaxTraction:
-            tTP = self.rolling_stock.maxTraction * self.rolling_stock.vMaxTraction / vTP
+        if acceleration_train_point > 0.0:
+            total_resistance = total_resistance + self.rolling_stock.mass_factor * acceleration_train_point * 100.0
 
-        if W < tTP:
-            tTP = W
+        # traction
+        total_resistance = total_resistance * self.mass * 9.81
+        max_traction_train_point = self.rolling_stock.max_traction
+        if velocity_agent_tp > self.rolling_stock.velocity_max_traction:
+            max_traction_train_point = \
+                self.rolling_stock.max_traction * self.rolling_stock.velocity_max_traction / velocity_agent_tp
 
-        aTP = (tTP / self.mass - wRun * 9.81) * 0.001 / self.rolling_stock.massFactor
-        if aTP < 0.0:
-            aMax_brake = aMax_brake + aTP
-        aRP = max(0.0, aTP)
-        aRP = aRP + aRP * aRP / abs(aMax_brake)
+        if total_resistance < max_traction_train_point:
+            max_traction_train_point = total_resistance
+
+        acceleration_train_point = \
+            (max_traction_train_point / self.mass - train_run_resistance * 9.81) * ( \
+                        0.001 / self.rolling_stock.mass_factor)
+        if acceleration_train_point < 0.0:
+            a_max_braking = a_max_braking + acceleration_train_point
+        acceleration_reservation_point = max(0.0, acceleration_train_point)
+        acceleration_reservation_point = acceleration_reservation_point + \
+                                         acceleration_reservation_point * acceleration_reservation_point / \
+                                         abs(a_max_braking)
 
         # --------------------------------------------------------------------------------------------------------
         # Braking has to be decoupled from this code (do a refactoring) -> method/object which allows to
@@ -159,69 +169,69 @@ class DynamicAgent(XAgent):
         # --------------------------------------------------------------------------------------------------------
         # https://github.com/aiAdrian/flatland_railway_extension/issues/23
 
-        # Braking: yes - but ....
-        do_brake = vTP > vMax  # i.e. brake - if and only if coasting is not enough (vTP + aTP * timeStep)
+        # braking: yes - but ....
+        do_brake = velocity_agent_tp > max_velocity  # i.e. brake - if and only if coasting is not enough (vTP + aTP * timeStep)
 
         # coasting ?
         coasting = True
         if coasting:
             if do_brake and self.current_acceleration_agent >= 0:
-                deltaBremsweg = 0.5 * (vTP * vTP - vMax * vMax) / abs(aMax_brake) + self.length
-                # float restDistanz = (edgeTP->distance - trasseSecTP->current_distance_agent);
-                if (distanceBetween_csRP_csTP - deltaBremsweg) > (edgeTP.vMax * timeStep):
+                delta_braking_distance = 0.5 * (velocity_agent_tp * velocity_agent_tp - max_velocity * max_velocity) \
+                                         / abs(a_max_braking) + self.length
+                if (distance_between_cs_rp_cs_tp - delta_braking_distance) > (edge_train_point.max_velocity * time_step):
                     do_brake = False
-                    vMax = vTP
+                    max_velocity = velocity_agent_tp
 
         # --------------------------------------------------------------------------------------------------------
 
-        # overwrite vMax if hard_brake is set
+        # overwrite max_velocity if hard_brake is set
         if self.hard_brake:
-            vMax = 0.0
+            max_velocity = 0.0
 
         # check what the train driver has to do
         if do_brake or self.hard_brake:
-            aTP = aMax_brake
-            a = (vTP - vMax) / timeStep
-            if a < abs(aTP):
-                aTP = -a
+            acceleration_train_point = a_max_braking
+            acceleration = (velocity_agent_tp - max_velocity) / time_step
+            if acceleration < abs(acceleration_train_point):
+                acceleration_train_point = -acceleration
 
             if self.current_acceleration_agent >= 0:
-                vTP += aTP * timeStep
+                velocity_agent_tp += acceleration_train_point * time_step
 
-            aRP = 0.0
-            vRP = 0.0
+            acceleration_reservation_point = 0.0
+            velocity_reservation_point = 0.0
 
-        if vTP < vMax:
+        if velocity_agent_tp < max_velocity:
             # accelerate
-            if vRP < vTP:
-                vRP = vTP
+            if velocity_reservation_point < velocity_agent_tp:
+                velocity_reservation_point = velocity_agent_tp
 
-        if vTP == vMax:
+        if velocity_agent_tp == max_velocity:
             # hold velocity
-            vRP = vTP
-            aTP = 0.0
-            aRP = 0.0
+            velocity_reservation_point = velocity_agent_tp
+            acceleration_train_point = 0.0
+            acceleration_reservation_point = 0.0
 
         # avoid backwards
-        if vTP < 0.0:
-            aTP = 0.0
-            vTP = 0.0
-            aRP = 0.0
-            vRP = 0.0
+        if velocity_agent_tp < 0.0:
+            acceleration_train_point = 0.0
+            velocity_agent_tp = 0.0
+            acceleration_reservation_point = 0.0
+            velocity_reservation_point = 0.0
 
         # euler step: train point
-        delta_pos_tp = vTP * timeStep
+        delta_pos_tp = velocity_agent_tp * time_step
         self.current_distance_agent += delta_pos_tp
-        self.current_velocity_agent = vTP + aTP * timeStep
-        self.current_acceleration_agent = aTP
+        self.current_velocity_agent = velocity_agent_tp + acceleration_train_point * time_step
+        self.current_acceleration_agent = acceleration_train_point
 
         # euler step: reservation point
-        #   Korrektur der Position aus Bremsweg und aktueller Position. Beachte die Position variiert mit dem
-        # 	Verhalten des Zuges, Reservationspunkt Position luft retour, beim Vollbremung.
-        bremsweg = 0.5 * (self.current_velocity_agent * self.current_velocity_agent) / abs(aMax_brake) + self.length
+        # Correction of position from braking distance and current position. Note the position varies with the
+        # Behavior of the train, reservation point position air return, in case of full braking.
+        bremsweg = 0.5 * (self.current_velocity_agent * self.current_velocity_agent) / abs(a_max_braking) + self.length
         delta_pos_rp = max(0.0, (self.current_distance_agent + bremsweg) - self.current_distance_reservation_point)
         self.current_distance_reservation_point += delta_pos_rp
-        self.current_velocity_reservation_point = vRP + aRP * timeStep
+        self.current_velocity_reservation_point = velocity_reservation_point + acceleration_reservation_point * time_step
 
         # check and allow reservation point move forward
         move_reservation_point = \
