@@ -7,11 +7,11 @@ class RollingStock:
                  mass_factor=1.05,
                  k=0.5,
                  c=2.5):
-        self.maxTraction: float = max_traction
-        self.vMaxTraction: float = v_max_traction
+        self.max_traction: float = max_traction
+        self.velocity_max_traction: float = v_max_traction
         self.set_a_max_acceleration(a_max_acceleration)
         self.set_a_max_braking(a_max_braking)
-        self.massFactor: float = mass_factor
+        self.mass_factor: float = mass_factor
         self.K: float = k
         self.C: float = c
 
