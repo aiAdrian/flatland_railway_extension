@@ -36,7 +36,8 @@ class FlatlandRenderer:
         except:
             pass
 
-    def render(self, show=True, show_observations=True, show_predictions=False, disable_background_rendering=False):
+    def render(self, show=True, show_observations=True, show_predictions=False,
+               disable_background_rendering=False, show_rowcols=False):
         if self.env_renderer is None:
             self._create_renderer()
 
@@ -48,16 +49,21 @@ class FlatlandRenderer:
                                      show_inactive_agents=False,  # whether to show agents before they start
                                      show_observations=show_observations,
                                      show_predictions=show_predictions,
-                                     show_rowcols=False,  # label the rows and columns
+                                     show_rowcols=show_rowcols,  # label the rows and columns
                                      frames=False,  # frame counter to show (intended since invocation)
                                      episode=None,  # int episode number to show
                                      step=None,  # int step number to show in image
                                      selected_agent=None,  # indicate which agent is "selected" in the editor):
                                      return_image=False)
 
-    def start_render_loop(self):
+    def start_render_loop(self,
+                          show_observations=True, show_predictions=False,
+                          disable_background_rendering=False, show_rowcols=False):
         while not self.is_closed():
-            self.render()
+            self.render(show_observations=show_observations,
+                        show_predictions=show_predictions,
+                        disable_background_rendering=disable_background_rendering,
+                        show_rowcols=show_rowcols)
             time.sleep(0.001)
 
     def is_closed(self) -> bool:
