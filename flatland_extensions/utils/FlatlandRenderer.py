@@ -6,19 +6,20 @@ from flatland.utils.rendertools import RenderTool, AgentRenderVariant
 
 
 class FlatlandRenderer:
-    def __init__(self, env: RailEnv, show_debug=False, show_agents=True):
+    def __init__(self, env: RailEnv, show_debug=False, show_agents=True,
+                 agent_render_variant: AgentRenderVariant = AgentRenderVariant.BOX_ONLY):
         self.env = env
         self.show_agents = show_agents
-        self._create_renderer(show_debug)
+        self._create_renderer(show_debug, agent_render_variant=agent_render_variant)
 
     def set_env(self, env: RailEnv):
         self.env = env
         self.env_renderer.env = self.env
         self.env_renderer.reset()
 
-    def _create_renderer(self, show_debug):
+    def _create_renderer(self, show_debug, agent_render_variant):
         self.env_renderer = RenderTool(self.env,
-                                       agent_render_variant=AgentRenderVariant.BOX_ONLY,
+                                       agent_render_variant=agent_render_variant,
                                        show_debug=show_debug,
                                        screen_width=self.env.width * 40,
                                        screen_height=self.env.height * 25)
