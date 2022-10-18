@@ -2,6 +2,7 @@ from typing import Union
 
 import numpy as np
 from flatland.envs.rail_env import RailEnv
+from flatland.utils.rendertools import AgentRenderVariant
 from flatland.utils.rendertools import RenderLocal
 
 from flatland_extensions.environment_extensions import FlatlandResourceAllocator
@@ -9,8 +10,9 @@ from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
 
 
 class FlatlandDynamicsRenderer(FlatlandRenderer):
-    def __init__(self, env: RailEnv, show_debug=False, show_agents=True):
-        super(FlatlandDynamicsRenderer, self).__init__(env, show_debug, show_agents)
+    def __init__(self, env: RailEnv, show_debug=False, show_agents=True,
+                 agent_render_variant: AgentRenderVariant = AgentRenderVariant.BOX_ONLY):
+        super(FlatlandDynamicsRenderer, self).__init__(env, show_debug, show_agents, agent_render_variant)
         self.flatland_resource_allocator: Union[FlatlandResourceAllocator, None] = None
 
     def set_flatland_resource_allocator(self, flatland_resource_allocator: FlatlandResourceAllocator):
@@ -21,6 +23,7 @@ class FlatlandDynamicsRenderer(FlatlandRenderer):
                                                      disable_background_rendering)
 
         if self.flatland_resource_allocator is not None:
+            self.env_renderer.renderer.gl.clear_layer(4)
             for row in range(self.env.height):
                 for col in range(self.env.width):
                     res = (row, col)
@@ -29,8 +32,6 @@ class FlatlandDynamicsRenderer(FlatlandRenderer):
                         dt = self.flatland_resource_allocator.get_resources_free_time(res) / mft
                         if dt < 1.0:
                             self.draw_box(res, color=[dt, 0.8 + 0.2 * dt, dt])
-                    else:
-                        self.draw_box(res, color=[1, 1, 1])
 
             for agent_handle, agent in enumerate(self.env.agents):
                 allocated_resource = self.flatland_resource_allocator.get_assigned_resources(agent_handle=agent_handle)
@@ -59,5 +60,5 @@ class FlatlandDynamicsRenderer(FlatlandRenderer):
         x1 = cell_coord_trans1[0]
         y1 = cell_coord_trans1[1]
         self.env_renderer.gl.plot([x0, x1, x1, x0, x0], [y0, y0, y1, y1, y0],
-                                  color=color, layer=0, opacity=opacity,
+                                  color=color, layer=4, opacity=opacity,
                                   linewidth=linewidth)
