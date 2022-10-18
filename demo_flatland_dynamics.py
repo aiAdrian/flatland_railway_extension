@@ -70,7 +70,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         observations, all_rewards, dones, info = env.step(actions)
 
         if step % 10 == 0:
-            flatland_renderer.render(show_observations=True)
+            flatland_renderer.render(show_observations=True, disable_background_rendering=True)
             time.sleep(0.01)
 
         if dones["__all__"]:
