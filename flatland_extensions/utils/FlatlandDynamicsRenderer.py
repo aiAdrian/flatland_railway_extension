@@ -6,6 +6,7 @@ from flatland.utils.rendertools import AgentRenderVariant
 from flatland.utils.rendertools import RenderLocal
 
 from flatland_extensions.environment_extensions import FlatlandResourceAllocator
+from flatland_extensions.environment_extensions.DynamicAgent import DynamicAgent
 from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
 
 
@@ -31,23 +32,47 @@ class FlatlandDynamicsRenderer(FlatlandRenderer):
                     if mft > 0:
                         dt = self.flatland_resource_allocator.get_resources_free_time(res) / mft
                         if dt < 1.0:
-                            self.draw_box(res, color=[dt, 0.8 + 0.2 * dt, dt])
+                            self.draw_box(res, color=[dt, 0.8 + 0.2 * dt, dt], linewidth=2, draw_cell_size=0.8)
 
             for agent_handle, agent in enumerate(self.env.agents):
+                if not isinstance(agent, DynamicAgent):
+                    break
+                color_idx = agent_handle % self.env_renderer.gl.n_agent_colors
+                agent_color = self.env_renderer.gl.agent_colors[color_idx]
+
                 allocated_resource = self.flatland_resource_allocator.get_assigned_resources(agent_handle=agent_handle)
                 for res in allocated_resource:
-                    self.draw_box(res, color=[1.0, 0.8, 0.0])
+                    self.draw_box(res, color=[1.0, 0.8, 0.0], linewidth=3, draw_cell_size=0.8)
+                    self.draw_box(res, color=agent_color, linewidth=3, draw_cell_size=0.05)
 
                 if len(agent.visited_cell_path) > 0:
-                    for res in agent.visited_cell_path[
-                               agent.visited_cell_path_end_of_agent_index:
-                               agent.visited_cell_path_reservation_point_index + 1]:
-                        self.draw_box(res, color=[1, 0, 0])
+                    braking_res = agent.visited_cell_path[
+                                  agent.visited_cell_path_end_of_agent_index:
+                                  agent.visited_cell_path_reservation_point_index + 1]
+                    for res in braking_res:
+                        self.draw_box(res, color=[1, 0, 0], linewidth=3, draw_cell_size=0.8)
+                        self.draw_box(res, color=agent_color, linewidth=3, draw_cell_size=0.05)
 
-                    for res in agent.visited_cell_path[
-                               agent.visited_cell_path_end_of_agent_index:
-                               agent.visited_cell_path_start_of_agent_index + 1]:
-                        self.draw_box(res, color=[0, 0, 0])
+                    train_resources = agent.visited_cell_path[
+                                      agent.visited_cell_path_end_of_agent_index:
+                                      agent.visited_cell_path_start_of_agent_index + 1]
+                    train_directions = agent.visited_direction_path[
+                                       agent.visited_cell_path_end_of_agent_index:
+                                       agent.visited_cell_path_start_of_agent_index + 1]
+                    for res_idx, res in enumerate(train_resources):
+                        self.draw_box(res, color=[0, 0, 0], linewidth=3)
+                        self.draw_agent(agent_handle, res, train_directions[res_idx])
+
+    def draw_agent(self, agent_handle, cell, dir_info):
+        in_direction = dir_info[0]
+        out_direction = dir_info[1]
+        delta_dir = (out_direction - in_direction) % 4
+        color_idx = agent_handle % self.env_renderer.gl.n_agent_colors
+        # when flipping direction at a dead end, use the "out_direction" direction.
+        if delta_dir == 2:
+            in_direction = out_direction
+        pil_zug = self.env_renderer.gl.pil_zug[(in_direction % 4, out_direction % 4, color_idx)]
+        self.env_renderer.gl.draw_image_row_col(pil_zug, cell, layer=4)
 
     def draw_box(self, cell, color, draw_cell_size=0.8, linewidth=3, opacity=255):
         cell_coord_trans0 = np.matmul((cell[0] - 0.5 * draw_cell_size, cell[1] - 0.5 * draw_cell_size),
