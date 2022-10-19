@@ -44,8 +44,7 @@ The goal of this extension package is that researchers can show where the limits
 
 - [FlatlandDynamicsRendering](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/utils/FlatlandDynamicsRenderer.py)
   
-  Resources colored orange, red or black are occupied by the train. Orange indicates a resource reserved for the train but not required by either the braking distance or the physical train. Red or black resources are security related. Black is the physical train and red resources are needed for braking.
-Green resources are still occupied. They are intended to approximately simulate the time required to handle all security elements - they represents the minimal train following time. 
+  Resources colored orange, red or black are occupied by the train. Orange indicates a resource reserved for the train but not required by either the braking distance or the physical train. Red or black resources are security related. Black is the physical train and red resources are needed for braking. The physical train can occupy more than one cell since the train length can be greater than one cell. In the visualization, however, a train that would fit into one cell can also take up more than one cell if part of the train is in the next cell and part is still in the current one. Green resources are still occupied. They are intended to approximately simulate the time required to handle all security elements - they represents the minimal train following time. 
   
   ![FlatlandDynamicsRendering](https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamicsRendering.png "FlatlandDynamicsRendering")
 (Example showing a moving block based simulation.)
