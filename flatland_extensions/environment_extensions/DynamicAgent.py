@@ -29,6 +29,7 @@ class DynamicAgent(XAgent):
 
         # set the internal simulation data (resource allocation, velocity, ... )
         self.visited_cell_path: List[Tuple[int, int]] = []
+        self.visited_direction_path: List[Tuple[int, int]] = []
         self.visited_cell_distance: List[float] = []
         self.visited_cell_path_reservation_point_index = 0
         self.visited_cell_path_end_of_agent_index = 0
@@ -178,7 +179,8 @@ class DynamicAgent(XAgent):
             if do_brake and self.current_acceleration_agent >= 0:
                 delta_braking_distance = 0.5 * (velocity_agent_tp * velocity_agent_tp - max_velocity * max_velocity) \
                                          / abs(a_max_braking) + self.length
-                if (distance_between_cs_rp_cs_tp - delta_braking_distance) > (edge_train_point.max_velocity * time_step):
+                if (distance_between_cs_rp_cs_tp - delta_braking_distance) > (
+                        edge_train_point.max_velocity * time_step):
                     do_brake = False
                     max_velocity = velocity_agent_tp
 
@@ -245,6 +247,7 @@ class DynamicAgent(XAgent):
         if pos is not None:
             if pos not in self.visited_cell_path:
                 self.visited_cell_path.append(self.position)
+                self.visited_direction_path.append((self.direction, self.old_direction))
                 cell_data = DynamicsResourceData(pos, self._infrastructure_data)
                 self.visited_cell_path_reservation_point_distance += cell_data.distance
                 self.visited_cell_distance.append(self.visited_cell_path_reservation_point_distance)
