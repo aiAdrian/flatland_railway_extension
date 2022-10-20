@@ -46,11 +46,11 @@ class DynamicAgent(XAgent):
 
         self.hard_brake = False
 
-        self.distance_RP = []
-        self.distance_TP = []
-        self.velocity_TP = []
-        self.max_velocity_TP = []
-        self.a_TP = []
+        self.distance_reservation_point_simulation_data = []
+        self.distance_agent_tp_simulation_data = []
+        self.velocity_agent_tp_simulation_data = []
+        self.max_velocity_agent_tp_simulation_data = []
+        self.acceleration_agent_tp_simulation_data = []
 
     def set_infrastructure_data(self, infrastructure_data: InfrastructureData):
         self._infrastructure_data = infrastructure_data
@@ -277,11 +277,11 @@ class DynamicAgent(XAgent):
             # update positions and distances
             self.visited_cell_path_end_of_agent_distance = \
                 self.visited_cell_distance[self.visited_cell_path_end_of_agent_index]
-            self.distance_RP.append(self.current_distance_reservation_point)
-            self.distance_TP.append(self.current_distance_agent)
-            self.a_TP.append(self.current_acceleration_agent)
-            self.velocity_TP.append(self.current_velocity_agent)
-            self.max_velocity_TP.append(self.current_max_velocity)
+            self.distance_reservation_point_simulation_data.append(self.current_distance_reservation_point)
+            self.distance_agent_tp_simulation_data.append(self.current_distance_agent)
+            self.acceleration_agent_tp_simulation_data.append(self.current_acceleration_agent)
+            self.velocity_agent_tp_simulation_data.append(self.current_velocity_agent)
+            self.max_velocity_agent_tp_simulation_data.append(self.current_max_velocity)
         else:
             self.set_hard_brake(True)
 
@@ -322,13 +322,13 @@ class DynamicAgent(XAgent):
         plt.rc('font', size=6)
 
         ax1 = plt.subplot(nbr_agents, 2, 1 + (idx - 1) * 2)
-        plt.plot(self.distance_TP[1:], np.array(self.velocity_TP[1:]) * 3.6)
-        plt.plot(np.array(self.distance_TP[1:]) - self.length, np.array(self.max_velocity_TP[1:]) * 3.6)
+        plt.plot(self.distance_agent_tp_simulation_data[1:], np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6)
+        plt.plot(np.array(self.distance_agent_tp_simulation_data[1:]) - self.length, np.array(self.max_velocity_agent_tp_simulation_data[1:]) * 3.6)
         if show_title:
             ax1.set_title('Distance vs. velocity', fontsize=10)
 
         ax2 = plt.subplot(nbr_agents, 2, 2 + (idx - 1) * 2)
-        plt.plot(self.distance_TP[1:], self.a_TP[1:])
+        plt.plot(self.distance_agent_tp_simulation_data[1:], self.acceleration_agent_tp_simulation_data[1:])
         if show_title:
             ax2.set_title('Distance vs. Acceleration', fontsize=10)
         if show:
