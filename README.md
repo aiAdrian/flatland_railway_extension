@@ -8,7 +8,7 @@ This repo extends [Flatland Railway Simulator](https://gitlab.aicrowd.com/flatla
 
 - class [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandDynamics.py) extends [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/XRailEnv.py)
 
-  FlatlandDynamics extends XRailEnv and enables movement dynamics where each agent interacts. The simulation takes into account rolling stock, topology (gradient) and physical train length.
+  FlatlandDynamics extends XRailEnv and enables movement dynamics where each agent interacts with each others. The simulation takes into account rolling stock, topology (gradient) and physical train length.
 
 ## Features
 - Minimal train following time can be globally controlled 
