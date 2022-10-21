@@ -3,7 +3,7 @@ This repo extends [Flatland Railway Simulator](https://gitlab.aicrowd.com/flatla
 
 ## Extended RailEnv  
 - class [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/XRailEnv.py) extends [RailEnv](https://gitlab.aicrowd.com/flatland/flatland/-/blob/master/flatland/envs/rail_env.py#L36)
-  XRailEnv is an extended version of the Flatland environment that supports multiple resources at the same time.
+  XRailEnv is an extended version of the Flatland environment and supports multiple resources at the same time.
 
 - class [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandDynamics.py) extends [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/XRailEnv.py)
   FlatlandDynamics extends XRailEnv and enables movement dynamics where each agent interacts. The simulation takes into account rolling stock, topology (gradient) and physical train length.
