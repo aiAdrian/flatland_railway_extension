@@ -1,7 +1,7 @@
 class RollingStock:
     def __init__(self,
                  max_traction=210000.0,
-                 v_max_traction=50.0,
+                 v_max_traction=200/3.6,
                  a_max_acceleration=10.0,
                  a_max_braking=-0.1,
                  mass_factor=1.05,
