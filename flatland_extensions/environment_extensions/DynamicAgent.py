@@ -142,7 +142,7 @@ class DynamicAgent(XAgent):
         total_resistance = train_run_resistance
 
         if acceleration_train_point > 0.0:
-            total_resistance = total_resistance + self.rolling_stock.mass_factor * acceleration_train_point * 1000.0
+            total_resistance = total_resistance + self.rolling_stock.mass_factor * acceleration_train_point * 100.0
 
         # traction
         total_resistance = total_resistance * self.mass * 9.81
