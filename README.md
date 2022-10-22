@@ -59,11 +59,12 @@ The Example is showing a moving block based simulation. The rendering is done wi
 
    The Flatland Resource Allocator extension allows the implementation of a simultaneous allocation of multiple resources to an agent, and also allows the concept of minimal headway (train-following), which roughly simulates the real infrastructure behavior. A two-minute train sequence (n-flatland time steps) is often used in many real railway systems - the entire system is therefore designed for a minimum headway of n seconds. With the help of the multi-resource allocator it is possible to implement "flank protection", ... and dynamic movement.
    
-- [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/FlatlandGraphBuilder.py)
  
 - [Rolling Stock](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/RollingStock.py)
   
   The [rolling stock](https://en.wikipedia.org/wiki/Rolling_stock) data stores the technical characteristics of each locomotive, including tractive effort and speed limits. The DynamicAgent stores the physical properties such as mass and length and requires vehicle data for the traction.
+
+- [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/FlatlandGraphBuilder.py)
  
   
 ## Working code 
