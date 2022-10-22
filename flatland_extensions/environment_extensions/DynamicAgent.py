@@ -323,7 +323,8 @@ class DynamicAgent(XAgent):
 
         ax1 = plt.subplot(nbr_agents, 2, 1 + (idx - 1) * 2)
         plt.plot(self.distance_agent_tp_simulation_data[1:], np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6)
-        plt.plot(np.array(self.distance_agent_tp_simulation_data[1:]) - self.length, np.array(self.max_velocity_agent_tp_simulation_data[1:]) * 3.6)
+        plt.plot(np.array(self.distance_agent_tp_simulation_data[1:]) - self.length,
+                 np.array(self.max_velocity_agent_tp_simulation_data[1:]) * 3.6)
         if show_title:
             ax1.set_title('Distance vs. velocity', fontsize=10)
 
