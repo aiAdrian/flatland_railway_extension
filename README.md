@@ -40,6 +40,13 @@ The goal of this extension package is that researchers can show where the limits
   
   ![RailroadSwitchCluster](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchCluster.png "RailroadSwitchCluster")
 
+- [FlatlandResourceAllocator](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandResourceAllocator.py)
+
+   The Flatland Resource Allocator extension allows the implementation of a simultaneous allocation of multiple resources to an agent, and also allows the concept of minimal headway (train-following), which roughly simulates the real infrastructure behavior. A two-minute train sequence (n-flatland time steps) is often used in many real railway systems - the entire system is therefore designed for a minimum headway of n seconds. With the help of the multi-resource allocator it is possible to implement "flank protection", ... and dynamic movement.
+   
+   
+- [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/FlatlandGraphBuilder.py)
+ 
 
 - [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandDynamics.py)
   
@@ -64,13 +71,7 @@ The goal of this extension package is that researchers can show where the limits
   ![FlatlandDynamicsRendering](https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamicsRendering.png "FlatlandDynamicsRendering")
 The Example is showing a moving block based simulation. The rendering is done with FlatlandDynamicsRenderer.
 
-- [FlatlandResourceAllocator](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandResourceAllocator.py)
 
-   The Flatland Resource Allocator extension allows the implementation of a simultaneous allocation of multiple resources to an agent, and also allows the concept of minimal headway (train-following), which roughly simulates the real infrastructure behavior. A two-minute train sequence (n-flatland time steps) is often used in many real railway systems - the entire system is therefore designed for a minimum headway of n seconds. With the help of the multi-resource allocator it is possible to implement "flank protection", ... and dynamic movement.
-   
-   
-- [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/FlatlandGraphBuilder.py)
- 
   
 ## Working code 
 - [Google coLab notebook - Recife export](https://github.com/aiAdrian/flatland_railway_extension/blob/master/Flatland_recife.ipynb)
