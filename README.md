@@ -62,7 +62,7 @@ The Example is showing a moving block based simulation. The rendering is done wi
  
 - [Rolling Stock](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/RollingStock.py)
   
-  The [rolling stock](https://en.wikipedia.org/wiki/Rolling_stock) data stores the technical characteristics of each locomotive, including tractive effort and speed limits. The DynamicAgent stores the physical properties such as mass and length and requires vehicle data for the traction.
+  The [rolling stock](https://en.wikipedia.org/wiki/Rolling_stock) data stores the technical characteristics of each locomotive, including tractive effort and speed limits. The DynamicAgent stores the physical properties such as mass and length and requires the rolling stock data for the traction.
 
 - [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/FlatlandGraphBuilder.py)
  
