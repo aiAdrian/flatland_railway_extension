@@ -156,9 +156,6 @@ class DynamicAgent(XAgent):
         if total_resistance < max_traction_train_point:
             max_traction_train_point = total_resistance
 
-        print(total_resistance, max_traction_train_point, self.rolling_stock.max_traction,
-              velocity_agent_tp, self.rolling_stock.velocity_max_traction)
-
         acceleration_train_point = \
             (max_traction_train_point / self.mass - train_run_resistance * 9.81) * ( \
                         0.001 / self.rolling_stock.mass_factor)
@@ -324,27 +321,32 @@ class DynamicAgent(XAgent):
     def reset(self):
         super(DynamicAgent, self).reset()
 
-    def do_debug_plot(self, idx=1, nbr_agents=1, show=True, show_title=True):
+    def do_debug_plot(self, idx=1, nbr_agents=1, show=True, show_title=True, enabled_tractive_effort_rendering=False):
         plt.rc('font', size=6)
 
-        ax1 = plt.subplot(nbr_agents, 3, 1 + (idx - 1) * 3)
+        nbr_features = 2
+        if enabled_tractive_effort_rendering:
+            nbr_features = 3
+
+        ax1 = plt.subplot(nbr_agents, nbr_features, 1 + (idx - 1) * nbr_features)
         plt.plot(self.distance_agent_tp_simulation_data[1:], np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6)
         plt.plot(np.array(self.distance_agent_tp_simulation_data[1:]) - self.length,
                  np.array(self.max_velocity_agent_tp_simulation_data[1:]) * 3.6)
         if show_title:
             ax1.set_title('Distance vs. velocity', fontsize=10)
 
-        ax2 = plt.subplot(nbr_agents, 3, 2 + (idx - 1) * 3)
+        ax2 = plt.subplot(nbr_agents, nbr_features, 2 + (idx - 1) * nbr_features)
         plt.plot(self.distance_agent_tp_simulation_data[1:], self.acceleration_agent_tp_simulation_data[1:])
         if show_title:
             ax2.set_title('Distance vs. acceleration', fontsize=10)
 
-        ax3 = plt.subplot(nbr_agents, 3, 3 + (idx - 1) * 3)
-        plt.plot(np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6,
-                 self.tractive_effort_agent_tp_simulation_data[1:], 'b.')
-        if show_title:
-            ax3.set_title('Velocity vs. tractive effort', fontsize=10)
-        ax3.set_ylim([0, self.rolling_stock.max_traction / 1000])
+        if enabled_tractive_effort_rendering:
+            ax3 = plt.subplot(nbr_agents, nbr_features, 3 + (idx - 1) * nbr_features)
+            plt.plot(np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6,
+                     self.tractive_effort_agent_tp_simulation_data[1:], 'b.')
+            if show_title:
+                ax3.set_title('Velocity vs. tractive effort', fontsize=10)
+            ax3.set_ylim([0, self.rolling_stock.max_traction / 1000])
 
         if show:
             plt.show()
