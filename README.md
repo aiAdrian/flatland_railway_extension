@@ -48,6 +48,15 @@ The goal of this extension package is that researchers can show where the limits
  ![FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics.png "FlatlandDynamics")
 
 
+- [Rolling Stock](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/RollingStock.py)
+  
+  The [rolling stock](https://en.wikipedia.org/wiki/Rolling_stock) data stores the technical characteristics of each locomotive, including tractive effort and speed limits. The DynamicAgent stores the physical properties such as mass and length and requires the rolling stock data for the traction.
+  
+ 
+<p align="center" width="100%">
+    <img width="20%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics_RollingStock_tractive_effort.png "> 
+</p>
+
 - [FlatlandDynamicsRendering](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/utils/FlatlandDynamicsRenderer.py)
   
   Resources colored orange, red or black are occupied by the train. Orange indicates a resource reserved for the train but not required by either the braking distance or the physical train. Red or black resources are security related. Black is the physical train and red resources are needed for braking. The physical train can occupy more than one cell since the train length can be greater than the length of the underlaying cell. In the visualization, however, a train that would fit into one cell can also take up more than one cell if part of the train is in the next cell and part is still in the current one. Green resources are still occupied. They are intended to approximately simulate the time required to handle all security elements - they represents the minimal train following time. 
@@ -59,16 +68,7 @@ The Example is showing a moving block based simulation. The rendering is done wi
 
    The Flatland Resource Allocator extension allows the implementation of a simultaneous allocation of multiple resources to an agent, and also allows the concept of minimal headway (train-following), which roughly simulates the real infrastructure behavior. A two-minute train sequence (n-flatland time steps) is often used in many real railway systems - the entire system is therefore designed for a minimum headway of n seconds. With the help of the multi-resource allocator it is possible to implement "flank protection", ... and dynamic movement.
    
- 
-- [Rolling Stock](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/RollingStock.py)
-  
-  The [rolling stock](https://en.wikipedia.org/wiki/Rolling_stock) data stores the technical characteristics of each locomotive, including tractive effort and speed limits. The DynamicAgent stores the physical properties such as mass and length and requires the rolling stock data for the traction.
-  
- 
-<p align="center" width="100%">
-    <img width="13%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics_RollingStock_tractive_effort.png "> 
-</p>
-  
+   
 - [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/FlatlandGraphBuilder.py)
  
   
