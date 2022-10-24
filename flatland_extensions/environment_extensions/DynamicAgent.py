@@ -48,6 +48,7 @@ class DynamicAgent(XAgent):
 
         self.distance_reservation_point_simulation_data = []
         self.distance_agent_tp_simulation_data = []
+        self.tractive_effort_agent_tp_simulation_data = []
         self.velocity_agent_tp_simulation_data = []
         self.max_velocity_agent_tp_simulation_data = []
         self.acceleration_agent_tp_simulation_data = []
@@ -96,13 +97,13 @@ class DynamicAgent(XAgent):
         self.current_max_velocity = edge_train_point.max_velocity
 
         velocity_max_array = np.array([edge_train_point.max_velocity, edge_reservation_point.max_velocity,
-                                       self.rolling_stock.velocity_max_traction, self.v_max_simulation])
+                                       self.rolling_stock.max_velocity, self.v_max_simulation])
         max_velocity = np.min(velocity_max_array)
 
         pos_on_edge = self.visited_cell_path_end_of_agent_distance - self.current_distance_agent
         distance_between_cs_rp_cs_tp = max(0.0, edge_train_point.distance - pos_on_edge)
         allocated_resources_list = self.get_allocated_resource()
-        intern_max_velocity_array = np.array([edge_train_point.max_velocity, self.rolling_stock.velocity_max_traction,
+        intern_max_velocity_array = np.array([edge_train_point.max_velocity, self.rolling_stock.max_velocity,
                                               self.v_max_simulation])
         intern_max_velocity = np.min(intern_max_velocity_array)
         distance_update_allowed = True
@@ -123,10 +124,11 @@ class DynamicAgent(XAgent):
 
         max_velocity = min(max_velocity, intern_max_velocity)
 
-        # run resistances
-        train_run_resistance = self.rolling_stock.C + self.rolling_stock.K * velocity_agent_tp * velocity_agent_tp * 0.01296
+        # run resistances - air resistance / drag
+        train_run_resistance = self.rolling_stock.C + \
+                               self.rolling_stock.K * velocity_agent_tp * velocity_agent_tp * 0.01296
 
-        # slop gradient
+        # run resistances - gradient resistances
         if edge_train_point.backward:
             train_run_resistance = train_run_resistance - mean_gradient
         else:
@@ -144,7 +146,7 @@ class DynamicAgent(XAgent):
         if acceleration_train_point > 0.0:
             total_resistance = total_resistance + self.rolling_stock.mass_factor * acceleration_train_point * 100.0
 
-        # traction
+        # total resistance = what the traction should perform  -> tractive effort
         total_resistance = total_resistance * self.mass * 9.81
         max_traction_train_point = self.rolling_stock.max_traction
         if velocity_agent_tp > self.rolling_stock.velocity_max_traction:
@@ -153,6 +155,9 @@ class DynamicAgent(XAgent):
 
         if total_resistance < max_traction_train_point:
             max_traction_train_point = total_resistance
+
+        print(total_resistance, max_traction_train_point, self.rolling_stock.max_traction,
+              velocity_agent_tp, self.rolling_stock.velocity_max_traction)
 
         acceleration_train_point = \
             (max_traction_train_point / self.mass - train_run_resistance * 9.81) * ( \
@@ -282,6 +287,7 @@ class DynamicAgent(XAgent):
             self.acceleration_agent_tp_simulation_data.append(self.current_acceleration_agent)
             self.velocity_agent_tp_simulation_data.append(self.current_velocity_agent)
             self.max_velocity_agent_tp_simulation_data.append(self.current_max_velocity)
+            self.tractive_effort_agent_tp_simulation_data.append(self.current_acceleration_agent * self.mass)
         else:
             self.set_hard_brake(True)
 
@@ -321,16 +327,24 @@ class DynamicAgent(XAgent):
     def do_debug_plot(self, idx=1, nbr_agents=1, show=True, show_title=True):
         plt.rc('font', size=6)
 
-        ax1 = plt.subplot(nbr_agents, 2, 1 + (idx - 1) * 2)
+        ax1 = plt.subplot(nbr_agents, 3, 1 + (idx - 1) * 3)
         plt.plot(self.distance_agent_tp_simulation_data[1:], np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6)
         plt.plot(np.array(self.distance_agent_tp_simulation_data[1:]) - self.length,
                  np.array(self.max_velocity_agent_tp_simulation_data[1:]) * 3.6)
         if show_title:
             ax1.set_title('Distance vs. velocity', fontsize=10)
 
-        ax2 = plt.subplot(nbr_agents, 2, 2 + (idx - 1) * 2)
+        ax2 = plt.subplot(nbr_agents, 3, 2 + (idx - 1) * 3)
         plt.plot(self.distance_agent_tp_simulation_data[1:], self.acceleration_agent_tp_simulation_data[1:])
         if show_title:
-            ax2.set_title('Distance vs. Acceleration', fontsize=10)
+            ax2.set_title('Distance vs. acceleration', fontsize=10)
+
+        ax3 = plt.subplot(nbr_agents, 3, 3 + (idx - 1) * 3)
+        plt.plot(np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6,
+                 self.tractive_effort_agent_tp_simulation_data[1:], 'b.')
+        if show_title:
+            ax3.set_title('Velocity vs. tractive effort', fontsize=10)
+        ax3.set_ylim([0, self.rolling_stock.max_traction / 1000])
+
         if show:
             plt.show()
