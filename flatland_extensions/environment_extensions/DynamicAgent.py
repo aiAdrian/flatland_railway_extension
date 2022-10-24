@@ -28,6 +28,8 @@ class DynamicAgent(XAgent):
         self._infrastructure_data: Union[InfrastructureData, None] = None
 
         # set the internal simulation data (resource allocation, velocity, ... )
+
+        # current pointer and data to visited cells/resources
         self.visited_cell_path: List[Tuple[int, int]] = []
         self.visited_direction_path: List[Tuple[int, int]] = []
         self.visited_cell_distance: List[float] = []
@@ -37,21 +39,28 @@ class DynamicAgent(XAgent):
         self.visited_cell_path_reservation_point_distance = 0
         self.visited_cell_path_end_of_agent_distance = 0
 
+        # current simulation data
         self.current_velocity_reservation_point: float = 0.0
         self.current_velocity_agent: float = 0.0
         self.current_acceleration_agent: float = 0.0
         self.current_max_velocity: float = 0.0
         self.current_distance_reservation_point: float = 0.0
         self.current_distance_agent: float = 0.0
+        self.current_tractive_effort: float = 0.0
 
+        # signal to enforce immediate braking
         self.hard_brake = False
 
+        # simulation data storage (history)
         self.distance_reservation_point_simulation_data = []
         self.distance_agent_tp_simulation_data = []
         self.tractive_effort_agent_tp_simulation_data = []
         self.velocity_agent_tp_simulation_data = []
         self.max_velocity_agent_tp_simulation_data = []
         self.acceleration_agent_tp_simulation_data = []
+
+        # debug plot
+        self._enabled_tractive_effort_rendering = False
 
     def set_infrastructure_data(self, infrastructure_data: InfrastructureData):
         self._infrastructure_data = infrastructure_data
@@ -155,6 +164,8 @@ class DynamicAgent(XAgent):
 
         if total_resistance < max_traction_train_point:
             max_traction_train_point = total_resistance
+
+        self.current_tractive_effort = max_traction_train_point
 
         acceleration_train_point = \
             (max_traction_train_point / self.mass - train_run_resistance * 9.81) * ( \
@@ -284,7 +295,7 @@ class DynamicAgent(XAgent):
             self.acceleration_agent_tp_simulation_data.append(self.current_acceleration_agent)
             self.velocity_agent_tp_simulation_data.append(self.current_velocity_agent)
             self.max_velocity_agent_tp_simulation_data.append(self.current_max_velocity)
-            self.tractive_effort_agent_tp_simulation_data.append(self.current_acceleration_agent * self.mass)
+            self.tractive_effort_agent_tp_simulation_data.append(self.current_tractive_effort)
         else:
             self.set_hard_brake(True)
 
@@ -321,11 +332,14 @@ class DynamicAgent(XAgent):
     def reset(self):
         super(DynamicAgent, self).reset()
 
-    def do_debug_plot(self, idx=1, nbr_agents=1, show=True, show_title=True, enabled_tractive_effort_rendering=False):
+    def enabled_tractive_effort_rendering(self):
+        self._enabled_tractive_effort_rendering = True
+
+    def do_debug_plot(self, idx=1, nbr_agents=1, show=True, show_title=True):
         plt.rc('font', size=6)
 
         nbr_features = 2
-        if enabled_tractive_effort_rendering:
+        if self._enabled_tractive_effort_rendering:
             nbr_features = 3
 
         ax1 = plt.subplot(nbr_agents, nbr_features, 1 + (idx - 1) * nbr_features)
@@ -340,13 +354,14 @@ class DynamicAgent(XAgent):
         if show_title:
             ax2.set_title('Distance vs. acceleration', fontsize=10)
 
-        if enabled_tractive_effort_rendering:
+        if self._enabled_tractive_effort_rendering:
             ax3 = plt.subplot(nbr_agents, nbr_features, 3 + (idx - 1) * nbr_features)
             plt.plot(np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6,
-                     self.tractive_effort_agent_tp_simulation_data[1:], 'b.')
+                     np.array(self.tractive_effort_agent_tp_simulation_data[1:]) / 1000.0, 'b.')
             if show_title:
                 ax3.set_title('Velocity vs. tractive effort', fontsize=10)
-            ax3.set_ylim([0, self.rolling_stock.max_traction / 1000])
+            ax3.set_xlim([0, self.rolling_stock.max_velocity * 3.6 + 10])
+            ax3.set_ylim([0, self.rolling_stock.max_traction / 1000 + 10])
 
         if show:
             plt.show()
