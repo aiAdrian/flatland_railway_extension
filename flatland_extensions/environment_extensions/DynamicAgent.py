@@ -332,8 +332,8 @@ class DynamicAgent(XAgent):
     def reset(self):
         super(DynamicAgent, self).reset()
 
-    def enabled_tractive_effort_rendering(self):
-        self._enabled_tractive_effort_rendering = True
+    def set_tractive_effort_rendering(self, enable=True):
+        self._enabled_tractive_effort_rendering = enable
 
     def do_debug_plot(self, idx=1, nbr_agents=1, show=True, show_title=True):
         plt.rc('font', size=6)
