@@ -75,9 +75,9 @@ The goal of this extension package is that researchers can show where the limits
   
     Pmax = RollingStock.v_max_traction * RollingStock.max_traction
        
-           Pmax : Maximum power of the traction 
-           RollingStock.v_max_traction : Is the speed up to which the vehicle can deliver the maximum force.
-           RollingStock.max_traction : Is the overall maximum force the traction can deliver.
+        Pmax : Maximum power of the traction 
+        RollingStock.v_max_traction : Is the speed up to which the vehicle can deliver the maximum force.
+        RollingStock.max_traction : Is the overall maximum force the traction can deliver.
   
  
 
