@@ -61,7 +61,9 @@ The goal of this extension package is that researchers can show where the limits
   
   The diagram shows the traction characteristics. The speed is plotted on the x-axis. The maximum tractive effort is plotted on the y-axis. Traction power is limited by the maximum force that traction can exert on the wheel and is further limited by the maximum power of the motor.
   
-
+<p align="center" width="100%">
+    <img width="20%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics_RollingStock_tractive_effort.png "> 
+</p>
   
     P = F * v = m * a * v
 
@@ -81,9 +83,7 @@ The goal of this extension package is that researchers can show where the limits
   
  
 
-<p align="center" width="100%">
-    <img width="20%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics_RollingStock_tractive_effort.png "> 
-</p>
+
 
 - [FlatlandDynamicsRendering](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/utils/FlatlandDynamicsRenderer.py)
   
