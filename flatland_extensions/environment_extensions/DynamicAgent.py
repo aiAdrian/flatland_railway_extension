@@ -157,10 +157,7 @@ class DynamicAgent(XAgent):
 
         # total resistance = what the traction should perform  -> tractive effort
         total_resistance = total_resistance * self.mass * 9.81
-        max_traction_train_point = self.rolling_stock.max_traction
-        if velocity_agent_tp > self.rolling_stock.velocity_max_traction:
-            max_traction_train_point = \
-                self.rolling_stock.max_traction * self.rolling_stock.velocity_max_traction / velocity_agent_tp
+        max_traction_train_point = self.rolling_stock.get_max_tractive_effort(velocity_agent_tp)
 
         if total_resistance < max_traction_train_point:
             max_traction_train_point = total_resistance
