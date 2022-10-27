@@ -62,6 +62,9 @@ class DynamicAgent(XAgent):
         # debug plot
         self._enabled_tractive_effort_rendering = False
 
+    def get_max_agent_velocity(self):
+        return min(self.rolling_stock.max_velocity, self.v_max_simulation)
+
     def set_infrastructure_data(self, infrastructure_data: InfrastructureData):
         self._infrastructure_data = infrastructure_data
 
@@ -95,9 +98,6 @@ class DynamicAgent(XAgent):
         velocity_reservation_point = self.current_velocity_reservation_point
         velocity_agent_tp = self.current_velocity_agent
 
-        a_max_acceleration = self.rolling_stock.a_max_acceleration
-        a_max_braking = self.rolling_stock.a_max_braking
-
         edge_train_point = \
             DynamicsResourceData(self.get_allocated_train_point_resource(), self._infrastructure_data)
         edge_reservation_point = \
@@ -106,14 +106,13 @@ class DynamicAgent(XAgent):
         self.current_max_velocity = edge_train_point.max_velocity
 
         velocity_max_array = np.array([edge_train_point.max_velocity, edge_reservation_point.max_velocity,
-                                       self.rolling_stock.max_velocity, self.v_max_simulation])
+                                       self.get_max_agent_velocity()])
         max_velocity = np.min(velocity_max_array)
 
         pos_on_edge = self.visited_cell_path_end_of_agent_distance - self.current_distance_agent
         distance_between_cs_rp_cs_tp = max(0.0, edge_train_point.distance - pos_on_edge)
         allocated_resources_list = self.get_allocated_resource()
-        intern_max_velocity_array = np.array([edge_train_point.max_velocity, self.rolling_stock.max_velocity,
-                                              self.v_max_simulation])
+        intern_max_velocity_array = np.array([edge_train_point.max_velocity, self.get_max_agent_velocity()])
         intern_max_velocity = np.min(intern_max_velocity_array)
         distance_update_allowed = True
 
@@ -133,46 +132,24 @@ class DynamicAgent(XAgent):
 
         max_velocity = min(max_velocity, intern_max_velocity)
 
-        # run resistances - air resistance / drag
-        train_run_resistance = self.rolling_stock.C + \
-                               self.rolling_stock.K * velocity_agent_tp * velocity_agent_tp * 0.01296
-
-        # run resistances - gradient resistances
+        # get gradient (orientation)
+        current_tp_gradient = mean_gradient
         if edge_train_point.backward:
-            train_run_resistance = train_run_resistance - mean_gradient
-        else:
-            train_run_resistance = train_run_resistance + mean_gradient
+            current_tp_gradient = - mean_gradient
 
-        # accelerate
-        acceleration_train_point = a_max_acceleration
-        acceleration = max(float(0.0), max_velocity - velocity_agent_tp) / time_step
-        if acceleration < acceleration_train_point:
-            acceleration_train_point = acceleration
+        acceleration_train_point, max_braking_acceleration, current_tractive_effort = \
+            self.rolling_stock.get_accelerations_and_tractive_effort(velocity_agent_tp,
+                                                                     max_velocity,
+                                                                     current_tp_gradient,
+                                                                     self.mass,
+                                                                     time_step)
 
-        # resistance
-        total_resistance = train_run_resistance
-
-        if acceleration_train_point > 0.0:
-            total_resistance = total_resistance + self.rolling_stock.mass_factor * acceleration_train_point * 100.0
-
-        # total resistance = what the traction should perform  -> tractive effort
-        total_resistance = total_resistance * self.mass * 9.81
-        max_traction_train_point = self.rolling_stock.get_max_tractive_effort(velocity_agent_tp)
-
-        if total_resistance < max_traction_train_point:
-            max_traction_train_point = total_resistance
-
-        self.current_tractive_effort = max_traction_train_point
-
-        acceleration_train_point = \
-            (max_traction_train_point / self.mass - train_run_resistance * 9.81) * ( \
-                        0.001 / self.rolling_stock.mass_factor)
-        if acceleration_train_point < 0.0:
-            a_max_braking = a_max_braking + acceleration_train_point
         acceleration_reservation_point = max(0.0, acceleration_train_point)
         acceleration_reservation_point = acceleration_reservation_point + \
                                          acceleration_reservation_point * acceleration_reservation_point / \
-                                         abs(a_max_braking)
+                                         abs(max_braking_acceleration)
+
+        self.current_tractive_effort = current_tractive_effort
 
         # --------------------------------------------------------------------------------------------------------
         # Braking has to be decoupled from this code (do a refactoring) -> method/object which allows to
@@ -188,7 +165,7 @@ class DynamicAgent(XAgent):
         if coasting:
             if do_brake and self.current_acceleration_agent >= 0:
                 delta_braking_distance = 0.5 * (velocity_agent_tp * velocity_agent_tp - max_velocity * max_velocity) \
-                                         / abs(a_max_braking) + self.length
+                                         / abs(max_braking_acceleration) + self.length
                 if (distance_between_cs_rp_cs_tp - delta_braking_distance) > (
                         edge_train_point.max_velocity * time_step):
                     do_brake = False
@@ -202,7 +179,7 @@ class DynamicAgent(XAgent):
 
         # check what the train driver has to do
         if do_brake or self.hard_brake:
-            acceleration_train_point = a_max_braking
+            acceleration_train_point = max_braking_acceleration
             acceleration = (velocity_agent_tp - max_velocity) / time_step
             if acceleration < abs(acceleration_train_point):
                 acceleration_train_point = -acceleration
@@ -240,10 +217,13 @@ class DynamicAgent(XAgent):
         # euler step: reservation point
         # Correction of position from braking distance and current position. Note the position varies with the
         # Behavior of the train, reservation point position air return, in case of full braking.
-        bremsweg = 0.5 * (self.current_velocity_agent * self.current_velocity_agent) / abs(a_max_braking) + self.length
-        delta_pos_rp = max(0.0, (self.current_distance_agent + bremsweg) - self.current_distance_reservation_point)
+        current_braking_distance = 0.5 * (
+                self.current_velocity_agent * self.current_velocity_agent) / abs(max_braking_acceleration) + self.length
+        delta_pos_rp = max(0.0, (
+                self.current_distance_agent + current_braking_distance) - self.current_distance_reservation_point)
         self.current_distance_reservation_point += delta_pos_rp
-        self.current_velocity_reservation_point = velocity_reservation_point + acceleration_reservation_point * time_step
+        self.current_velocity_reservation_point = velocity_reservation_point + \
+                                                  acceleration_reservation_point * time_step
 
         # check and allow reservation point move forward
         move_reservation_point = \
