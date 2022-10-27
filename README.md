@@ -57,7 +57,7 @@ The goal of this extension package is that researchers can show where the limits
 
 - [Rolling Stock](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/RollingStock.py)
   
-  The rolling stock data stores the technical characteristics of each locomotive, including tractive effort and speed limits. The DynamicAgent stores the physical properties such as mass and length and requires the rolling stock data for the traction.
+  The rolling stock data stores the technical characteristics of each locomotive, including tractive effort and speed limits. The [DynamicAgent](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/DynamicAgent.py) stores the physical properties such as mass and length and requires the rolling stock data for the traction.
   
   The diagram shows the traction characteristics. The speed is plotted on the x-axis. The maximum tractive effort is plotted on the y-axis. Traction power is limited by the maximum force that traction can exert on the wheel and is further limited by the maximum power of the motor.
   
