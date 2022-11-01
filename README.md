@@ -33,7 +33,7 @@ The goal of this extension package is that researchers can show where the limits
 
   ![RailroadSwitchAnalyser](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchAnalyser.png "RailroadSwitchAnalyser")
 
-  The figure shows the mapping of crossings (switches) and adjacent switches to the infrastructure.
+  The figure shows the mapping of crossings (switches) and switch neighbours to the infrastructure.
 <p align="center" width="100%">
     <img width="40%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/flatland_scenario_cell_types.png"> 
 </p>
