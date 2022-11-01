@@ -24,6 +24,7 @@ The goal of this extension package is that researchers can show where the limits
 ### Examples
 <p align="center" width="100%">
     <img width="33%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/flatland_scenario.png"> 
+    <img width="33%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/flatland_scenario_cell_types.png"> 
 </p>
 
 
