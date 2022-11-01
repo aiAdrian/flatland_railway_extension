@@ -31,7 +31,7 @@ The goal of this extension package is that researchers can show where the limits
   
   The illustration on the left shows all crossings (switches) and the illustration on the right shows all switch neighbours. A switch neighbours is an infrastructure element that has an intersection (crossing) as its neighbour.
 <p align="center" width="100%">
-    <img width="25%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/flatland_scenario_cell_types.png"> 
+    <img width="40%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/flatland_scenario_cell_types.png"> 
 </p>
 
   ![RailroadSwitchAnalyser](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchAnalyser.png "RailroadSwitchAnalyser")
