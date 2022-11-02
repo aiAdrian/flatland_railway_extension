@@ -68,26 +68,27 @@ The goal of this extension package is that researchers can show where the limits
 <p align="center" width="100%">
     <img width="20%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics_RollingStock_tractive_effort.png "> 
 </p>
-  
-    P = F * v = m * a * v
+   
 
-        F : Force [N]
-        P : Power [W]
-        v : Velocity [m/s]
-        m : Mass [kg] 
-        a : Acceleration [m/s2]
- 
-
-  
-    Pmax = v_max_traction * max_traction
     
-        Pmax : Maximum power of the traction 
-        v_max_traction : Is the speed up to which the vehicle can deliver the maximum force.
-        max_traction : Is the overall maximum force the traction can deliver.
+
+$$F = m a := Force : [N]$$
+
+$$P = F v := Power : [W]$$
+
+$$v := Velocity : [m/s]$$
+
+$$m := Mass : [kg]$$ 
+
+$$a := Acceleration : [m/s2]$$
+
   
- 
+Where $P_{max}$ is the maximum power of the traction. $P_{max}$ depends on two factors v_max_traction and max_traction. Where v_max_traction $v_{max_{traction}}$ is the speed up to which the vehicle can deliver the maximum force and where max_traction $F_{max}$ is the overall maximum force the traction can deliver. 
 
+The power consumption (for acceleration) must be positive and less than the maximum power of the traction $P_{max}$ and it cannot exceed the maximum force  $F_{max}$.
+$$0 <= P <= P_{max}$$
 
+$$P_{max} = F_{max} v_{max_{traction}}  $$
 
 - [FlatlandDynamicsRendering](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/utils/FlatlandDynamicsRenderer.py)
   
