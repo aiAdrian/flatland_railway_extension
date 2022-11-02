@@ -1,5 +1,6 @@
 import time
 
+import numpy as np
 # import all flatland dependance
 from flatland.envs.rail_env import RailEnv
 from flatland.utils.rendertools import RenderTool, AgentRenderVariant
@@ -7,22 +8,35 @@ from flatland.utils.rendertools import RenderTool, AgentRenderVariant
 
 class FlatlandRenderer:
     def __init__(self, env: RailEnv, show_debug=False, show_agents=True,
-                 agent_render_variant: AgentRenderVariant = AgentRenderVariant.BOX_ONLY):
+                 agent_render_variant: AgentRenderVariant = AgentRenderVariant.BOX_ONLY,
+                 cell_size=40, fix_aspect_ration=False):
         self.env = env
         self.show_agents = show_agents
-        self._create_renderer(show_debug, agent_render_variant=agent_render_variant)
+        self.cell_size = cell_size
+
+        if fix_aspect_ration:
+            aspect_ratio = self.env.width / self.env.height
+            screen_width_scale = np.round(aspect_ratio * cell_size)
+            screen_height_scale = np.round(aspect_ratio * cell_size)
+            self._create_renderer(show_debug, agent_render_variant=agent_render_variant,
+                                  screen_width_scale=screen_width_scale, screen_height_scale=screen_height_scale)
+        else:
+            self._create_renderer(show_debug, agent_render_variant=agent_render_variant)
+        self.update_window_size_for_fix_aspect_ration = fix_aspect_ration
 
     def set_env(self, env: RailEnv):
         self.env = env
         self.env_renderer.env = self.env
         self.env_renderer.reset()
 
-    def _create_renderer(self, show_debug, agent_render_variant):
+    def _create_renderer(self, show_debug=False,
+                         agent_render_variant=AgentRenderVariant.BOX_ONLY,
+                         screen_width_scale=40, screen_height_scale=25):
         self.env_renderer = RenderTool(self.env,
                                        agent_render_variant=agent_render_variant,
                                        show_debug=show_debug,
-                                       screen_width=self.env.width * 40,
-                                       screen_height=self.env.height * 25)
+                                       screen_width=self.env.width * screen_width_scale,
+                                       screen_height=self.env.height * screen_height_scale)
         self.env_renderer.reset()
 
     def _disable_background_rendering(self):
@@ -56,6 +70,11 @@ class FlatlandRenderer:
                                      step=None,  # int step number to show in image
                                      selected_agent=None,  # indicate which agent is "selected" in the editor):
                                      return_image=False)
+
+        if self.update_window_size_for_fix_aspect_ration:
+            self.env_renderer.gl.window.set_size(self.env_renderer.gl.xPx * 8,
+                                                 self.env_renderer.gl.yPx * 8)
+            self.update_window_size_for_fix_aspect_ration = False
 
     def start_render_loop(self,
                           show_observations=True, show_predictions=False,
