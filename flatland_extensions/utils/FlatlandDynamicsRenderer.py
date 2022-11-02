@@ -12,8 +12,10 @@ from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
 
 class FlatlandDynamicsRenderer(FlatlandRenderer):
     def __init__(self, env: RailEnv, show_debug=False, show_agents=True,
-                 agent_render_variant: AgentRenderVariant = AgentRenderVariant.BOX_ONLY):
-        super(FlatlandDynamicsRenderer, self).__init__(env, show_debug, show_agents, agent_render_variant)
+                 agent_render_variant: AgentRenderVariant = AgentRenderVariant.BOX_ONLY,
+                 cell_size=40, fix_aspect_ration=False):
+        super(FlatlandDynamicsRenderer, self).__init__(env, show_debug, show_agents, agent_render_variant,
+                                                       cell_size, fix_aspect_ration)
         self.flatland_resource_allocator: Union[FlatlandResourceAllocator, None] = None
 
     def set_flatland_resource_allocator(self, flatland_resource_allocator: FlatlandResourceAllocator):
