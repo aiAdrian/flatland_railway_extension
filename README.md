@@ -76,16 +76,17 @@ $$F = m a := Force : [N]$$
 
 $$P = F v := Power : [W]$$
 
-$$v := Velocity : [m/s]$$
+$$v := Velocity : [{ m \over s}]$$
 
 $$m := Mass : [kg]$$ 
 
-$$a := Acceleration : [m/s2]$$
+$$a := Acceleration : [{m \over s^{2}}]$$
 
   
 Where $P_{max}$ is the maximum power of the traction. $P_{max}$ depends on two factors $F_{max}$ and $v_{F_{max}}$. Where $F_{max}$ is the overall maximum force the traction can deliver and where $v_{F_{max}}$ is the speed up to which the vehicle can deliver the maximum force. 
 
 The power consumption (for acceleration) must be positive and less than the maximum power of the traction $P_{max}$ and it cannot exceed the maximum force  $F_{max}$.
+
 $$0 <= P <= P_{max}$$
 
 $$P_{max} = F_{max} v_{F_{max}}$$
