@@ -35,8 +35,8 @@ class FlatlandRenderer:
         self.env_renderer = RenderTool(self.env,
                                        agent_render_variant=agent_render_variant,
                                        show_debug=show_debug,
-                                       screen_width=self.env.width * screen_width_scale,
-                                       screen_height=self.env.height * screen_height_scale)
+                                       screen_width=int(np.round(self.env.width * screen_width_scale)),
+                                       screen_height=int(np.round(self.env.height * screen_height_scale)))
         self.env_renderer.reset()
 
     def _disable_background_rendering(self):
@@ -72,8 +72,28 @@ class FlatlandRenderer:
                                      return_image=False)
 
         if self.update_window_size_for_fix_aspect_ration:
-            self.env_renderer.gl.window.set_size(self.env_renderer.gl.xPx * 8,
-                                                 self.env_renderer.gl.yPx * 8)
+
+            h, w = self.env_renderer.gl.window.get_size()
+            display = self.env_renderer.gl.window.display
+            screens = display.get_screens()
+            min_h = np.inf
+            min_w = np.inf
+            margin = 64
+            for s in screens:
+                min_w = min(min_w, s.width - 2 * margin)
+                min_h = min(min_h, s.height - 2 * margin)
+
+            h = min(h, min_h)
+            w = min(w, min_w)
+            a = h / self.env_renderer.gl.xPx
+            if h > w:
+                a = w / self.env_renderer.gl.yPx
+            width = int(np.round(self.env_renderer.gl.xPx * a))
+            height = int(np.round(self.env_renderer.gl.yPx * a))
+            self.env_renderer.gl.window.set_size(width, height)
+            self.env_renderer.gl.window.set_location(int(np.round((margin + max(0, min_w - width) / 2))),
+                                                     int(np.round((margin + max(0, min_h - height) / 2))))
+
             self.update_window_size_for_fix_aspect_ration = False
 
     def start_render_loop(self,
