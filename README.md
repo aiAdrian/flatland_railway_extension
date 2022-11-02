@@ -72,13 +72,13 @@ The goal of this extension package is that researchers can show where the limits
 
     
 
-$$F = m a := Force : [N]$$
+$$F = m a := Force : [kN]$$
 
-$$P = F v := Power : [W]$$
+$$P = F v := Power : [kW]$$
 
 $$v := Velocity : [{ m \over s}]$$
 
-$$m := Mass : [kg]$$ 
+$$m := Mass : [10^3kg]$$ 
 
 $$a := Acceleration : [{m \over s^{2}}]$$
 
