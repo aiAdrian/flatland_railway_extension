@@ -83,12 +83,14 @@ $$m := Mass : [kg]$$
 $$a := Acceleration : [m/s2]$$
 
   
-Where $P_{max}$ is the maximum power of the traction. $P_{max}$ depends on two factors v_max_traction and max_traction. Where v_max_traction $v_{max_{traction}}$ is the speed up to which the vehicle can deliver the maximum force and where max_traction $F_{max}$ is the overall maximum force the traction can deliver. 
+Where $P_{max}$ is the maximum power of the traction. $P_{max}$ depends on two factors $F_{max}$ and $v_{F_{max}}$. Where $F_{max}$ is the overall maximum force the traction can deliver and where $v_{F_{max}}$ is the speed up to which the vehicle can deliver the maximum force. 
 
 The power consumption (for acceleration) must be positive and less than the maximum power of the traction $P_{max}$ and it cannot exceed the maximum force  $F_{max}$.
 $$0 <= P <= P_{max}$$
 
-$$P_{max} = F_{max} v_{max_{traction}}  $$
+$$P_{max} = F_{max} v_{F_{max}}$$
+
+$$F <= \min({ P_{max} \over v} , F_{max})$$
 
 - [FlatlandDynamicsRendering](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/utils/FlatlandDynamicsRenderer.py)
   
