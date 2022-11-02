@@ -33,14 +33,14 @@ The goal of this extension package is that researchers can show where the limits
 
   ![RailroadSwitchAnalyser](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchAnalyser.png "RailroadSwitchAnalyser")
 
-  The figure shows the mapping of crossings (switches) and switch neighbours to the infrastructure.
+  The figure illustrates the mapping of crossings (switches) and switch neighbours to the infrastructure.
 <p align="center" width="100%">
     <img width="40%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/flatland_scenario_cell_types.png"> 
 </p>
 
 - [RailroadSwitchCluster](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/utils/FlatlandDynamicsRenderer.py)
   
-  The left illustration shows all connecting edges (cluster). The number shows the cluster id. Cells with the same cluster id belong to the same cluster. The right illustration shows all switch clusters. A switch cluster contains one or more crossing (switch) cells where each switch within the cluster are all neighbors. The switches in the same cluster have the same switch cluster id. 
+  The left illustration shows all connecting edges (cluster). The number represents the cluster id. Cells with the same cluster id belong to the same cluster. The right illustration shows all switch clusters. A switch cluster contains one or more crossing (switch) cells where each switch within the cluster are all neighbors. The switches in the same cluster have the same switch cluster id. 
   
   ![RailroadSwitchCluster](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchCluster.png "RailroadSwitchCluster")
 
@@ -54,7 +54,7 @@ The goal of this extension package is that researchers can show where the limits
 
 - [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandDynamics.py)
   
-  The diagram on the left shows the speed diagram for each train. The traveled distance [m] is plotted on the x-axis. The speed in kilometers per hour [km/h] is shown on the y-axis. The orange curve shows the maximum allowed speed. The blue curve is the simulated speed. The length of the train is easy to see because the last axle of the train must have allowed a higher speed, otherwise the train will not accelerate. The diagram on the right shows the acculeration [m/s] on the y-axis.  On the x-axis traveled distance [m] is plotted again.
+  The diagram on the left illustrates the speed diagram for each train. The traveled distance [m] is plotted on the x-axis. The speed in kilometers per hour [km/h] is shown on the y-axis. The orange curve shows the maximum allowed speed. The blue curve is the simulated speed. The length of the train is easy to see because the last axle of the train must have allowed a higher speed, otherwise the train will not accelerate. The diagram on the right illustrates the acculeration [m/s] on the y-axis.  On the x-axis traveled distance [m] is plotted again.
 
  ![FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics.png "FlatlandDynamics")
 
@@ -63,7 +63,7 @@ The goal of this extension package is that researchers can show where the limits
   
   The rolling stock data stores the technical characteristics of each locomotive, including tractive effort and speed limits. The [DynamicAgent](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/DynamicAgent.py) stores the physical properties such as mass and length of the complete train (agent) and requires the rolling stock data to simulate the tractive effort and acceleration.
   
-  The diagram shows the traction characteristics. The speed is plotted on the x-axis. The maximum tractive effort is plotted on the y-axis. Traction power is limited by the maximum force that traction can exert on the wheel and is further limited by the maximum power of the motor.
+  The figure illustrates the traction characteristics. The speed is plotted on the x-axis. The maximum tractive effort is plotted on the y-axis. Traction power is limited by the maximum force that traction can exert on the wheel and is further limited by the maximum power of the motor.
   
 <p align="center" width="100%">
     <img width="20%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics_RollingStock_tractive_effort.png "> 
