@@ -47,13 +47,13 @@ problems and there is might a solution which can solve it in raisonable time, bu
 improved. It's very exciting to see where the effective limits of each method lie and whether someone find a real-time
 solver of all kind of those problems.
 
-### Examples
+### Example
 
 <p align="center" width="100%">
     <img width="33%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/flatland_scenario.png"> 
 </p>
 
-### Functionalities
+### Functionality
 
 - [RailroadSwitchAnalyser](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/RailroadSwitchAnalyser.py)
 
