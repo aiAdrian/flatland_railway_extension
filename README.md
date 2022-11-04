@@ -53,7 +53,7 @@ solver of all kind of those problems.
     <img width="33%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/flatland_scenario.png"> 
 </p>
 
-### Functionality
+## Functionality
 
 - [RailroadSwitchAnalyser](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/RailroadSwitchAnalyser.py)
 
