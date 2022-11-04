@@ -53,6 +53,8 @@ solver of all kind of those problems.
     <img width="33%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/flatland_scenario.png"> 
 </p>
 
+### Functionalities
+
 - [RailroadSwitchAnalyser](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/RailroadSwitchAnalyser.py)
 
   The illustration on the left shows all crossings (switches) and the illustration on the right shows all switch
