@@ -4,19 +4,15 @@ This repo extends [Flatland Railway Simulator](https://gitlab.aicrowd.com/flatla
 
 ## Extended RailEnv
 
--
-class [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/XRailEnv.py)
-extends [RailEnv](https://gitlab.aicrowd.com/flatland/flatland/-/blob/master/flatland/envs/rail_env.py#L36)
+- class [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/XRailEnv.py) extends [RailEnv](https://gitlab.aicrowd.com/flatland/flatland/-/blob/master/flatland/envs/rail_env.py#L36) 
+  
+  XRailEnv is an extended version of the Flatland environment and supports multiple resources allocation to an agent at time.
 
-XRailEnv is an extended version of the Flatland environment and supports multiple resources allocation to an agent at
-time.
-
--
-class [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandDynamics.py)
+- class [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandDynamics.py)
 extends [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/XRailEnv.py)
 
-FlatlandDynamics extends XRailEnv and implements vehicle movement dynamics. The simulation takes into account rolling
-stock properties such as maximal allowed velocity and traction power, topology (gradient) and physical train length.
+  FlatlandDynamics extends XRailEnv and implements vehicle movement dynamics. The simulation takes into account rolling
+  stock properties such as maximal allowed velocity and traction power, topology (gradient) and physical train length.
 
 ## Features
 
@@ -35,8 +31,8 @@ Completely new experiments can be carried out using these extensions. In the cur
 resource can be assigned to an agent at time. This allows solving a simplified resource allocation problem for railway
 operation - which is certainly not far away from problems in real railway world. But no important features such as "
 Flankenschutz" or "Durchrutschweg" can be modeled. With
-the [multiple resource allocation technics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandResourceAllocator.py)
-- which allows to assigne more than one resource to an agent at time - this leads to a more realistic model and allows
+the [multiple resource allocation technics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandResourceAllocator.py) - 
+which allows to assigne more than one resource to an agent at time - this leads to a more realistic model and allows
 to model important aspects of railway safety. In consequence the modeling gets much more complex with respect of
 details/data requirement, but this leads to much more realistic simulation results. Another important aspect in the
 augmentation of reality is that the agents behave dynamically in terms of movement. Agents are able to dynamically
@@ -113,40 +109,42 @@ solver of all kind of those problems.
   is plotted on the y-axis. Traction power is limited by the maximum force that traction can exert on the wheel and is
   further limited by the maximum power of the motor.
 
-<p align="center" width="100%">
+
+  <p align="center" width="100%">
     <img width="20%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics_RollingStock_tractive_effort.png "> 
-</p>
+
+  </p>
 
 
 
 
-$$F = m a := Force : [kN]$$
+  $$F = m a := Force : [kN]$$
 
-$$P = F v := Power : [kW]$$
+  $$P = F v := Power : [kW]$$
 
-$$v := Velocity : [{ m \over s}]$$
+  $$v := Velocity : [{ m \over s}]$$
 
-$$m := Mass : [10^3kg]$$
+  $$m := Mass : [10^3kg]$$
 
-$$a := Acceleration : [{m \over s^{2}}]$$
+  $$a := Acceleration : [{m \over s^{2}}]$$
 
-Where $P_{max}$ is the maximum power of the traction. $P_{max}$ depends on two factors $F_{max}$ and $v_{F_{max}}$.
-Where $F_{max}$ is the overall maximum force the traction can deliver and where $v_{F_{max}}$ is the speed up to which
-the vehicle can deliver the maximum force.
+  Where $P_{max}$ is the maximum power of the traction. $P_{max}$ depends on two factors $F_{max}$ and $v_{F_{max}}$.
+  Where $F_{max}$ is the overall maximum force the traction can deliver and where $v_{F_{max}}$ is the speed up to which
+  the vehicle can deliver the maximum force.
 
-The power consumption (for acceleration) must be positive and less than the maximum power of the traction $P_{max}$ and
-it cannot exceed the maximum force $F_{max}$.
+  The power consumption (for acceleration) must be positive and less than the maximum power of the traction $P_{max}$ and
+  it cannot exceed the maximum force $F_{max}$.
 
-$$0 <= P <= P_{max}$$
+  $$0 <= P <= P_{max}$$
 
-$$P_{max} = F_{max} v_{F_{max}}$$
+  $$P_{max} = F_{max} v_{F_{max}}$$
 
-$$F <= \min({ P_{max} \over v} , F_{max})$$
+  $$F <= \min({ P_{max} \over v} , F_{max})$$
 
 - [FlatlandDynamicsRendering](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/utils/FlatlandDynamicsRenderer.py)
 
   Resources colored orange, red or black are occupied by the train. Orange indicates a resource reserved for the train
-  but not required by either the braking distance or the physical train. Red or black resources are security related.
+  but not required by either the braking distance or the physical train. Red and black resources are security related.
   Black is the physical train and red resources are needed for braking. The physical train can occupy more than one cell
   since the train length can be greater than the length of the underlaying cell. In the visualization, however, a train
   that would fit into one cell can also take up more than one cell if part of the train is in the next cell and part is
