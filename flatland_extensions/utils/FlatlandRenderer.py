@@ -59,6 +59,10 @@ class FlatlandRenderer:
         if disable_background_rendering:
             self._disable_background_rendering()
 
+        if len(self.env.dev_obs_dict) < 1:
+            for h in self.env.get_agent_handles():
+                self.env.dev_obs_dict.update({h: []})
+
         self.env_renderer.render_env(show=show,
                                      show_agents=self.show_agents,  # whether to include agents
                                      show_inactive_agents=False,  # whether to show agents before they start
