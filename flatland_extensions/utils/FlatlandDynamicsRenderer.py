@@ -21,9 +21,10 @@ class FlatlandDynamicsRenderer(FlatlandRenderer):
     def set_flatland_resource_allocator(self, flatland_resource_allocator: FlatlandResourceAllocator):
         self.flatland_resource_allocator = flatland_resource_allocator
 
-    def render(self, show=True, show_observations=True, show_predictions=False, disable_background_rendering=False):
+    def render(self, show=True, show_observations=True, show_predictions=False,
+               disable_background_rendering=False, show_rowcols=False):
         super(FlatlandDynamicsRenderer, self).render(show, show_observations, show_predictions,
-                                                     disable_background_rendering)
+                                                     disable_background_rendering, show_rowcols)
 
         if self.flatland_resource_allocator is not None:
             self.env_renderer.renderer.gl.clear_layer(4)
