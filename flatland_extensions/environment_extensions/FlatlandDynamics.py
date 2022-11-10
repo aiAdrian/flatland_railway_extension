@@ -85,6 +85,7 @@ from flatland.envs.observations import GlobalObsForRailEnv
 from flatland.envs.rail_env_action import RailEnvActions
 
 from flatland_extensions.environment_extensions.DynamicAgent import DynamicAgent
+from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
 from flatland_extensions.environment_extensions.XRailEnv import XRailEnv
 
 
@@ -120,22 +121,14 @@ class FlatlandDynamics(XRailEnv):
         for agent in self.agents:
             x_dynamic_agents.append(DynamicAgent(agent))
         self.agents = x_dynamic_agents
+        self._enforce_using_flatland_resource_allocator()
+
+    def _enforce_using_flatland_resource_allocator(self):
+        if not self.is_flatland_resource_allocator_activated():
+            self.activate_flatland_resource_allocator(FlatlandResourceAllocator(env=self))
 
     def step(self, action_dict_: Dict[int, RailEnvActions]):
-        if self._flatland_resource_allocator is not None:
-            self._flatland_resource_allocator.reset_locks()
-            for agent_handle, agent in enumerate(self.agents):
-                agent.all_resource_ok(self.allocate_current_resources(agent))
-        else:
-            for agent_handle, agent in enumerate(self.agents):
-                agent.all_resource_ok(True)
-
-        observations, all_rewards, done, info = super(XRailEnv, self).step(action_dict_=action_dict_)
-
-        self.dones["__all__"] = False
-        for agent in self.agents:
-            agent.update_agent()
-
+        observations, all_rewards, done, info = super(FlatlandDynamics, self).step(action_dict_=action_dict_)
         return observations, all_rewards, done, info
 
     def _handle_end_reward(self, agent):

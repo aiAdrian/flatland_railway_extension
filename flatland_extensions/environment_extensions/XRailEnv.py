@@ -51,6 +51,12 @@ class XRailEnv(RailEnv):
     def deactivate_flatland_resource_allocator(self):
         self._flatland_resource_allocator = None
 
+    def get_active_flatland_resource_allocator(self) -> FlatlandResourceAllocator:
+        return self._flatland_resource_allocator
+
+    def is_flatland_resource_allocator_activated(self) -> bool:
+        return self._flatland_resource_allocator != None
+
     def activate_railroad_switch_cluster_locking(self,
                                                  railroad_switch_cluster: RailroadSwitchCluster,
                                                  railroad_switch_cluster_switch_group_locking=True,
