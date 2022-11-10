@@ -122,6 +122,7 @@ class FlatlandDynamics(XRailEnv):
             x_dynamic_agents.append(DynamicAgent(agent))
         self.agents = x_dynamic_agents
         self._enforce_using_flatland_resource_allocator()
+        self.set_max_episode_steps(50000)
 
     def _enforce_using_flatland_resource_allocator(self):
         if not self.is_flatland_resource_allocator_activated():
