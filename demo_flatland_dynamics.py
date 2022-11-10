@@ -32,7 +32,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
                    railroad_switch_cluster: RailroadSwitchCluster,
                    railroad_switch_analyser: RailroadSwitchAnalyser,
                    enable_moving_block_resource_allocation_strategy=False):
-    env = flatland_environment_helper.get_rail_env()
+    env: FlatlandDynamics = flatland_environment_helper.get_rail_env()
     observations, info = env.reset()
 
     flatland_renderer = FlatlandDynamicsRenderer(
@@ -45,7 +45,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     # share the infrastructure with the agents ( train runs)
     for agent in env.agents:
         agent.set_infrastructure_data(
-            create_infrastructure_data(flatland_environment_helper.get_rail_env(), railroad_switch_analyser)
+            create_infrastructure_data(env, railroad_switch_analyser)
         )
         agent.rolling_stock.set_max_braking_acceleration(-0.15)
         agent.set_mass(500)
@@ -54,17 +54,16 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     # ---------------------------------------------------------------------------------------------------------------
     # Start simulation
     # ---------------------------------------------------------------------------------------------------------------
-    flatland_resource_allocator : FlatlandDynamics= \
-        flatland_environment_helper.get_rail_env().get_active_flatland_resource_allocator()
+    flatland_resource_allocator: FlatlandResourceAllocator = env.get_active_flatland_resource_allocator()
     flatland_resource_allocator.set_minimal_free_time_to_reallocate_other_agent(120)
 
     for step in range(10000):
         flatland_renderer.set_flatland_resource_allocator(flatland_resource_allocator)
         if not enable_moving_block_resource_allocation_strategy:
-            flatland_environment_helper.get_rail_env().activate_railroad_switch_cluster_locking(railroad_switch_cluster)
+            env.activate_railroad_switch_cluster_locking(railroad_switch_cluster)
 
         actions = {}
-        for agent_handle in flatland_environment_helper.get_rail_env().get_agent_handles():
+        for agent_handle in env.get_agent_handles():
             obs = observations[agent_handle]
             actions.update({agent_handle: RailEnvActions(obs[0])})
 
@@ -84,9 +83,9 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         flatland_renderer.start_render_loop()
     flatland_renderer.close()
 
-    flatland_environment_helper.get_rail_env().agents[3].do_debug_plot(1, 1, True)
-    for i_agent, agent in enumerate(flatland_environment_helper.get_rail_env().agents):
-        n_agents = flatland_environment_helper.get_rail_env().get_num_agents()
+    env.agents[3].do_debug_plot(1, 1, True)
+    for i_agent, agent in enumerate(env.agents):
+        n_agents = env.get_num_agents()
         agent.do_debug_plot(i_agent + 1, n_agents, i_agent + 1 == n_agents, i_agent == 0)
 
 
