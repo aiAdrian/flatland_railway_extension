@@ -40,6 +40,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         show_debug=True,
         show_agents=False)
 
+    # ---------------------------------------------------------------------------------------------------------------
     # Create a test infrastructure
     # ---------------------------------------------------------------------------------------------------------------
     # share the infrastructure with the agents ( train runs)
