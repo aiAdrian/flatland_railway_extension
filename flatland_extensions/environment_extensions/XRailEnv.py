@@ -116,11 +116,13 @@ class XRailEnv(RailEnv):
 
         observations, all_rewards, done, info = super(XRailEnv, self).step(action_dict_=action_dict_)
 
-        self.dones["__all__"] = False
         for agent in self.agents:
             agent.update_agent()
 
         return observations, all_rewards, done, info
+
+    def set_max_episode_steps(self, max_episode_steps):
+        self._max_episode_steps = max_episode_steps
 
     def _handle_end_reward(self, agent):
         return 0
