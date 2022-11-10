@@ -54,12 +54,12 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     # ---------------------------------------------------------------------------------------------------------------
     # Start simulation
     # ---------------------------------------------------------------------------------------------------------------
-    flatland_resource_allocator = FlatlandResourceAllocator(env=flatland_environment_helper.get_rail_env())
+    flatland_resource_allocator : FlatlandDynamics= \
+        flatland_environment_helper.get_rail_env().get_active_flatland_resource_allocator()
     flatland_resource_allocator.set_minimal_free_time_to_reallocate_other_agent(120)
 
     for step in range(10000):
         flatland_renderer.set_flatland_resource_allocator(flatland_resource_allocator)
-        flatland_environment_helper.get_rail_env().activate_flatland_resource_allocator(flatland_resource_allocator)
         if not enable_moving_block_resource_allocation_strategy:
             flatland_environment_helper.get_rail_env().activate_railroad_switch_cluster_locking(railroad_switch_cluster)
 
