@@ -46,4 +46,3 @@ class ShortestPathNextStepObservation(ObservationBuilder):
                     min_distances.append(np.inf)
 
             return [RailEnvActions(np.argmin(min_distances))]
-
