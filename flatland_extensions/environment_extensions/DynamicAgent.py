@@ -235,7 +235,11 @@ class DynamicAgent(XAgent):
         self._max_episode_steps = 10000
         pos = self.position
         if pos is not None:
-            if pos not in self.get_allocated_resource():
+            # The resource is only added if it was not the last one added - i.e. the agent switched to a new one.
+            allocated_resource = self.get_allocated_resource()
+            if len(allocated_resource) > 0:
+                allocated_resource = [allocated_resource[len(allocated_resource) - 1]]
+            if pos not in allocated_resource:
                 self.visited_cell_path.append(self.position)
                 self.visited_direction_path.append((self.direction, self.old_direction))
                 cell_data = DynamicsResourceData(pos, self._infrastructure_data)
