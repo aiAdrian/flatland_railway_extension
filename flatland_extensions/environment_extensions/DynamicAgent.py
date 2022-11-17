@@ -248,23 +248,22 @@ class DynamicAgent(XAgent):
                 self.visited_cell_path_reservation_point_index = len(self.visited_cell_path)
 
             # update current position of the agent's end with respect to visited cells
-            end_of_agent_idx = np.argwhere(np.array(self.visited_cell_distance) > self.current_distance_agent)
-            if len(end_of_agent_idx) == 0:
-                if len(self.visited_cell_distance) == 0:
-                    self.visited_cell_path_end_of_agent_index = 0
-            else:
-                self.visited_cell_path_end_of_agent_index = end_of_agent_idx[0][0]
+            self.visited_cell_path_end_of_agent_index = DynamicAgent.get_first_element_index_greater_than(
+                input_list=self.visited_cell_distance,
+                cmp_value=self.current_distance_agent,
+                start_index=self.visited_cell_path_end_of_agent_index
+            )
+
             if self.visited_cell_path_end_of_agent_index >= self.visited_cell_path_reservation_point_index:
                 self.visited_cell_path_end_of_agent_index = self.visited_cell_path_reservation_point_index - 1
 
             # update current position of the agent' start with respect to visited cells
-            start_of_agent_idx = np.argwhere(np.array(self.visited_cell_distance) >
-                                             self.current_distance_agent + self.length)
-            if len(start_of_agent_idx) == 0:
-                if len(self.visited_cell_distance) == 0:
-                    self.visited_cell_path_start_of_agent_index = 0
-            else:
-                self.visited_cell_path_start_of_agent_index = start_of_agent_idx[0][0]
+            self.visited_cell_path_start_of_agent_index = DynamicAgent.get_first_element_index_greater_than(
+                input_list=self.visited_cell_distance,
+                cmp_value=self.current_distance_agent + self.length,
+                start_index=self.visited_cell_path_start_of_agent_index
+            )
+
             if self.visited_cell_path_start_of_agent_index >= self.visited_cell_path_reservation_point_index:
                 self.visited_cell_path_start_of_agent_index = self.visited_cell_path_reservation_point_index - 1
 
@@ -315,6 +314,28 @@ class DynamicAgent(XAgent):
 
     def set_tractive_effort_rendering(self, enable=True):
         self._enabled_tractive_effort_rendering = enable
+
+    @staticmethod
+    def get_first_element_index_greater_than(input_list, cmp_value, start_index=0):
+        '''
+        This methods calculates the same as ...
+
+        indices = np.argwhere(np.array(input_list) > cmp_value)
+        if len(indices) == 0:
+            if len(self.visited_cell_distance) == 0:
+                return 0
+        else:
+            return indices[0][0]
+
+        ... but 20x faster for small input_lists
+        '''
+        idx = start_index
+        while idx < (len(input_list) - 1):
+            val = input_list[idx]
+            if val > cmp_value:
+                return idx
+            idx += 1
+        return idx
 
     def do_debug_plot(self, idx=1, nbr_agents=1, show=True, show_title=True):
         plt.rc('font', size=6)
