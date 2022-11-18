@@ -105,15 +105,13 @@ class DynamicAgent(XAgent):
 
         self.current_max_velocity = edge_train_point.max_velocity
 
-        velocity_max_array = np.array([edge_train_point.max_velocity, edge_reservation_point.max_velocity,
-                                       self.get_max_agent_velocity()])
-        max_velocity = np.min(velocity_max_array)
+        max_velocity = min(min(edge_train_point.max_velocity, edge_reservation_point.max_velocity),
+                           self.get_max_agent_velocity())
 
         pos_on_edge = self.visited_cell_path_end_of_agent_distance - self.current_distance_agent
         distance_between_cs_rp_cs_tp = max(0.0, edge_train_point.distance - pos_on_edge)
         allocated_resources_list = self.get_allocated_resource()
-        intern_max_velocity_array = np.array([edge_train_point.max_velocity, self.get_max_agent_velocity()])
-        intern_max_velocity = np.min(intern_max_velocity_array)
+        intern_max_velocity = min(edge_train_point.max_velocity, self.get_max_agent_velocity())
         distance_update_allowed = True
 
         # ---------------------------------------------------------------------------------------------------
