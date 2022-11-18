@@ -23,19 +23,19 @@ class InfrastructureData:
         if res is None:
             return 200 / 3.6
         if self._infrastructure_max_velocity_grid is not None:
-            return self._infrastructure_max_velocity_grid[res[0], res[1]]
+            return self._infrastructure_max_velocity_grid[(res[0], res[1])]
         return 200 / 3.6
 
     def get_cell_length(self, res: Tuple[int, int]):
         if res is None:
             return 400
         if self._infrastructure_cell_length_grid is not None:
-            return self._infrastructure_cell_length_grid[res[0], res[1]]
+            return self._infrastructure_cell_length_grid[(res[0], res[1])]
         return 400
 
     def get_gradient(self, res: Tuple[int, int]):
         if res is None:
             return 0
         if self._infrastructure_gradient_grid is not None:
-            return self._infrastructure_gradient_grid[res[0], res[1]]
+            return self._infrastructure_gradient_grid[(res[0], res[1])]
         return 0
