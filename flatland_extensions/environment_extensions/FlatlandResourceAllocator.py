@@ -174,9 +174,9 @@ class FlatlandResourceAllocator:
 
         for h in range(self.env.height):
             for w in range(self.env.width):
-                if self.env.rail.grid[h][w] == 0:
-                    resource_lock_grid_image[h][w] = np.nan
-                    resource_lock_timestamp_image[h][w] = np.nan
+                if self.env.rail.grid[(h, w)] == 0:
+                    resource_lock_grid_image[(h, w)] = np.nan
+                    resource_lock_timestamp_image[(h, w)] = np.nan
 
         plt.rc('font', size=4)
         ax1 = plt.subplot(1, 2, 1)
