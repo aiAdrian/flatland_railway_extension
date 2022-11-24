@@ -8,10 +8,12 @@ import numpy as np
 from flatland.envs.agent_utils import EnvAgent
 from matplotlib import pyplot as plt
 
-from flatland_extensions.environment_extensions.DynamicsResourceData import DynamicsResourceData
 from flatland_extensions.environment_extensions.InfrastructureData import InfrastructureData
 from flatland_extensions.environment_extensions.RollingStock import RollingStock
 from flatland_extensions.environment_extensions.XAgent import XAgent
+from flatland_extensions.utils.cached_methods import min_cached, max_cached, get_cached_dynamics_resource_data
+from flatland_extensions.utils.cached_methods import get_cached_accelerations_and_tractive_effort
+from flatland_extensions.utils.cached_methods import reset_infrastructure_data_lru_cache
 
 
 class DynamicAgent(XAgent):
@@ -63,9 +65,10 @@ class DynamicAgent(XAgent):
         self._enabled_tractive_effort_rendering = False
 
     def get_max_agent_velocity(self):
-        return min(self.rolling_stock.max_velocity, self.v_max_simulation)
+        return min_cached(self.rolling_stock.max_velocity, self.v_max_simulation)
 
     def set_infrastructure_data(self, infrastructure_data: InfrastructureData):
+        reset_infrastructure_data_lru_cache()
         self._infrastructure_data = infrastructure_data
 
     def get_allocated_resource(self) -> List[Tuple[int, int]]:
@@ -99,19 +102,20 @@ class DynamicAgent(XAgent):
         velocity_agent_tp = self.current_velocity_agent
 
         edge_train_point = \
-            DynamicsResourceData(self.get_allocated_train_point_resource(), self._infrastructure_data)
+            get_cached_dynamics_resource_data(self.get_allocated_train_point_resource(), self._infrastructure_data)
         edge_reservation_point = \
-            DynamicsResourceData(self.get_allocated_reservation_point_resource(), self._infrastructure_data)
+            get_cached_dynamics_resource_data(self.get_allocated_reservation_point_resource(),
+                                              self._infrastructure_data)
 
         self.current_max_velocity = edge_train_point.max_velocity
 
-        max_velocity = min(min(edge_train_point.max_velocity, edge_reservation_point.max_velocity),
-                           self.get_max_agent_velocity())
+        max_velocity = min_cached(min_cached(edge_train_point.max_velocity, edge_reservation_point.max_velocity),
+                                  self.get_max_agent_velocity())
 
         pos_on_edge = self.visited_cell_path_end_of_agent_distance - self.current_distance_agent
-        distance_between_cs_rp_cs_tp = max(0.0, edge_train_point.distance - pos_on_edge)
+        distance_between_cs_rp_cs_tp = max_cached(0.0, edge_train_point.distance - pos_on_edge)
         allocated_resources_list = self.get_allocated_resource()
-        intern_max_velocity = min(edge_train_point.max_velocity, self.get_max_agent_velocity())
+        intern_max_velocity = min_cached(edge_train_point.max_velocity, self.get_max_agent_velocity())
         distance_update_allowed = True
 
         # ---------------------------------------------------------------------------------------------------
@@ -121,14 +125,14 @@ class DynamicAgent(XAgent):
         # ---------------------------------------------------------------------------------------------------
 
         for i_res, res in enumerate(allocated_resources_list):
-            edge = DynamicsResourceData(res, self._infrastructure_data)
-            intern_max_velocity = min(intern_max_velocity, edge.max_velocity)
+            edge = get_cached_dynamics_resource_data(res, self._infrastructure_data)
+            intern_max_velocity = min_cached(intern_max_velocity, edge.max_velocity)
             if velocity_agent_tp > intern_max_velocity:
                 distance_update_allowed = False
             if distance_update_allowed and i_res > 0:
                 distance_between_cs_rp_cs_tp += edge.distance
 
-        max_velocity = min(max_velocity, intern_max_velocity)
+        max_velocity = min_cached(max_velocity, intern_max_velocity)
 
         # get gradient (orientation)
         current_tp_gradient = mean_gradient
@@ -136,13 +140,14 @@ class DynamicAgent(XAgent):
             current_tp_gradient = - mean_gradient
 
         acceleration_train_point, max_braking_acceleration, current_tractive_effort = \
-            self.rolling_stock.get_accelerations_and_tractive_effort(velocity_agent_tp,
-                                                                     max_velocity,
-                                                                     current_tp_gradient,
-                                                                     self.mass,
-                                                                     time_step)
+            get_cached_accelerations_and_tractive_effort(self.rolling_stock,
+                                                         velocity_agent_tp,
+                                                         max_velocity,
+                                                         current_tp_gradient,
+                                                         self.mass,
+                                                         time_step)
 
-        acceleration_reservation_point = max(0.0, acceleration_train_point)
+        acceleration_reservation_point = max_cached(0.0, acceleration_train_point)
         acceleration_reservation_point = acceleration_reservation_point + \
                                          acceleration_reservation_point * acceleration_reservation_point / \
                                          abs(max_braking_acceleration)
@@ -217,7 +222,7 @@ class DynamicAgent(XAgent):
         # Behavior of the train, reservation point position air return, in case of full braking.
         current_braking_distance = 0.5 * (
                 self.current_velocity_agent * self.current_velocity_agent) / abs(max_braking_acceleration) + self.length
-        delta_pos_rp = max(0.0, (
+        delta_pos_rp = max_cached(0.0, (
                 self.current_distance_agent + current_braking_distance) - self.current_distance_reservation_point)
         self.current_distance_reservation_point += delta_pos_rp
         self.current_velocity_reservation_point = velocity_reservation_point + \
@@ -240,7 +245,7 @@ class DynamicAgent(XAgent):
             if pos not in allocated_resource:
                 self.visited_cell_path.append(self.position)
                 self.visited_direction_path.append((self.direction, self.old_direction))
-                cell_data = DynamicsResourceData(pos, self._infrastructure_data)
+                cell_data = get_cached_dynamics_resource_data(pos, self._infrastructure_data)
                 self.visited_cell_path_reservation_point_distance += cell_data.distance
                 self.visited_cell_distance.append(self.visited_cell_path_reservation_point_distance)
                 self.visited_cell_path_reservation_point_index = len(self.visited_cell_path)

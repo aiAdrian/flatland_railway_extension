@@ -1,3 +1,4 @@
+
 class RollingStock:
     def __init__(self,
                  max_traction=210000.0,
@@ -104,3 +105,5 @@ class RollingStock:
             max_braking_acceleration = max_braking_acceleration + train_acceleration
 
         return train_acceleration, max_braking_acceleration, max_tractive_effort
+
+

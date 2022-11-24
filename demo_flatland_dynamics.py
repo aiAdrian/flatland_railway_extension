@@ -122,5 +122,5 @@ railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroa
 run_simulation(flatland_environment_helper,
                railroad_switch_cluster,
                railroad_switch_analyser,
-               enable_moving_block_resource_allocation_strategy=False,
+               enable_moving_block_resource_allocation_strategy=True,
                enable_rendering=True)
