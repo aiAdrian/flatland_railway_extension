@@ -50,7 +50,7 @@ class RailroadSwitchAnalyser:
                     self.railroad_dead_end.append(pos)
                     if self.handle_dead_end_as_a_switch:
                         self.railroad_switches.update({pos: [i for i in range(4)]})
-                if self.env.rail.grid[h][w] == diamond:
+                if self.env.rail.grid[(h, w)] == diamond:
                     # diamond crossing
                     self.railroad_diamond_crossing.append(pos)
                     if self.handle_diamond_crossing_as_a_switch:
@@ -148,7 +148,7 @@ class RailroadSwitchAnalyser:
         for h in range(self.env.height):
             for w in range(self.env.width):
                 # look one step forward
-                if self.env.rail.grid[h][w] > 0:
+                if self.env.rail.grid[(h, w)] > 0:
                     switch_image[(h, w)] = 1
                     switches_neighbours_image[(h, w)] = 1
 

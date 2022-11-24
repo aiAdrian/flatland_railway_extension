@@ -135,8 +135,8 @@ class RailroadSwitchCluster:
 
         for cow in range(1, h + 1):
             for col in range(1, w + 1):
-                root = self._find_cluster_label(padded_binary_image[cow][col])
-                padded_binary_image[cow][col] = root
+                root = self._find_cluster_label(padded_binary_image[(cow, col)])
+                padded_binary_image[(cow, col)] = root
 
         self.railroad_switch_cluster_grid = padded_binary_image[1:, 1:]
         for h in range(self.env.height):
@@ -166,12 +166,12 @@ class RailroadSwitchCluster:
         for h in range(self.env.height):
             for w in range(self.env.width):
                 # look one step forward
-                if self.env.rail.grid[h][w] > 0:
+                if self.env.rail.grid[(h, w)] > 0:
                     if self.connecting_edge_cluster_grid[(h, w)] > 0:
                         connecting_edge_cells.append((h, w))
                 else:
-                    connecting_edge_cluster_grid_image[h][w] = np.nan
-                    railroad_switch_cluster_grid_image[h][w] = np.nan
+                    connecting_edge_cluster_grid_image[(h, w)] = np.nan
+                    railroad_switch_cluster_grid_image[(h, w)] = np.nan
 
         print('railroad_switch_cluster_grid')
         print(self.railroad_switch_cluster_grid)
