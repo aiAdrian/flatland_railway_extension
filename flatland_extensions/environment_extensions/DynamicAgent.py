@@ -2,18 +2,34 @@
 # Permission to use - If you use this or any idea out of this code for a
 # publication, you must credit the authors. No commerical
 # use allowed.
+from functools import lru_cache
 from typing import Tuple, List, Union
 
 import numpy as np
 from flatland.envs.agent_utils import EnvAgent
 from matplotlib import pyplot as plt
 
+from flatland_extensions.environment_extensions.DynamicsResourceData import DynamicsResourceData
 from flatland_extensions.environment_extensions.InfrastructureData import InfrastructureData
 from flatland_extensions.environment_extensions.RollingStock import RollingStock
 from flatland_extensions.environment_extensions.XAgent import XAgent
-from flatland_extensions.utils.cached_methods import min_cached, max_cached, get_cached_dynamics_resource_data
-from flatland_extensions.utils.cached_methods import get_cached_accelerations_and_tractive_effort
-from flatland_extensions.utils.cached_methods import reset_infrastructure_data_lru_cache
+from flatland_extensions.utils.cached_methods import min_cached, max_cached
+
+_infrastructure_lru_cache_functions = []
+
+
+def enable_infrastructure_data_lru_cache(*args, **kwargs):
+    def decorator(func):
+        func = lru_cache(*args, **kwargs)(func)
+        _infrastructure_lru_cache_functions.append(func)
+        return func
+
+    return decorator
+
+
+def reset_infrastructure_data_lru_cache():
+    for func in _infrastructure_lru_cache_functions:
+        func.cache_clear()
 
 
 class DynamicAgent(XAgent):
@@ -93,6 +109,26 @@ class DynamicAgent(XAgent):
             return None
         return self.visited_cell_path[len(self.visited_cell_path) - 1]
 
+    @staticmethod
+    @enable_infrastructure_data_lru_cache(maxsize=1_000_000)
+    def get_cached_dynamics_resource_data(res: Tuple[int, int],
+                                          infrastructure_data: InfrastructureData) -> DynamicsResourceData:
+        return DynamicsResourceData(res, infrastructure_data)
+
+    @staticmethod
+    @lru_cache(maxsize=4096)
+    def get_cached_accelerations_and_tractive_effort(obj: RollingStock,
+                                                     current_velocity,
+                                                     max_allowed_velocity,
+                                                     current_gradient,
+                                                     train_total_mass,
+                                                     simulation_time_step):
+        return obj.get_accelerations_and_tractive_effort(current_velocity,
+                                                         max_allowed_velocity,
+                                                         current_gradient,
+                                                         train_total_mass,
+                                                         simulation_time_step)
+
     def update_movement_dynamics(self):
         if self.position is None:
             return True
@@ -102,10 +138,11 @@ class DynamicAgent(XAgent):
         velocity_agent_tp = self.current_velocity_agent
 
         edge_train_point = \
-            get_cached_dynamics_resource_data(self.get_allocated_train_point_resource(), self._infrastructure_data)
+            DynamicAgent.get_cached_dynamics_resource_data(self.get_allocated_train_point_resource(),
+                                                           self._infrastructure_data)
         edge_reservation_point = \
-            get_cached_dynamics_resource_data(self.get_allocated_reservation_point_resource(),
-                                              self._infrastructure_data)
+            DynamicAgent.get_cached_dynamics_resource_data(self.get_allocated_reservation_point_resource(),
+                                                           self._infrastructure_data)
 
         self.current_max_velocity = edge_train_point.max_velocity
 
@@ -125,7 +162,7 @@ class DynamicAgent(XAgent):
         # ---------------------------------------------------------------------------------------------------
 
         for i_res, res in enumerate(allocated_resources_list):
-            edge = get_cached_dynamics_resource_data(res, self._infrastructure_data)
+            edge = DynamicAgent.get_cached_dynamics_resource_data(res, self._infrastructure_data)
             intern_max_velocity = min_cached(intern_max_velocity, edge.max_velocity)
             if velocity_agent_tp > intern_max_velocity:
                 distance_update_allowed = False
@@ -140,12 +177,12 @@ class DynamicAgent(XAgent):
             current_tp_gradient = - mean_gradient
 
         acceleration_train_point, max_braking_acceleration, current_tractive_effort = \
-            get_cached_accelerations_and_tractive_effort(self.rolling_stock,
-                                                         velocity_agent_tp,
-                                                         max_velocity,
-                                                         current_tp_gradient,
-                                                         self.mass,
-                                                         time_step)
+            DynamicAgent.get_cached_accelerations_and_tractive_effort(self.rolling_stock,
+                                                                      velocity_agent_tp,
+                                                                      max_velocity,
+                                                                      current_tp_gradient,
+                                                                      self.mass,
+                                                                      time_step)
 
         acceleration_reservation_point = max_cached(0.0, acceleration_train_point)
         acceleration_reservation_point = acceleration_reservation_point + \
@@ -245,7 +282,7 @@ class DynamicAgent(XAgent):
             if pos not in allocated_resource:
                 self.visited_cell_path.append(self.position)
                 self.visited_direction_path.append((self.direction, self.old_direction))
-                cell_data = get_cached_dynamics_resource_data(pos, self._infrastructure_data)
+                cell_data = DynamicAgent.get_cached_dynamics_resource_data(pos, self._infrastructure_data)
                 self.visited_cell_path_reservation_point_distance += cell_data.distance
                 self.visited_cell_distance.append(self.visited_cell_path_reservation_point_distance)
                 self.visited_cell_path_reservation_point_index = len(self.visited_cell_path)
