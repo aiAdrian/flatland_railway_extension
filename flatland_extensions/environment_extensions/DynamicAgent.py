@@ -78,7 +78,6 @@ class DynamicAgent(XAgent):
         self.acceleration_agent_tp_simulation_data = []
 
         self._removed_from_board = False
-        self._done = False
 
         # debug plot
         self._enabled_tractive_effort_rendering = False
@@ -95,12 +94,6 @@ class DynamicAgent(XAgent):
 
     def is_removed_from_board(self):
         return self._removed_from_board
-
-    def mark_done(self):
-        self._done = True
-
-    def is_done(self):
-        return self._done
 
     def get_allocated_resource(self) -> List[Tuple[int, int]]:
         if self.is_removed_from_board():

@@ -11,6 +11,7 @@ class XAgent(EnvAgent):
 
         # copy all attributes data from original EnvAgent allocated in RailEnv
         self._copy_attribute_from_env_agent(original_env_agent)
+        self._done = False
 
     def _copy_attribute_from_env_agent(self, env_agent: EnvAgent):
         '''
@@ -19,6 +20,12 @@ class XAgent(EnvAgent):
         '''
         for attribute, value in env_agent.__dict__.items():
             setattr(self, attribute, value)
+
+    def mark_done(self):
+        self._done = True
+
+    def is_done(self):
+        return self._done
 
     def get_allocated_resource(self) -> List[Tuple[int, int]]:
         if self.position is not None:

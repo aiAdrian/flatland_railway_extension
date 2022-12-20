@@ -45,7 +45,7 @@ class ShortestPathNextStepObservation(ObservationBuilder):
                 else:
                     min_distances.append(np.inf)
 
-            ret = RailEnvActions(np.argmin(min_distances))
+            ret = RailEnvActions(np.argmin(min_distances) + 1)
             if ret == RailEnvActions.DO_NOTHING:
                 ret = RailEnvActions.MOVE_FORWARD
             return [ret]

@@ -47,12 +47,13 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
                 env=flatland_environment_helper.get_rail_env(),
                 show_debug=True,
                 show_agents=False,
-                fix_aspect_ration=True)
+                fix_aspect_ration=False)
         else:
             flatland_renderer = FlatlandRenderer(
                 env=flatland_environment_helper.get_rail_env(),
                 show_debug=True,
-                show_agents=True)
+                show_agents=True,
+                fix_aspect_ration=False)
 
     # Create a test infrastructure
     # ---------------------------------------------------------------------------------------------------------------
@@ -116,6 +117,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
 
 # -----------------------------------------------------------------------------------------------------------------
 flatland_environment_helper = FlatlandEnvironmentHelper(rail_env=FlatlandDynamics,
+                                                        number_of_agents=10,
                                                         random_seed=2341)
 railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helper.get_rail_env())
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
