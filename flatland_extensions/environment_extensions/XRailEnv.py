@@ -133,22 +133,25 @@ class XRailEnv(RailEnv):
     def preprocess_action(self, action, agent):
         preprocessed_action = super(XRailEnv, self).preprocess_action(action, agent)
 
-        if self._flatland_resource_allocator is not None:
-            # Try moving actions on current position
-            current_position, current_direction = agent.position, agent.direction
-            if current_position is None:  # Agent not added on map yet
-                current_position, current_direction = agent.initial_position, agent.initial_direction
+        if agent.is_done():
+            preprocessed_action = RailEnvActions.STOP_MOVING
+        else:
+            if self._flatland_resource_allocator is not None:
+                # Try moving actions on current position
+                current_position, current_direction = agent.position, agent.direction
+                if current_position is None:  # Agent not added on map yet
+                    current_position, current_direction = agent.initial_position, agent.initial_direction
 
-            new_position, new_direction = env_utils.apply_action_independent(preprocessed_action,
-                                                                             self.rail,
-                                                                             current_position,
-                                                                             current_direction)
+                new_position, new_direction = env_utils.apply_action_independent(preprocessed_action,
+                                                                                 self.rail,
+                                                                                 current_position,
+                                                                                 current_direction)
 
-            if preprocessed_action.is_moving_action():
-                if not self.allocate_resources_at_position(agent, new_position):
-                    agent.all_resource_ok(False)
-                    self.motionCheck.addAgent(agent.handle, agent.position, agent.position)
-                    preprocessed_action = RailEnvActions.STOP_MOVING
+                if preprocessed_action.is_moving_action():
+                    if not self.allocate_resources_at_position(agent, new_position):
+                        agent.all_resource_ok(False)
+                        self.motionCheck.addAgent(agent.handle, agent.position, agent.position)
+                        preprocessed_action = RailEnvActions.STOP_MOVING
 
         preprocessed_action = self.post_preprocess_action(preprocessed_action, agent)
 
