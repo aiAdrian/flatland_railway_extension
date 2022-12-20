@@ -46,7 +46,8 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
             flatland_renderer = FlatlandDynamicsRenderer(
                 env=flatland_environment_helper.get_rail_env(),
                 show_debug=True,
-                show_agents=False)
+                show_agents=False,
+                fix_aspect_ration=True)
         else:
             flatland_renderer = FlatlandRenderer(
                 env=flatland_environment_helper.get_rail_env(),

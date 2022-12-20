@@ -129,8 +129,26 @@ class FlatlandDynamics(XRailEnv):
             self.activate_flatland_resource_allocator(FlatlandResourceAllocator(env=self))
 
     def step(self, action_dict_: Dict[int, RailEnvActions]):
-        observations, all_rewards, done, info = super(FlatlandDynamics, self).step(action_dict_=action_dict_)
-        return observations, all_rewards, done, info
+        observations, all_rewards, dones, info = super(FlatlandDynamics, self).step(action_dict_=action_dict_)
+        dones_all = dones["__all__"]
+        for agent_handle, agent in enumerate(self.agents):
+            if dones[agent_handle]:
+                agent.mark_done()
+
+            if agent.is_done():
+                if agent.current_velocity_agent > 0:
+                    agent.position = agent.target
+                    agent.set_hard_brake(True)
+                    agent.update_movement_dynamics()
+                    dones[agent_handle] = False
+                    dones_all = False
+                else:
+                    if self.remove_agents_at_target:
+                        agent.position = None
+                        agent.remove_agent_from_board()
+
+        dones["__all__"] = dones_all
+        return observations, all_rewards, dones, info
 
     def _handle_end_reward(self, agent):
         return 0
@@ -141,11 +159,11 @@ class FlatlandDynamics(XRailEnv):
         if preprocessed_action == RailEnvActions.STOP_MOVING:
             agent.set_hard_brake(True)
 
-        if not agent.update_movement_dynamics():
-            self.motionCheck.addAgent(agent.handle, agent.position, agent.position)
+        if agent.position != agent.target:
+            if not agent.update_movement_dynamics():
+                self.motionCheck.addAgent(agent.handle, agent.position, agent.position)
+                preprocessed_action = RailEnvActions.STOP_MOVING
+        else:
             preprocessed_action = RailEnvActions.STOP_MOVING
-
-        if preprocessed_action == RailEnvActions.DO_NOTHING:
-            preprocessed_action = RailEnvActions.MOVE_FORWARD
 
         return preprocessed_action
