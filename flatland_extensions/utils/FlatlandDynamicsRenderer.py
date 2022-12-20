@@ -48,7 +48,7 @@ class FlatlandDynamicsRenderer(FlatlandRenderer):
                     self.draw_box(res, color=[1.0, 0.8, 0.0], linewidth=3, draw_cell_size=0.8)
                     self.draw_box(res, color=agent_color, linewidth=3, draw_cell_size=0.05)
 
-                if len(agent.visited_cell_path) > 0:
+                if len(agent.visited_cell_path) > 0 and not agent.is_removed_from_board():
                     braking_res = agent.visited_cell_path[
                                   agent.visited_cell_path_end_of_agent_index:
                                   agent.visited_cell_path_reservation_point_index + 1]

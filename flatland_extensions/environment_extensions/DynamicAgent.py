@@ -77,6 +77,9 @@ class DynamicAgent(XAgent):
         self.max_velocity_agent_tp_simulation_data = []
         self.acceleration_agent_tp_simulation_data = []
 
+        self._removed_from_board = False
+        self._done = False
+
         # debug plot
         self._enabled_tractive_effort_rendering = False
 
@@ -87,7 +90,21 @@ class DynamicAgent(XAgent):
         reset_infrastructure_data_lru_cache()
         self._infrastructure_data = infrastructure_data
 
+    def remove_agent_from_board(self):
+        self._removed_from_board = True
+
+    def is_removed_from_board(self):
+        return self._removed_from_board
+
+    def mark_done(self):
+        self._done = True
+
+    def is_done(self):
+        return self._done
+
     def get_allocated_resource(self) -> List[Tuple[int, int]]:
+        if self.is_removed_from_board():
+            return []
         if len(self.visited_cell_path) <= self.visited_cell_path_end_of_agent_index:
             return self.visited_cell_path
         if len(self.visited_cell_path) < self.visited_cell_path_reservation_point_index:
@@ -100,11 +117,15 @@ class DynamicAgent(XAgent):
                self.visited_cell_path_end_of_agent_index:self.visited_cell_path_reservation_point_index]
 
     def get_allocated_train_point_resource(self) -> Union[Tuple[int, int], None]:
+        if self.is_removed_from_board():
+            return None
         if len(self.visited_cell_path) <= self.visited_cell_path_end_of_agent_index:
             return self.position
         return self.visited_cell_path[self.visited_cell_path_end_of_agent_index]
 
     def get_allocated_reservation_point_resource(self) -> Union[Tuple[int, int], None]:
+        if self.is_removed_from_board():
+            return None
         if len(self.visited_cell_path) == 0:
             return None
         return self.visited_cell_path[len(self.visited_cell_path) - 1]
