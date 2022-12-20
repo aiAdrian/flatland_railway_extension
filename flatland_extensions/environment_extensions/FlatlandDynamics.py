@@ -136,7 +136,11 @@ class FlatlandDynamics(XRailEnv):
         return 0
 
     def post_preprocess_action(self, action, agent):
-        preprocessed_action = action
+        preprocessed_action = super(XRailEnv, self).preprocess_action(action, agent)
+
+        if preprocessed_action == RailEnvActions.STOP_MOVING:
+            agent.set_hard_brake(True)
+
         if not agent.update_movement_dynamics():
             self.motionCheck.addAgent(agent.handle, agent.position, agent.position)
             preprocessed_action = RailEnvActions.STOP_MOVING
