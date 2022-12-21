@@ -9,11 +9,11 @@ import numpy as np
 from flatland.envs.agent_utils import EnvAgent
 from matplotlib import pyplot as plt
 
-from flatland_railway_extensions.environments.DynamicsResourceData import DynamicsResourceData
-from flatland_railway_extensions.environments.InfrastructureData import InfrastructureData
-from flatland_railway_extensions.environments.RollingStock import RollingStock
-from flatland_railway_extensions.environments.XAgent import XAgent
-from flatland_railway_extensions.utils.cached_methods import min_cached, max_cached
+from flatland_railway_extension.environments.DynamicsResourceData import DynamicsResourceData
+from flatland_railway_extension.environments.InfrastructureData import InfrastructureData
+from flatland_railway_extension.environments.RollingStock import RollingStock
+from flatland_railway_extension.environments.XAgent import XAgent
+from flatland_railway_extension.utils.cached_methods import min_cached, max_cached
 
 _infrastructure_lru_cache_functions = []
 

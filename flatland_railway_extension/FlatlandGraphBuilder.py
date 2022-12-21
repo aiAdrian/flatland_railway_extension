@@ -13,7 +13,7 @@ from flatland.envs.fast_methods import fast_position_equal, fast_argmax
 from matplotlib import pyplot as plt
 from networkx.classes.reportviews import OutEdgeView
 
-from flatland_railway_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
+from flatland_railway_extension.RailroadSwitchAnalyser import RailroadSwitchAnalyser
 
 
 class FlatlandGraphBuilder:

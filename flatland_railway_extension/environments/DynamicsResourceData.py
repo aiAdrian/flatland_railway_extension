@@ -1,6 +1,6 @@
 from typing import Tuple
 
-from flatland_railway_extensions.environments.InfrastructureData import InfrastructureData
+from flatland_railway_extension.environments.InfrastructureData import InfrastructureData
 
 
 class DynamicsResourceData:

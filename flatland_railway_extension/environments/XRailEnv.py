@@ -6,9 +6,9 @@ from flatland.envs.rail_env import RailEnv
 from flatland.envs.rail_env_action import RailEnvActions
 from flatland.envs.step_utils import env_utils
 
-from flatland_railway_extensions.RailroadSwitchCluster import RailroadSwitchCluster
-from flatland_railway_extensions.environments.FlatlandResourceAllocator import FlatlandResourceAllocator
-from flatland_railway_extensions.environments.XAgent import XAgent
+from flatland_railway_extension.RailroadSwitchCluster import RailroadSwitchCluster
+from flatland_railway_extension.environments.FlatlandResourceAllocator import FlatlandResourceAllocator
+from flatland_railway_extension.environments.XAgent import XAgent
 
 
 class XRailEnv(RailEnv):
