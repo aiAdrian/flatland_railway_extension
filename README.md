@@ -165,6 +165,11 @@ The Example is showing a moving block based simulation. The rendering is done wi
 - [Google coLab notebook - Simulation with multi-resource reservation](https://github.com/aiAdrian/flatland_railway_extension/blob/master/Flatland_Resource_Allocation.ipynb)
 - [Google coLab notebook - Flatland dynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/Flatland_Dynamics.ipynb)
 
+## Installation 
+'''
+pip install flatland-railway-extension
+'''
+
 ## Links
 
 [Flatland Challenge](https://www.aicrowd.com/search?utf8=%E2%9C%93&q=flatland)
