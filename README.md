@@ -168,6 +168,12 @@ The Example is showing a moving block based simulation. The rendering is done wi
 ## Installation 
 ```
 pip install flatland-railway-extension
+python
+>> import flatland_railway_extension.examples.demo_flatland_dynamics
+>> import flatland_railway_extension.examples.demo_flatland_extensions
+>> import flatland_railway_extension.examples.demo_flatland_graph
+>> import flatland_railway_extension.examples.demo_flatland_railroad_cluster
+>> import flatland_railway_extension.examples.demo_simple_flatland_navigation
 ```
 
 ## Links
