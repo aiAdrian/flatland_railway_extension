@@ -10,7 +10,7 @@ from setuptools import setup
 
 setup(
     name='flatland-railway-extension',
-    version='0.1.1',
+    version='0.1.2',
     author='Adrian Egli',
     author_email = "3dhelp@gmail.com",
     description='Extends Flatland Railway Simulator with helpful features.',

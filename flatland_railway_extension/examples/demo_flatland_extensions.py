@@ -3,7 +3,7 @@
 # import all flatland dependance
 import time
 
-from data_exports.FlatlandRecifeExporter import FlatlandRecifeExporter
+from flatland_railway_extension.examples.data_exports.FlatlandRecifeExporter import FlatlandRecifeExporter
 from flatland_railway_extension.FlatlandEnvironmentHelper import FlatlandEnvironmentHelper
 from flatland_railway_extension.FlatlandGraphBuilder import FlatlandGraphBuilder
 from flatland_railway_extension.RailroadSwitchAnalyser import RailroadSwitchAnalyser
