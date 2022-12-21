@@ -168,7 +168,15 @@ The Example is showing a moving block based simulation. The rendering is done wi
 ## Installation 
 ```
 pip install flatland-railway-extension
+```
+
+Examples can be executed / tested with 
+```
 python
+```
+
+Just import in python:
+```
 >> import flatland_railway_extension.examples.demo_flatland_dynamics
 >> import flatland_railway_extension.examples.demo_flatland_extensions
 >> import flatland_railway_extension.examples.demo_flatland_graph
