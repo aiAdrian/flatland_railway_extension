@@ -5,9 +5,9 @@ from flatland.envs.rail_env import RailEnv
 from flatland.utils.rendertools import AgentRenderVariant
 from flatland.utils.rendertools import RenderLocal
 
-from flatland_extensions.environment_extensions import FlatlandResourceAllocator
-from flatland_extensions.environment_extensions.DynamicAgent import DynamicAgent
-from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
+from flatland_railway_extensions.environments import FlatlandResourceAllocator
+from flatland_railway_extensions.environments.DynamicAgent import DynamicAgent
+from flatland_railway_extensions.utils.FlatlandRenderer import FlatlandRenderer
 
 
 class FlatlandDynamicsRenderer(FlatlandRenderer):

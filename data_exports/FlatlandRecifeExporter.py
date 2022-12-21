@@ -1,7 +1,7 @@
 import datetime
 import xml.etree.ElementTree as gfg
 
-from flatland_extensions.FlatlandGraphBuilder import FlatlandGraphBuilder
+from flatland_railway_extensions.FlatlandGraphBuilder import FlatlandGraphBuilder
 
 
 class FlatlandRecifeExporter:

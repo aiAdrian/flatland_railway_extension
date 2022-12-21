@@ -7,8 +7,8 @@ from flatland.core.grid.grid4_utils import get_new_position
 from flatland.envs.fast_methods import fast_count_nonzero, fast_argmax
 from matplotlib import pyplot as plt
 
-from flatland_extensions.FlatlandGraphBuilder import FlatlandGraphBuilder
-from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
+from flatland_railway_extensions.FlatlandGraphBuilder import FlatlandGraphBuilder
+from flatland_railway_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
 
 ClusterRefID = collections.namedtuple('ClusterRefID',
                                       'switch_cluster_ref '
