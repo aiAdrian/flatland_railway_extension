@@ -173,18 +173,18 @@ $ conda activate flatland-ext
 $ pip install flatland-railway-extension
 ```
 
-Examples can be executed / tested with 
+Run python in the active conda environment.
 ```
-python
+$ python
 ```
 
-Just import in python:
+Some examples can be loaded and executed using the following instructions
 ```
->> import flatland_railway_extension.examples.demo_flatland_dynamics
->> import flatland_railway_extension.examples.demo_flatland_extensions
->> import flatland_railway_extension.examples.demo_flatland_graph
->> import flatland_railway_extension.examples.demo_flatland_railroad_cluster
->> import flatland_railway_extension.examples.demo_simple_flatland_navigation
+>>> import flatland_railway_extension.examples.demo_flatland_dynamics
+>>> import flatland_railway_extension.examples.demo_flatland_extensions
+>>> import flatland_railway_extension.examples.demo_flatland_graph
+>>> import flatland_railway_extension.examples.demo_flatland_railroad_cluster
+>>> import flatland_railway_extension.examples.demo_simple_flatland_navigation
 ```
 
 ## Links
