@@ -113,7 +113,7 @@ solver of all kind of those problems.
 
 
   <p align="center" width="100%">
-    <img width="20%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics_RollingStock_tractive_effort.png "> 
+    <img width="20%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics_RollingStock_tractive_effort.png"> 
 
   </p>
 
