@@ -39,7 +39,7 @@ railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroa
 flatland_graph_builder = FlatlandGraphBuilder(railroad_switch_analyser=railroad_switch_analyser)
 
 # ---------------------------------------------------------------------------------------------------------------------
-flatland_exporter = FlatlandRecifeExporter(flatland_graph_builder=flatland_graph_builder, filename='../filename.xml')
+flatland_exporter = FlatlandRecifeExporter(flatland_graph_builder=flatland_graph_builder, filename='../../filename.xml')
 # ---------------------------------------------------------------------------------------------------------------------
 
 
