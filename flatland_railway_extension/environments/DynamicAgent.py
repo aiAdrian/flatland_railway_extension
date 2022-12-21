@@ -76,6 +76,7 @@ class DynamicAgent(XAgent):
         self.velocity_agent_tp_simulation_data = []
         self.max_velocity_agent_tp_simulation_data = []
         self.acceleration_agent_tp_simulation_data = []
+        self.hard_brake_data = []
 
         self._removed_from_board = False
 
@@ -330,6 +331,7 @@ class DynamicAgent(XAgent):
             self.velocity_agent_tp_simulation_data.append(self.current_velocity_agent)
             self.max_velocity_agent_tp_simulation_data.append(self.current_max_velocity)
             self.tractive_effort_agent_tp_simulation_data.append(self.current_tractive_effort)
+            self.hard_brake_data.append(self.hard_brake)
         else:
             self.set_hard_brake(True)
 
@@ -396,7 +398,7 @@ class DynamicAgent(XAgent):
 
         nbr_features = 2
         if self._enabled_tractive_effort_rendering:
-            nbr_features = 3
+            nbr_features = 4
 
         ax1 = plt.subplot(nbr_agents, nbr_features, 1 + (idx - 1) * nbr_features)
         plt.plot(self.distance_agent_tp_simulation_data[1:], np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6)
@@ -412,12 +414,18 @@ class DynamicAgent(XAgent):
 
         if self._enabled_tractive_effort_rendering:
             ax3 = plt.subplot(nbr_agents, nbr_features, 3 + (idx - 1) * nbr_features)
+            plt.plot(self.distance_agent_tp_simulation_data[1:], self.hard_brake_data[1:])
+            if show_title:
+                ax3.set_title('Distance vs. hard_brake', fontsize=10)
+
+        if self._enabled_tractive_effort_rendering:
+            ax4 = plt.subplot(nbr_agents, nbr_features, 4 + (idx - 1) * nbr_features)
             plt.plot(np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6,
                      np.array(self.tractive_effort_agent_tp_simulation_data[1:]) / 1000.0, 'b.')
             if show_title:
-                ax3.set_title('Velocity vs. tractive effort', fontsize=10)
-            ax3.set_xlim([0, self.rolling_stock.max_velocity * 3.6 + 10])
-            ax3.set_ylim([0, self.rolling_stock.max_traction / 1000 + 10])
+                ax4.set_title('Velocity vs. tractive effort', fontsize=10)
+            ax4.set_xlim([0, self.rolling_stock.max_velocity * 3.6 + 10])
+            ax4.set_ylim([0, self.rolling_stock.max_traction / 1000 + 10])
 
         if show:
             plt.show()
