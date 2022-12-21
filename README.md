@@ -166,9 +166,9 @@ The Example is showing a moving block based simulation. The rendering is done wi
 - [Google coLab notebook - Flatland dynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/Flatland_Dynamics.ipynb)
 
 ## Installation 
-'''
+```
 pip install flatland-railway-extension
-'''
+```
 
 ## Links
 
