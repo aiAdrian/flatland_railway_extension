@@ -84,9 +84,9 @@ from flatland.core.env_observation_builder import ObservationBuilder
 from flatland.envs.observations import GlobalObsForRailEnv
 from flatland.envs.rail_env_action import RailEnvActions
 
-from flatland_extensions.environment_extensions.DynamicAgent import DynamicAgent
-from flatland_extensions.environment_extensions.FlatlandResourceAllocator import FlatlandResourceAllocator
-from flatland_extensions.environment_extensions.XRailEnv import XRailEnv
+from flatland_railway_extension.environments.DynamicAgent import DynamicAgent
+from flatland_railway_extension.environments.FlatlandResourceAllocator import FlatlandResourceAllocator
+from flatland_railway_extension.environments.XRailEnv import XRailEnv
 
 
 class FlatlandDynamics(XRailEnv):

@@ -3,11 +3,11 @@
 # import all flatland dependance
 import time
 
-from flatland_extensions.FlatlandEnvironmentHelper import FlatlandEnvironmentHelper
-from flatland_extensions.FlatlandGraphBuilder import FlatlandGraphBuilder
-from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
-from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
-from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
+from flatland_railway_extension.FlatlandEnvironmentHelper import FlatlandEnvironmentHelper
+from flatland_railway_extension.FlatlandGraphBuilder import FlatlandGraphBuilder
+from flatland_railway_extension.utils.FlatlandRenderer import FlatlandRenderer
+from flatland_railway_extension.RailroadSwitchAnalyser import RailroadSwitchAnalyser
+from flatland_railway_extension.RailroadSwitchCluster import RailroadSwitchCluster
 
 
 def show_shortest_path(flatland_graph_builder: FlatlandGraphBuilder):

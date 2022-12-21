@@ -182,5 +182,6 @@ aiAdrian) [neurips2020 flatland challenge solution (submission)](https://gitlab.
 
 ##### Permission to use
 
-If you use this or any idea out of this code for/in any academic publication - you must credit the authors. No
-commerical use allowed.
+If you use this or any idea out of this code for/in any academic publication or commercial products -
+you must credit the authors.
+

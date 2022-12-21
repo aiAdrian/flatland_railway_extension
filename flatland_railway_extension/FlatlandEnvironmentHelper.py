@@ -5,7 +5,7 @@ import numpy as np
 from flatland.envs.rail_env import RailEnv
 from flatland.envs.rail_generators import sparse_rail_generator
 
-from flatland_extensions.utils.ShortestPathNextStepObservation import ShortestPathNextStepObservation
+from flatland_railway_extension.utils.ShortestPathNextStepObservation import ShortestPathNextStepObservation
 
 
 class FlatlandEnvironmentHelper:

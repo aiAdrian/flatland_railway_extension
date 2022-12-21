@@ -4,11 +4,11 @@
 import time
 
 from data_exports.FlatlandRecifeExporter import FlatlandRecifeExporter
-from flatland_extensions.FlatlandEnvironmentHelper import FlatlandEnvironmentHelper
-from flatland_extensions.FlatlandGraphBuilder import FlatlandGraphBuilder
-from flatland_extensions.RailroadSwitchAnalyser import RailroadSwitchAnalyser
-from flatland_extensions.RailroadSwitchCluster import RailroadSwitchCluster
-from flatland_extensions.utils.FlatlandRenderer import FlatlandRenderer
+from flatland_railway_extension.FlatlandEnvironmentHelper import FlatlandEnvironmentHelper
+from flatland_railway_extension.FlatlandGraphBuilder import FlatlandGraphBuilder
+from flatland_railway_extension.RailroadSwitchAnalyser import RailroadSwitchAnalyser
+from flatland_railway_extension.RailroadSwitchCluster import RailroadSwitchCluster
+from flatland_railway_extension.utils.FlatlandRenderer import FlatlandRenderer
 
 
 def print_agent_information(
@@ -39,7 +39,7 @@ railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroa
 flatland_graph_builder = FlatlandGraphBuilder(railroad_switch_analyser=railroad_switch_analyser)
 
 # ---------------------------------------------------------------------------------------------------------------------
-flatland_exporter = FlatlandRecifeExporter(flatland_graph_builder=flatland_graph_builder, filename='filename.xml')
+flatland_exporter = FlatlandRecifeExporter(flatland_graph_builder=flatland_graph_builder, filename='../filename.xml')
 # ---------------------------------------------------------------------------------------------------------------------
 
 
