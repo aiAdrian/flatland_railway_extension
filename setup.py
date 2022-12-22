@@ -7,7 +7,7 @@ from setuptools import setup
 
 setup(
     name='flatland-railway-extension',
-    version='0.1.5',
+    version='0.2.0',
     author='Adrian Egli',
     author_email="3dhelp@gmail.com",
     description='Extends Flatland Railway Simulator with helpful features.',
@@ -17,6 +17,7 @@ setup(
     packages=find_packages('.'),
     install_requires=[
         'numpy',
-        'matplotlib'
+        'matplotlib',
+        'flatland-rl-optimised-code'
     ],
 )
