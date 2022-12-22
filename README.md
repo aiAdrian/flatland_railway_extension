@@ -176,9 +176,10 @@ $ conda activate flatland-ext
 ```
 
 #### Stable release
-Install flatland railway extension from pip:
+Install flatland railway extension:
 ```
 $ pip install flatland-railway-extension
+$ pip install flatland-rl@git+http://gitlab.aicrowd.com/flatland/flatland.git
 ```
 
 #### Test installation
