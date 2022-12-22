@@ -166,14 +166,23 @@ The Example is showing a moving block based simulation. The rendering is done wi
 - [Google coLab notebook - Flatland dynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/Flatland_Dynamics.ipynb)
 
 ## Installation 
-The code is tested with Python 3.6 and is expected to also work with higher versions of Python. If you are using conda, you can create a new environment with the following command (optional) :
+The code is tested with Python 3.6, 3.7 and is expected to also work with higher versions of Python.
+
+#### Prerequisites (optional)
+Install [Anaconda](https://www.anaconda.com/products/distribution) and create a new conda environment: 
 ```
-$ conda create -n flatland-ext python=3.6
+$ conda create python=3.6 --name flatland-ext
 $ conda activate flatland-ext
+```
+
+#### Stable release
+Install flatland railway extension from pip:
+```
 $ pip install flatland-railway-extension
 ```
 
-Run python in the active conda environment.
+#### Test installation
+Test that the installation works:
 ```
 $ python
 ```
