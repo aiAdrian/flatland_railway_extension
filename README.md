@@ -196,11 +196,6 @@ $ cd ..
 #### Stable release
 Install flatland railway extension:
 ```
-$ git clone http://gitlab.aicrowd.com/flatland/flatland.git
-$ cd flatland
-$ pip install -r requirements_dev.txt
-$ python setup.py install
-$ cd .. 
 $ pip install flatland-railway-extension
 ```
 
