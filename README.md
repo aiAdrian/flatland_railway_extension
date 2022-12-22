@@ -166,22 +166,25 @@ The Example is showing a moving block based simulation. The rendering is done wi
 - [Google coLab notebook - Flatland dynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/Flatland_Dynamics.ipynb)
 
 ## Installation 
+The code is tested with Python 3.6 and is expected to also work with higher versions of Python. If you are using conda, you can create a new environment with the following command (optional) :
 ```
-pip install flatland-railway-extension
-```
-
-Examples can be executed / tested with 
-```
-python
+$ conda create -n flatland-ext python=3.6
+$ conda activate flatland-ext
+$ pip install flatland-railway-extension
 ```
 
-Just import in python:
+Run python in the active conda environment.
 ```
->> import flatland_railway_extension.examples.demo_flatland_dynamics
->> import flatland_railway_extension.examples.demo_flatland_extensions
->> import flatland_railway_extension.examples.demo_flatland_graph
->> import flatland_railway_extension.examples.demo_flatland_railroad_cluster
->> import flatland_railway_extension.examples.demo_simple_flatland_navigation
+$ python
+```
+
+Some examples can be loaded and executed using the following instructions
+```
+>>> import flatland_railway_extension.examples.demo_flatland_dynamics
+>>> import flatland_railway_extension.examples.demo_flatland_extensions
+>>> import flatland_railway_extension.examples.demo_flatland_graph
+>>> import flatland_railway_extension.examples.demo_flatland_railroad_cluster
+>>> import flatland_railway_extension.examples.demo_simple_flatland_navigation
 ```
 
 ## Links
