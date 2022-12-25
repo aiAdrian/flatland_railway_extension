@@ -206,7 +206,7 @@ $ python -c "import flatland_railway_extension.examples.demo_flatland_dynamics"
 ```
 
 #### Examples
-See some examples can be found at: [flatland_railway_extension.examples.*](https://github.com/aiAdrian/flatland_railway_extension/tree/master/flatland_railway_extension/examples)
+Some examples can be found at: [flatland_railway_extension.examples.*](https://github.com/aiAdrian/flatland_railway_extension/tree/master/flatland_railway_extension/examples)
 
 ## Links
 
