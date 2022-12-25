@@ -202,7 +202,7 @@ $ pip install flatland-railway-extension
 #### Test installation
 Test that the installation works:
 ```
-$ python -c 'import flatland_railway_extension.examples.demo_flatland_dynamics'
+$ python -c "import flatland_railway_extension.examples.demo_flatland_dynamics"
 ```
 
 Some examples can be found at
