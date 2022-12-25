@@ -202,16 +202,12 @@ $ pip install flatland-railway-extension
 #### Test installation
 Test that the installation works:
 ```
-$ python
+$ python -c 'import flatland_railway_extension.examples.demo_flatland_dynamics'
 ```
 
-Some examples can be loaded and executed using the following instructions
+Some examples can be found at
 ```
->>> import flatland_railway_extension.examples.demo_flatland_dynamics
->>> import flatland_railway_extension.examples.demo_flatland_extensions
->>> import flatland_railway_extension.examples.demo_flatland_graph
->>> import flatland_railway_extension.examples.demo_flatland_railroad_cluster
->>> import flatland_railway_extension.examples.demo_simple_flatland_navigation
+flatland_railway_extension.examples.* 
 ```
 
 ## Links
