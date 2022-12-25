@@ -205,7 +205,8 @@ Test that the installation works:
 $ python -c "import flatland_railway_extension.examples.demo_flatland_dynamics"
 ```
 
-Some examples can be found at
+#### Examples
+See some examples can be found at:
 ```
 flatland_railway_extension.examples.* 
 ```
