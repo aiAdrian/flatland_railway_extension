@@ -153,6 +153,10 @@ solver of all kind of those problems.
   still in the current one. Green resources are still occupied. They are intended to approximately simulate the time
   required to handle all security elements - they represents the minimal train following time.
 
+ <p align="center" width="200%">
+    <img width="33%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/Flatland_dynamics_visualisation_elements.png"> 
+</p>
+
  <p align="center" width="100%">
     <img width="33%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamicsRendering.png"> 
 </p>
