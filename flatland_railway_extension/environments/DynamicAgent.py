@@ -77,6 +77,7 @@ class DynamicAgent(XAgent):
         self.max_velocity_agent_tp_simulation_data = []
         self.acceleration_agent_tp_simulation_data = []
         self.hard_brake_data = []
+        self.is_malfunction_state_data = []
 
         self._removed_from_board = False
 
@@ -332,6 +333,7 @@ class DynamicAgent(XAgent):
             self.max_velocity_agent_tp_simulation_data.append(self.current_max_velocity)
             self.tractive_effort_agent_tp_simulation_data.append(self.current_tractive_effort)
             self.hard_brake_data.append(self.hard_brake)
+            self.is_malfunction_state_data.append(self.state.is_malfunction_state())
         else:
             self.set_hard_brake(True)
 
@@ -400,15 +402,22 @@ class DynamicAgent(XAgent):
         if self._enabled_tractive_effort_rendering:
             nbr_features = 4
 
+        mal_func_signal = np.array(self.is_malfunction_state_data[1:]).copy().astype(float)
+        mal_func_signal[mal_func_signal == 0] = np.nan
+
         ax1 = plt.subplot(nbr_agents, nbr_features, 1 + (idx - 1) * nbr_features)
         plt.plot(self.distance_agent_tp_simulation_data[1:], np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6)
         plt.plot(np.array(self.distance_agent_tp_simulation_data[1:]) - self.length,
                  np.array(self.max_velocity_agent_tp_simulation_data[1:]) * 3.6)
+        plt.plot(np.array(self.distance_agent_tp_simulation_data[1:]),
+                 (np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6) * mal_func_signal, 'r')
         if show_title:
             ax1.set_title('Distance vs. velocity', fontsize=10)
 
         ax2 = plt.subplot(nbr_agents, nbr_features, 2 + (idx - 1) * nbr_features)
         plt.plot(self.distance_agent_tp_simulation_data[1:], self.acceleration_agent_tp_simulation_data[1:])
+        plt.plot(self.distance_agent_tp_simulation_data[1:],
+                 np.array(self.acceleration_agent_tp_simulation_data[1:]) * mal_func_signal, 'r')
         if show_title:
             ax2.set_title('Distance vs. acceleration', fontsize=10)
 

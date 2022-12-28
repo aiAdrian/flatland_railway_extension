@@ -159,6 +159,9 @@ class FlatlandDynamics(XRailEnv):
         if preprocessed_action == RailEnvActions.STOP_MOVING:
             agent.set_hard_brake(True)
 
+        if agent.state.is_malfunction_state():
+            agent.set_hard_brake(True)
+
         if agent.position != agent.target:
             if not agent.update_movement_dynamics():
                 self.motionCheck.addAgent(agent.handle, agent.position, agent.position)
