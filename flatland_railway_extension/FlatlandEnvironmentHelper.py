@@ -1,6 +1,7 @@
 import random
 
 import numpy as np
+from flatland.envs.malfunction_generators import MalfunctionParameters, ParamMalfunctionGen
 # import all flatland dependances
 from flatland.envs.rail_env import RailEnv
 from flatland.envs.rail_generators import sparse_rail_generator
@@ -24,7 +25,10 @@ class FlatlandEnvironmentHelper:
         np.random.seed(self.random_seed)
         random.seed(self.random_seed)
 
-    def _create_flatland_env(self, rail_env, max_rails_between_cities=2, max_rails_in_city=4) -> RailEnv:
+    def _create_flatland_env(self, rail_env,
+                             max_rails_between_cities=2,
+                             max_rails_in_city=4,
+                             malfunction_rate=1 / 1000) -> RailEnv:
         return rail_env(
             width=self.grid_width,
             height=self.grid_height,
@@ -34,6 +38,11 @@ class FlatlandEnvironmentHelper:
                 grid_mode=True,
                 max_rails_between_cities=max_rails_between_cities,
                 max_rail_pairs_in_city=max_rails_in_city
+            ),
+            malfunction_generator=ParamMalfunctionGen(
+                MalfunctionParameters(
+                    malfunction_rate=malfunction_rate, min_duration=10, max_duration=50
+                )
             ),
             random_seed=self.random_seed,
             number_of_agents=self.number_of_agents,
