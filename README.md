@@ -232,3 +232,5 @@ aiAdrian) [neurips2020 flatland challenge solution (submission)](https://gitlab.
 If you use this or any idea out of this code for/in any academic publication or commercial products -
 you must credit the authors.
 
+##### PyPI
+[![Downloads](https://static.pepy.tech/personalized-badge/flatland-railway-extension?period=month&units=international_system&left_color=grey&right_color=lightgrey&left_text=Downloads)](https://pepy.tech/project/flatland-railway-extension)
