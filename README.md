@@ -212,6 +212,10 @@ $ python -c "import flatland_railway_extension.examples.demo_flatland_dynamics"
 #### Examples
 Some examples can be found at: [flatland_railway_extension.examples.*](https://github.com/aiAdrian/flatland_railway_extension/tree/master/flatland_railway_extension/examples)
 
+##### PePy - PyPI Download Stats
+[![Downloads](https://static.pepy.tech/personalized-badge/flatland-railway-extension?period=month&units=international_system&left_color=grey&right_color=lightgrey&left_text=Downloads)](https://pepy.tech/project/flatland-railway-extension)
+
+
 ## Links
 
 [Flatland Challenge](https://www.aicrowd.com/search?utf8=%E2%9C%93&q=flatland)
@@ -232,5 +236,3 @@ aiAdrian) [neurips2020 flatland challenge solution (submission)](https://gitlab.
 If you use this or any idea out of this code for/in any academic publication or commercial products -
 you must credit the authors.
 
-##### PyPI
-[![Downloads](https://static.pepy.tech/personalized-badge/flatland-railway-extension?period=month&units=international_system&left_color=grey&right_color=lightgrey&left_text=Downloads)](https://pepy.tech/project/flatland-railway-extension)
