@@ -95,8 +95,8 @@ solver of all kind of those problems.
   x-axis. The speed in kilometers per hour [km/h] is shown on the y-axis. The orange curve shows the maximum allowed
   speed. The blue curve is the simulated speed. The length of the train is easy to see because the last axle of the
   train must have allowed a higher speed, otherwise the train will not accelerate. The diagram on the right illustrates
-  the acculeration [m/s] on the y-axis. On the x-axis traveled distance [m] is plotted again. The part colored red shows 
-  where the agent has to brake hard due to an active malfunction. 
+  the acculeration [m/s] on the y-axis. On the x-axis traveled distance [m] is plotted again. The red colored part of the 
+  of the velocity and acceleration curve red shows where the agent has to brake hard due to an active malfunction. 
 
 ![FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics.png "FlatlandDynamics")
 
