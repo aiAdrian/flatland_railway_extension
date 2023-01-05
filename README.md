@@ -210,6 +210,12 @@ Test that the installation works:
 $ python -c "import flatland_railway_extension.examples.demo_flatland_dynamics"
 ```
 
+On Windows Subsystem for Linux (WSL) you may need to install some additional packages to get the rendering working. 
+```
+pip install pyvirtualdisplay
+pip install piglet
+```
+
 #### Examples
 Some examples can be found at: [flatland_railway_extension.examples.*](https://github.com/aiAdrian/flatland_railway_extension/tree/master/flatland_railway_extension/examples)
 
