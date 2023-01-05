@@ -210,7 +210,7 @@ Test that the installation works:
 $ python -c "import flatland_railway_extension.examples.demo_flatland_dynamics"
 ```
 
-On Windows Subsystem for Linux (WSL) you may need to install some additional packages to get the rendering working. 
+On Windows Subsystem for Linux (WSL) you may need to install some additional packages to get the rendering working. However, using Flatland Railway Extension with WSL is not recommended, we recommend native Windows or Linux operating system. OS/X is not tested yet.
 ```
 pip install pyvirtualdisplay
 pip install piglet
