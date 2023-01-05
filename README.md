@@ -205,16 +205,11 @@ $ pip install flatland-railway-extension
 ```
 
 #### Test installation
-Test that the installation works:
+Test that the installation works[^1]:
 ```
 $ python -c "import flatland_railway_extension.examples.demo_flatland_dynamics"
 ```
 
-On Windows Subsystem for Linux (WSL) you may need to install some additional packages to get the rendering working. However, using Flatland Railway Extension with WSL is not recommended, we recommend native Windows or Linux operating system. OS/X is not tested yet.
-```
-pip install pyvirtualdisplay
-pip install piglet
-```
 
 #### Examples
 Some examples can be found at: [flatland_railway_extension.examples.*](https://github.com/aiAdrian/flatland_railway_extension/tree/master/flatland_railway_extension/examples)
@@ -242,4 +237,10 @@ aiAdrian) [neurips2020 flatland challenge solution (submission)](https://gitlab.
 
 If you use this or any idea out of this code for/in any academic publication or commercial products -
 you must credit the authors.
+
+
+
+[^1]: On Windows Subsystem for Linux (WSL) you may need to install some additional packages `pip install pyvirtualdisplay` and `pip install piglet` to get the rendering working. However, using Flatland Railway Extension with WSL is not recommended, we recommend native Windows or Linux operating system. OS/X is not tested yet.
+
+
 
