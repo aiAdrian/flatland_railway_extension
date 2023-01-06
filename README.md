@@ -241,7 +241,7 @@ you must credit the authors.
 
 
 
-[^1]: On Windows Subsystem for Linux (WSL) you may need to install some additional packages `pip install pyvirtualdisplay` and `pip install piglet` to get the rendering working. However, using Flatland Railway Extension with WSL is not recommended, we recommend native Windows or Linux operating system. OS/X is not tested yet.
+[^1]: On Windows Subsystem for Linux (WSL) you may need to install some additional packages `pip install pyvirtualdisplay`, `pip install piglet` and `sudo apt install libnvidia-gl-440` to get the rendering working. However, using Flatland Railway Extension with WSL is not recommended, we recommend native Windows or Linux operating system. OS/X is not tested yet.
 
 
 
