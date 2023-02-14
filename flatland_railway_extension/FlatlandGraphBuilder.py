@@ -55,7 +55,7 @@ class FlatlandGraphBuilder:
                             to_vertex_name = '{}_{}_{}'.format(new_position[0], new_position[1], to_direction)
                             graph.add_edge(from_vertex_name,
                                            to_vertex_name,
-                                           length=1,
+                                           length=1,  # TODO check if infrastructure data is available for the resource
                                            from_nodes=[from_vertex_name],
                                            resources=[pos],
                                            resource_id='{}_{}'.format(pos[0], pos[1])
