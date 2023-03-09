@@ -1,4 +1,5 @@
 import random
+from typing import Union
 
 import numpy as np
 from flatland.envs.malfunction_generators import MalfunctionParameters, ParamMalfunctionGen
@@ -6,6 +7,8 @@ from flatland.envs.malfunction_generators import MalfunctionParameters, ParamMal
 from flatland.envs.rail_env import RailEnv
 from flatland.envs.rail_generators import sparse_rail_generator
 
+from flatland_railway_extension.environments.FlatlandDynamics import FlatlandDynamics
+from flatland_railway_extension.environments.InfrastructureData import InfrastructureData
 from flatland_railway_extension.utils.ShortestPathNextStepObservation import ShortestPathNextStepObservation
 
 
