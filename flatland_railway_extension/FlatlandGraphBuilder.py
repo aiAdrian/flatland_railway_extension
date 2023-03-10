@@ -14,14 +14,21 @@ from matplotlib import pyplot as plt
 from networkx.classes.reportviews import OutEdgeView
 
 from flatland_railway_extension.RailroadSwitchAnalyser import RailroadSwitchAnalyser
+from flatland_railway_extension.environments.InfrastructureData import InfrastructureData
 
 
 class FlatlandGraphBuilder:
-    def __init__(self, railroad_switch_analyser: RailroadSwitchAnalyser):
+    def __init__(self,
+                 railroad_switch_analyser: RailroadSwitchAnalyser,
+                 infrastructure_data: Union[InfrastructureData, None] = None):
         self.railroad_switch_analyser = railroad_switch_analyser
         self._graph: Union[nx.DiGraph, None] = None
         self._nodes: Union[Dict[str, Tuple[int, int, float]], None] = None
+        self.set_infrastructure_data(infrastructure_data)
         self.activate_full_graph()
+
+    def set_infrastructure_data(self, infrastructure_data: Union[InfrastructureData, None]):
+        self._infrastructure_data = infrastructure_data
 
     def activate_full_graph(self):
         self._graph, self._nodes, self._from_vertex_edge_map = self._create_full_graph()
@@ -37,6 +44,19 @@ class FlatlandGraphBuilder:
 
     def get_edges(self) -> OutEdgeView:
         return self._graph.edges
+
+    def estimate_edge_len(self, pos: Tuple[int, int]) -> float:
+        """
+        Estimate the cell distance ending in the distance map. The currently implemented heuristic is very simple:
+        If the infrastructure data is missing, the cell length becomes one - otherwise the cell length is approximated
+        with the physical distance (in meters) and the maximum allowed speed (in meters per second). So the edge length
+        is the expected time spent on the item assuming the agent is traveling with maximal allowed speed.
+        """
+        if self._infrastructure_data is not None:
+            edge_len = self._infrastructure_data.get_cell_length(pos)
+            edge_vel = self._infrastructure_data.get_velocity(pos)
+            return edge_len / edge_vel
+        return 1.0
 
     def _create_full_graph(self):
         graph = nx.DiGraph()
@@ -55,7 +75,7 @@ class FlatlandGraphBuilder:
                             to_vertex_name = '{}_{}_{}'.format(new_position[0], new_position[1], to_direction)
                             graph.add_edge(from_vertex_name,
                                            to_vertex_name,
-                                           length=1,
+                                           length=self.estimate_edge_len(pos),
                                            from_nodes=[from_vertex_name],
                                            resources=[pos],
                                            resource_id='{}_{}'.format(pos[0], pos[1])
@@ -116,7 +136,12 @@ class FlatlandGraphBuilder:
                         for d in out_dat.get('resources'):
                             resources.append(d)
                         data.update({'resources': copy.copy(resources)})
-                        data.update({'length': len(resources)})
+                        edge_len = len(resources)
+                        if self._infrastructure_data is not None:
+                            edge_len = 0
+                            for r in resources:
+                                edge_len += self._infrastructure_data.get_cell_length(r)
+                        data.update({'length': edge_len})
 
                         # manually update the from nodes (nodes information)
                         from_nodes = in_dat.get('from_nodes')
@@ -219,7 +244,7 @@ class FlatlandGraphBuilder:
         resource_id = '{}_{}'.format(int(xy_d[0]), int(xy_d[1]))
         return resource_id
 
-    def get_shortest_path(self, start_position, start_direction, target_position):
+    def get_shortest_path(self, start_position, start_direction, target_position, weight=None):
         '''
         This methods traverse the _graph to get shortest path. The target gets scaned for all four incoming directions.
         :param start_position: 2d coordinate
@@ -243,7 +268,7 @@ class FlatlandGraphBuilder:
 
                 if fn is not None and tn is not None:
                     try:
-                        s_path = nx.shortest_path(self.get_graph(), from_node_intern, to_node_intern)
+                        s_path = nx.shortest_path(self.get_graph(), from_node_intern, to_node_intern, weight=weight)
                         start_p = from_node_intern
                         for p in s_path:
                             if start_p != p:
@@ -268,7 +293,7 @@ class FlatlandGraphBuilder:
         arg_sorted_path_len = np.argsort(paths_len)
         return paths[arg_sorted_path_len[0]], paths, paths_len
 
-    def prepare_observation_data_plot(self, start_position, start_direction, target_position):
+    def prepare_observation_data_plot(self, start_position, start_direction, target_position, weight=None):
         '''
         Prepare the classified cells (railroad_switches, railroad_switch_neighbours) to render. The rendering used
         the observation rendering data structure.
@@ -277,7 +302,7 @@ class FlatlandGraphBuilder:
         :param target_position: 2d coordinate of target position
         :return:
         '''
-        path, paths, paths_len = self.get_shortest_path(start_position, start_direction, target_position)
+        path, paths, paths_len = self.get_shortest_path(start_position, start_direction, target_position, weight)
 
         env = self.railroad_switch_analyser.get_rail_env()
         arg_sorted_path_len = np.argsort(paths_len)

@@ -78,14 +78,16 @@ InfrastructureData.py
 
 # import all flatland dependance
 
-from typing import Dict
+from typing import Dict, Union
 
 from flatland.core.env_observation_builder import ObservationBuilder
 from flatland.envs.observations import GlobalObsForRailEnv
 from flatland.envs.rail_env_action import RailEnvActions
 
 from flatland_railway_extension.environments.DynamicAgent import DynamicAgent
+from flatland_railway_extension.environments.FlatlandDynamicsDistanceMap import FlatlandDynamicsDistanceMap
 from flatland_railway_extension.environments.FlatlandResourceAllocator import FlatlandResourceAllocator
+from flatland_railway_extension.environments.InfrastructureData import InfrastructureData
 from flatland_railway_extension.environments.XRailEnv import XRailEnv
 
 
@@ -114,6 +116,14 @@ class FlatlandDynamics(XRailEnv):
                                                remove_agents_at_target=remove_agents_at_target,
                                                random_seed=random_seed,
                                                record_steps=record_steps)
+        # Overload distance_map with extended version (calculation)
+        self.distance_map = FlatlandDynamicsDistanceMap(self.agents, self.height, self.width)
+        self._infrastructure_data: Union[InfrastructureData, None] = None
+
+    def set_infrastructure_data(self, infrastructure_data: Union[InfrastructureData, None]):
+        self._infrastructure_data = infrastructure_data
+        self.distance_map.set_infrastructure_data(self._infrastructure_data)
+        self.distance_map.reset(self.agents, self.rail)
 
     def reset_agents(self):
         super(XRailEnv, self).reset_agents()

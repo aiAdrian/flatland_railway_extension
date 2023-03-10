@@ -32,12 +32,28 @@ def create_infrastructure_data(env: RailEnv, railroad_switch_analyser: RailroadS
     return infrastructure_data
 
 
+def map_infrastructure_data(env: RailEnv, railroad_switch_analyser: RailroadSwitchAnalyser):
+    # Create a test infrastructure
+    # ---------------------------------------------------------------------------------------------------------------
+    # share the infrastructure with the agents ( train runs)
+    for agent in env.agents:
+        if isinstance(agent, DynamicAgent):
+            agent.set_infrastructure_data(
+                create_infrastructure_data(env, railroad_switch_analyser)
+            )
+            agent.rolling_stock.set_max_braking_acceleration(-0.15)
+            agent.set_mass(500)
+            agent.set_tractive_effort_rendering(False)
+    if isinstance(env, FlatlandDynamics):
+        env.set_infrastructure_data(create_infrastructure_data(env, railroad_switch_analyser))
+
+
 def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
                    railroad_switch_cluster: RailroadSwitchCluster,
                    railroad_switch_analyser: RailroadSwitchAnalyser,
                    enable_moving_block_resource_allocation_strategy=False,
                    enable_rendering=False):
-    env: FlatlandDynamics = flatland_environment_helper.get_rail_env()
+    env: RailEnv = flatland_environment_helper.get_rail_env()
     observations, info = env.reset()
 
     flatland_renderer = None
@@ -55,17 +71,8 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
                 show_agents=True,
                 fix_aspect_ration=False)
 
-    # Create a test infrastructure
-    # ---------------------------------------------------------------------------------------------------------------
-    # share the infrastructure with the agents ( train runs)
-    for agent in env.agents:
-        if isinstance(agent, DynamicAgent):
-            agent.set_infrastructure_data(
-                create_infrastructure_data(env, railroad_switch_analyser)
-            )
-            agent.rolling_stock.set_max_braking_acceleration(-0.15)
-            agent.set_mass(500)
-            agent.set_tractive_effort_rendering(False)
+    map_infrastructure_data(env=flatland_environment_helper.get_rail_env(),
+                            railroad_switch_analyser=railroad_switch_analyser)
 
     # ---------------------------------------------------------------------------------------------------------------
     # Start simulation
