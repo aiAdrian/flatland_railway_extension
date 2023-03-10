@@ -1,8 +1,10 @@
 from typing import List, Union, Tuple
 
+import numpy as np
 from flatland.core.grid.grid4_utils import get_new_position
 from flatland.core.transition_map import GridTransitionMap
 from flatland.envs.distance_map import DistanceMap
+from matplotlib import pyplot as plt
 
 from flatland_railway_extension.environments.DynamicAgent import DynamicAgent
 from flatland_railway_extension.environments.InfrastructureData import InfrastructureData
@@ -73,3 +75,19 @@ class FlatlandDynamicsDistanceMap(DistanceMap):
                         self.distance_map[target_nr, new_cell[0], new_cell[1], agent_orientation] = new_distance
 
         return neighbors
+
+    def do_debug_plot(self, agent_handle=0):
+        image = np.zeros((4, self.env_height, self.env_width)) * np.nan
+        for h in range(self.env_height):
+            for w in range(self.env_width):
+                # look one step forward
+                for dir in range(4):
+                    if self.get()[0, h, w, dir] > 0:
+                        image[(dir, h, w)] = self.get()[agent_handle, h, w, dir]
+
+        plt.rc('font', size=4)
+        for dir in range(4):
+            ax = plt.subplot(2, 2, 1 + dir)
+            plt.imshow(image[dir])
+            ax.set_title('distance map layer {} for agent {}'.format(dir, agent_handle), fontsize=10)
+        plt.show()
