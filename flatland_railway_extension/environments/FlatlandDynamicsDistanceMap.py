@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Union, Tuple
 
 from flatland.core.grid.grid4_utils import get_new_position
 from flatland.core.transition_map import GridTransitionMap
@@ -14,7 +14,23 @@ class FlatlandDynamicsDistanceMap(DistanceMap):
         self._infrastructure_data: Union[InfrastructureData, None] = None
 
     def set_infrastructure_data(self, infrastructure_data: Union[InfrastructureData, None]):
+        """
+        Set the infrastructure data which plays a key role with FlatlandDynamics
+        """
         self._infrastructure_data = infrastructure_data
+
+    def estimate_edge_len(self, pos: Tuple[int, int]) -> float:
+        """
+        Estimate the cell distance ending in the distance map. The currently implemented heuristic is very simple:
+        If the infrastructure data is missing, the cell length becomes one - otherwise the cell length is approximated
+        with the physical distance (in meters) and the maximum allowed speed (in meters per second). So the edge length
+        is the expected time spent on the item assuming the agent is traveling with maximal allowed speed.
+        """
+        if self._infrastructure_data is not None:
+            edge_len = self._infrastructure_data.get_cell_length(pos)
+            edge_vel = self._infrastructure_data.get_velocity(pos)
+            return edge_len / edge_vel
+        return 1.0
 
     def _get_and_update_neighbors(self, rail: GridTransitionMap, position, target_nr, current_distance,
                                   enforce_target_direction=-1):
@@ -51,14 +67,8 @@ class FlatlandDynamicsDistanceMap(DistanceMap):
                         if isNextCellDeadEnd:
                             movement = (desired_movement_from_new_cell+2) % 4
                         """
-                        cell_distance = 1
-                        if self._infrastructure_data is not None:
-                            cell_length = self._infrastructure_data.get_cell_length(new_cell)
-                            max_velocity = self._infrastructure_data.get_velocity(new_cell)
-                            cell_distance = cell_length / max_velocity
-
                         new_distance = min(self.distance_map[target_nr, new_cell[0], new_cell[1], agent_orientation],
-                                           current_distance + cell_distance)
+                                           current_distance + self.estimate_edge_len(new_cell))
                         neighbors.append((new_cell[0], new_cell[1], agent_orientation, new_distance))
                         self.distance_map[target_nr, new_cell[0], new_cell[1], agent_orientation] = new_distance
 
