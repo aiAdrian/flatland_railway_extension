@@ -117,8 +117,11 @@ class FlatlandDynamics(XRailEnv):
                                                random_seed=random_seed,
                                                record_steps=record_steps)
         # Overload distance_map with extended version (calculation)
-        self.distance_map = FlatlandDynamicsDistanceMap(self.agents, self.height, self.width)
+        self.set_distance_map(FlatlandDynamicsDistanceMap(self.agents, self.height, self.width))
         self._infrastructure_data: Union[InfrastructureData, None] = None
+
+    def set_distance_map(self, distance_map: FlatlandDynamicsDistanceMap):
+        self.distance_map = distance_map
 
     def set_infrastructure_data(self, infrastructure_data: Union[InfrastructureData, None]):
         self._infrastructure_data = infrastructure_data
