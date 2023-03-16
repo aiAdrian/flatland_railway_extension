@@ -19,7 +19,7 @@ setup(
     packages=find_packages('.'),
     install_requires=[
         'numpy',
-        'matplotlib==3.2.2',
+        'matplotlib',
         'flatland-rl-optimised-code'
     ],
 )
