@@ -1,5 +1,4 @@
 import random
-from typing import Union
 
 import numpy as np
 from flatland.envs.malfunction_generators import MalfunctionParameters, ParamMalfunctionGen
@@ -7,8 +6,6 @@ from flatland.envs.malfunction_generators import MalfunctionParameters, ParamMal
 from flatland.envs.rail_env import RailEnv
 from flatland.envs.rail_generators import sparse_rail_generator
 
-from flatland_railway_extension.environments.FlatlandDynamics import FlatlandDynamics
-from flatland_railway_extension.environments.InfrastructureData import InfrastructureData
 from flatland_railway_extension.utils.ShortestPathNextStepObservation import ShortestPathNextStepObservation
 
 
@@ -69,4 +66,4 @@ class FlatlandEnvironmentHelper:
         if agent_pos is None:
             agent_pos = agent.initial_position
             agent_dir = agent.initial_direction
-        return agent_pos, agent_dir, agent.state, agent.target, agent.position == None
+        return agent_pos, agent_dir, agent.state, agent.target, agent.position is None

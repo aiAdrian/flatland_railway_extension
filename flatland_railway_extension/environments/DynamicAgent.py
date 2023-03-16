@@ -139,11 +139,12 @@ class DynamicAgent(XAgent):
                                                      current_gradient,
                                                      train_total_mass,
                                                      simulation_time_step):
-        return obj.get_accelerations_and_tractive_effort(current_velocity,
-                                                         max_allowed_velocity,
-                                                         current_gradient,
-                                                         train_total_mass,
-                                                         simulation_time_step)
+        return obj.get_accelerations_and_tractive_effort(
+            current_velocity,
+            max_allowed_velocity,
+            current_gradient,
+            train_total_mass,
+            simulation_time_step)
 
     def update_movement_dynamics(self):
         if self.position is None:
@@ -154,16 +155,19 @@ class DynamicAgent(XAgent):
         velocity_agent_tp = self.current_velocity_agent
 
         edge_train_point = \
-            DynamicAgent.get_cached_dynamics_resource_data(self.get_allocated_train_point_resource(),
-                                                           self._infrastructure_data)
+            DynamicAgent.get_cached_dynamics_resource_data(
+                self.get_allocated_train_point_resource(),
+                self._infrastructure_data)
         edge_reservation_point = \
-            DynamicAgent.get_cached_dynamics_resource_data(self.get_allocated_reservation_point_resource(),
-                                                           self._infrastructure_data)
+            DynamicAgent.get_cached_dynamics_resource_data(
+                self.get_allocated_reservation_point_resource(),
+                self._infrastructure_data)
 
         self.current_max_velocity = edge_train_point.max_velocity
 
-        max_velocity = min_cached(min_cached(edge_train_point.max_velocity, edge_reservation_point.max_velocity),
-                                  self.get_max_agent_velocity())
+        max_velocity = min_cached(
+            min_cached(edge_train_point.max_velocity, edge_reservation_point.max_velocity),
+            self.get_max_agent_velocity())
 
         pos_on_edge = self.visited_cell_path_end_of_agent_distance - self.current_distance_agent
         distance_between_cs_rp_cs_tp = max_cached(0.0, edge_train_point.distance - pos_on_edge)
@@ -193,12 +197,13 @@ class DynamicAgent(XAgent):
             current_tp_gradient = - mean_gradient
 
         acceleration_train_point, max_braking_acceleration, current_tractive_effort = \
-            DynamicAgent.get_cached_accelerations_and_tractive_effort(self.rolling_stock,
-                                                                      velocity_agent_tp,
-                                                                      max_velocity,
-                                                                      current_tp_gradient,
-                                                                      self.mass,
-                                                                      time_step)
+            DynamicAgent.get_cached_accelerations_and_tractive_effort(
+                self.rolling_stock,
+                velocity_agent_tp,
+                max_velocity,
+                current_tp_gradient,
+                self.mass,
+                time_step)
 
         acceleration_reservation_point = max_cached(0.0, acceleration_train_point)
         acceleration_reservation_point = acceleration_reservation_point + \
@@ -214,7 +219,8 @@ class DynamicAgent(XAgent):
         # https://github.com/aiAdrian/flatland_railway_extension/issues/23
 
         # braking: yes - but ....
-        do_brake = velocity_agent_tp > max_velocity  # i.e. brake - if and only if coasting is not enough (vTP + aTP * timeStep)
+        do_brake = velocity_agent_tp > max_velocity  # i.e. brake - if and only if coasting is not enough
+        # (vTP + aTP * timeStep)
 
         # coasting ?
         coasting = True
@@ -275,8 +281,8 @@ class DynamicAgent(XAgent):
         # Behavior of the train, reservation point position air return, in case of full braking.
         current_braking_distance = 0.5 * (
                 self.current_velocity_agent * self.current_velocity_agent) / abs(max_braking_acceleration) + self.length
-        delta_pos_rp = max_cached(0.0, (
-                self.current_distance_agent + current_braking_distance) - self.current_distance_reservation_point)
+        delta_pos_rp = max_cached(
+            0.0, (self.current_distance_agent + current_braking_distance) - self.current_distance_reservation_point)
         self.current_distance_reservation_point += delta_pos_rp
         self.current_velocity_reservation_point = velocity_reservation_point + \
                                                   acceleration_reservation_point * time_step
@@ -407,17 +413,20 @@ class DynamicAgent(XAgent):
 
         ax1 = plt.subplot(nbr_agents, nbr_features, 1 + (idx - 1) * nbr_features)
         plt.plot(self.distance_agent_tp_simulation_data[1:], np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6)
-        plt.plot(np.array(self.distance_agent_tp_simulation_data[1:]) - self.length,
-                 np.array(self.max_velocity_agent_tp_simulation_data[1:]) * 3.6)
-        plt.plot(np.array(self.distance_agent_tp_simulation_data[1:]),
-                 (np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6) * mal_func_signal, 'r')
+        plt.plot(
+            np.array(self.distance_agent_tp_simulation_data[1:]) - self.length,
+            np.array(self.max_velocity_agent_tp_simulation_data[1:]) * 3.6)
+        plt.plot(
+            np.array(self.distance_agent_tp_simulation_data[1:]),
+            (np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6) * mal_func_signal, 'r')
         if show_title:
             ax1.set_title('Distance vs. velocity', fontsize=10)
 
         ax2 = plt.subplot(nbr_agents, nbr_features, 2 + (idx - 1) * nbr_features)
         plt.plot(self.distance_agent_tp_simulation_data[1:], self.acceleration_agent_tp_simulation_data[1:])
-        plt.plot(self.distance_agent_tp_simulation_data[1:],
-                 np.array(self.acceleration_agent_tp_simulation_data[1:]) * mal_func_signal, 'r')
+        plt.plot(
+            self.distance_agent_tp_simulation_data[1:],
+            np.array(self.acceleration_agent_tp_simulation_data[1:]) * mal_func_signal, 'r')
         if show_title:
             ax2.set_title('Distance vs. acceleration', fontsize=10)
 
@@ -429,8 +438,9 @@ class DynamicAgent(XAgent):
 
         if self._enabled_tractive_effort_rendering:
             ax4 = plt.subplot(nbr_agents, nbr_features, 4 + (idx - 1) * nbr_features)
-            plt.plot(np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6,
-                     np.array(self.tractive_effort_agent_tp_simulation_data[1:]) / 1000.0, 'b.')
+            plt.plot(
+                np.array(self.velocity_agent_tp_simulation_data[1:]) * 3.6,
+                np.array(self.tractive_effort_agent_tp_simulation_data[1:]) / 1000.0, 'b.')
             if show_title:
                 ax4.set_title('Velocity vs. tractive effort', fontsize=10)
             ax4.set_xlim([0, self.rolling_stock.max_velocity * 3.6 + 10])

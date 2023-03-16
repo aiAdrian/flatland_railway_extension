@@ -1,4 +1,3 @@
-
 class RollingStock:
     def __init__(self,
                  max_traction=210000.0,
@@ -87,14 +86,16 @@ class RollingStock:
         :param simulation_time_step: the simulation time step (euler step duration)
         :return: train_acceleration, max_braking_acceleration, max_tractive_effort
         '''
-        total_resistance, train_run_resistance = self.get_current_resistance(current_gradient,
-                                                                             current_velocity,
-                                                                             train_total_mass,
-                                                                             max_allowed_velocity,
-                                                                             simulation_time_step)
+        total_resistance, train_run_resistance = self.get_current_resistance(
+            current_gradient,
+            current_velocity,
+            train_total_mass,
+            max_allowed_velocity,
+            simulation_time_step)
 
-        max_tractive_effort = self.get_current_tractive_effort(total_resistance,
-                                                               self.get_max_tractive_effort(current_velocity))
+        max_tractive_effort = self.get_current_tractive_effort(
+            total_resistance,
+            self.get_max_tractive_effort(current_velocity))
         # calculate the train acceleration
         train_acceleration = \
             (max_tractive_effort / train_total_mass - train_run_resistance * 9.81) * (0.001 / self.mass_factor)
@@ -105,5 +106,3 @@ class RollingStock:
             max_braking_acceleration = max_braking_acceleration + train_acceleration
 
         return train_acceleration, max_braking_acceleration, max_tractive_effort
-
-

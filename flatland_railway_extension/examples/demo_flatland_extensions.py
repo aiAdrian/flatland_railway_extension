@@ -3,11 +3,11 @@
 # import all flatland dependance
 import time
 
-from flatland_railway_extension.examples.data_exports.FlatlandRecifeExporter import FlatlandRecifeExporter
 from flatland_railway_extension.FlatlandEnvironmentHelper import FlatlandEnvironmentHelper
 from flatland_railway_extension.FlatlandGraphBuilder import FlatlandGraphBuilder
 from flatland_railway_extension.RailroadSwitchAnalyser import RailroadSwitchAnalyser
 from flatland_railway_extension.RailroadSwitchCluster import RailroadSwitchCluster
+from flatland_railway_extension.examples.data_exports.FlatlandRecifeExporter import FlatlandRecifeExporter
 from flatland_railway_extension.utils.FlatlandRenderer import FlatlandRenderer
 
 
@@ -24,10 +24,12 @@ def print_agent_information(
         print(
             'agent {}\n\tposition: {}\n\tstart_direction: {}\n\tstate: {}\n\ttarget: {}\n\tis agent off map: {}'.format(
                 handle, agent_pos, agent_dir, agent_state, agent_target, agent_is_off_map))
-        print('\tagent is at railroad switch: {}\n\tagent is near to a railroad switch: {}'.format(
-            agent_at_railroad_switch, agent_near_to_railroad_switch))
-        print('\tagent is on a railroad switch cell: {}\n\tagent is near to a railroad switch cell: {}'.format(
-            agent_near_to_railroad_switch_cell, agent_at_railroad_switch_cell))
+        print(
+            '\tagent is at railroad switch: {}\n\tagent is near to a railroad switch: {}'.format(
+                agent_at_railroad_switch, agent_near_to_railroad_switch))
+        print(
+            '\tagent is on a railroad switch cell: {}\n\tagent is near to a railroad switch cell: {}'.format(
+                agent_near_to_railroad_switch_cell, agent_at_railroad_switch_cell))
 
 
 # =====================================================================================================================
