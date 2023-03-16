@@ -25,17 +25,18 @@ class XRailEnv(RailEnv):
                  random_seed=None,
                  record_steps=False,
                  ):
-        super(XRailEnv, self).__init__(width=width,
-                                       height=height,
-                                       rail_generator=rail_generator,
-                                       line_generator=line_generator,
-                                       number_of_agents=number_of_agents,
-                                       obs_builder_object=obs_builder_object,
-                                       malfunction_generator_and_process_data=malfunction_generator_and_process_data,
-                                       malfunction_generator=malfunction_generator,
-                                       remove_agents_at_target=remove_agents_at_target,
-                                       random_seed=random_seed,
-                                       record_steps=record_steps)
+        super(XRailEnv, self).__init__(
+            width=width,
+            height=height,
+            rail_generator=rail_generator,
+            line_generator=line_generator,
+            number_of_agents=number_of_agents,
+            obs_builder_object=obs_builder_object,
+            malfunction_generator_and_process_data=malfunction_generator_and_process_data,
+            malfunction_generator=malfunction_generator,
+            remove_agents_at_target=remove_agents_at_target,
+            random_seed=random_seed,
+            record_steps=record_steps)
 
         # Flatland Resource Allocator
         self._flatland_resource_allocator: Union[FlatlandResourceAllocator, None] = None
@@ -55,7 +56,7 @@ class XRailEnv(RailEnv):
         return self._flatland_resource_allocator
 
     def is_flatland_resource_allocator_activated(self) -> bool:
-        return self._flatland_resource_allocator != None
+        return self._flatland_resource_allocator is not None
 
     def activate_railroad_switch_cluster_locking(self,
                                                  railroad_switch_cluster: RailroadSwitchCluster,
@@ -142,10 +143,11 @@ class XRailEnv(RailEnv):
                 if current_position is None:  # Agent not added on map yet
                     current_position, current_direction = agent.initial_position, agent.initial_direction
 
-                new_position, new_direction = env_utils.apply_action_independent(preprocessed_action,
-                                                                                 self.rail,
-                                                                                 current_position,
-                                                                                 current_direction)
+                new_position, new_direction = env_utils.apply_action_independent(
+                    preprocessed_action,
+                    self.rail,
+                    current_position,
+                    current_direction)
 
                 if preprocessed_action.is_moving_action():
                     if not self.allocate_resources_at_position(agent, new_position):

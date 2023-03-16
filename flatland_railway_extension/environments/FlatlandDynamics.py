@@ -105,17 +105,18 @@ class FlatlandDynamics(XRailEnv):
                  random_seed=None,
                  record_steps=False,
                  ):
-        super(FlatlandDynamics, self).__init__(width=width,
-                                               height=height,
-                                               rail_generator=rail_generator,
-                                               line_generator=line_generator,
-                                               number_of_agents=number_of_agents,
-                                               obs_builder_object=obs_builder_object,
-                                               malfunction_generator_and_process_data=malfunction_generator_and_process_data,
-                                               malfunction_generator=malfunction_generator,
-                                               remove_agents_at_target=remove_agents_at_target,
-                                               random_seed=random_seed,
-                                               record_steps=record_steps)
+        super(FlatlandDynamics, self).__init__(
+            width=width,
+            height=height,
+            rail_generator=rail_generator,
+            line_generator=line_generator,
+            number_of_agents=number_of_agents,
+            obs_builder_object=obs_builder_object,
+            malfunction_generator_and_process_data=malfunction_generator_and_process_data,
+            malfunction_generator=malfunction_generator,
+            remove_agents_at_target=remove_agents_at_target,
+            random_seed=random_seed,
+            record_steps=record_steps)
         # Overload distance_map with extended version (calculation)
         self.set_distance_map(FlatlandDynamicsDistanceMap(self.agents, self.height, self.width))
         self._infrastructure_data: Union[InfrastructureData, None] = None

@@ -16,7 +16,7 @@ from flatland_railway_extension.utils.FlatlandRenderer import FlatlandRenderer
 
 
 def show_shortest_path(flatland_graph_builder: FlatlandGraphBuilder):
-    # ---------- FlatlandGraphBuilder--------------------------------------------------------------------------------------
+    # ---------- FlatlandGraphBuilder----------------------------------------------------------------------------------
     flatland_renderer = FlatlandRenderer(env=flatland_environment_helper.get_rail_env())
     for agent_handle in flatland_environment_helper.get_rail_env().get_agent_handles():
         print('Show shortest paths for agent {}'.format(agent_handle))
@@ -52,10 +52,12 @@ def create_infrastructure_data(env: RailEnv, railroad_switch_analyser: RailroadS
 flatland_environment_helper = FlatlandEnvironmentHelper(random_seed=2341)
 railroad_switch_analyser = RailroadSwitchAnalyser(env=flatland_environment_helper.get_rail_env())
 railroad_switch_cluster = RailroadSwitchCluster(railroad_switch_analyser=railroad_switch_analyser)
-infrastructure_data = create_infrastructure_data(env=flatland_environment_helper.get_rail_env(),
-                                                 railroad_switch_analyser=railroad_switch_analyser)
-flatland_graph_builder = FlatlandGraphBuilder(railroad_switch_analyser=railroad_switch_analyser,
-                                              infrastructure_data=infrastructure_data)
+infrastructure_data = create_infrastructure_data(
+    env=flatland_environment_helper.get_rail_env(),
+    railroad_switch_analyser=railroad_switch_analyser)
+flatland_graph_builder = FlatlandGraphBuilder(
+    railroad_switch_analyser=railroad_switch_analyser,
+    infrastructure_data=infrastructure_data)
 
 print('==============================================================================================================')
 print('Full graph')

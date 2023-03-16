@@ -142,7 +142,6 @@ class RailroadSwitchAnalyser:
 
     def do_debug_plot(self):
         # Setup renderer
-        connecting_edge_cells = []
         switch_image = np.zeros((self.env.height, self.env.width)) * np.nan
         switches_neighbours_image = np.zeros((self.env.height, self.env.width)) * np.nan
         for h in range(self.env.height):
