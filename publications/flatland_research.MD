@@ -243,16 +243,17 @@ https://arxiv.org/abs/2111.07876
 )
 arXiv preprint arXiv:2111.07876.
 
-Meier, R., Roost D. (2020).
+### 2019
+
+----
+
+Meier, R., Roost D. (2019).
 [Existing and novel approaches to the vehicle
 rescheduling problem (VRSP)](
 https://www.zhaw.ch/storage/shared/upload/PA19_RLinaMultiAgentSystemforTrainScheduling.pdf
 ).
 Project thesis, Computer Science, Zurich University of Applied Sciences.
 
-### 2019
-
-----
 Cantini, G. (2019).
 [FLATLAND: A study of Deep Reinforcement Learning methods applied to the
 vehicle rescheduling problem in a railway environment.](
