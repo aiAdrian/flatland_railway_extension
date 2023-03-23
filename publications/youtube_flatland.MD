@@ -24,9 +24,12 @@ Flatland.
 |                 ```Visualization of the Flatland Railway Scheduling Domain```<br> <br> <sup>[Sven Koenig](http://idm-lab.org/)</sup>                  |[![Publication date: 13.12.2020](https://img.youtube.com/vi/IhHrUZtu75w/mqdefault.jpg "Visualization of the Flatland Railway Scheduling Domain")](https://www.youtube.com/watch?v=IhHrUZtu75w)|
 |                ```Team JBR_HSE presentation```<br> <br> <sup>[Konstantin Makhnev](https://github.com/mahkons/jbr-flatland), Oleg Svidchenko, Vladimir Egorov, Dimitry Ivanov, [Aleksei Shpilman](https://www.hse.ru/en/staff/ashpilman)</sup><br><sup> NeurIPS 2020 - Flatland Challenge</sup>                 |[![Publication date: 15.11.2020](https://img.youtube.com/vi/qpe12tW9iOA/mqdefault.jpg "Team JBR_HSE presentation (NeurIPS 2020 Flatland Challenge)")](https://www.youtube.com/watch?v=qpe12tW9iOA)|
 | ```NeurIPS 2020 RL Challenges & Flatland 2019 (3rd Place)```<br> <br> <sup>Alexey Skrynnik, Konstantin Yakovlev</sup> |[![Publication date: 23.06.2020](https://img.youtube.com/vi/fXisPnZfzss/mqdefault.jpg "NeurIPS 2020 RL Challenges & Flatland 2019 (3rd Place) - Alexey Skrynnik & Konstantin Yakovlev")](https://www.youtube.com/watch?v=fXisPnZfzss?t=1386)|
-|       ```JOIN ME for the NeurIPS 2020 Flatland Multi-Agent RL Challenge!```<br> <br><sup>Yannic Kilcher</sup>        |[![Publication date: 08.06.2020](https://img.youtube.com/vi/cvkeWwDQr0A/mqdefault.jpg "JOIN ME for the NeurIPS 2020 Flatland Multi-Agent RL Challenge!")](https://www.youtube.com/watch?v=cvkeWwDQr0A)|
+|       ```JOIN ME for the NeurIPS 2020 Flatland Multi-Agent RL Challenge!```<br> <br><sup>[Yannic Kilcher](https://www.ykilcher.com/)</sup>        |[![Publication date: 08.06.2020](https://img.youtube.com/vi/cvkeWwDQr0A/mqdefault.jpg "JOIN ME for the NeurIPS 2020 Flatland Multi-Agent RL Challenge!")](https://www.youtube.com/watch?v=cvkeWwDQr0A)|
 | ```Flatland Challenge - Challenge Track```<br> <br> <sup>Jeremy Watson, Florian Laurent, Erik Nygren</sup> |[![Publication date: 30.04.2020](https://img.youtube.com/vi/rGzXsOC7qXg/mqdefault.jpg "Flatland Challenge - Challenge Track - Jeremy Watson, Florian Laurent &Erik Nygren")](https://www.youtube.com/watch?v=rGzXsOC7qXg)|
 |||
 |        ```Flatland Challenge AIcrowd```<br> <br> <sup>Sergey Sviridov</sup>         |[![Publication date: 15.08.2019](https://img.youtube.com/vi/oJCxvQdK_sY/mqdefault.jpg "Flatland Challenge AIcrowd - Sergey Sviridov")](https://www.youtube.com/watch?v=oJCxvQdK_sY)|
 | ```Autonomous Traffic Flow Management```<br> <br> <sup>Erik Nygren, Adrian Egli</sup>         |[![Publication date: 11.04.2019](https://img.youtube.com/vi/VX9yt5mWzDk/mqdefault.jpg "Autonomous Traffic Flow Management")](https://www.youtube.com/watch?v=VX9yt5mWzDk)|
 
+
+ 
+ 
