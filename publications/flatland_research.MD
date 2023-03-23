@@ -156,12 +156,6 @@ https://ojs.aaai.org/index.php/AAAI/article/view/17456
 ) In Proceedings of the AAAI Conference on Artificial Intelligence (Vol. 35, No.
 14, pp. 12267-12274).
 
-Wälter, J., Mehta, F. D., & Rao, X. (2020).
-[Aiding vehicle scheduling and rescheduling using machine learning.](
-https://www.witpress.com/elibrary/tdi/4/4/2733
-)
-International Journal of Transport Development and Integration, 4(4), 308-320.
-
 Hájek, R., Malecek, L., Melecký, M., & Schovancová, J. (2021).
 [Flatland Challenge, Team Learn.](
 http://ktiml.mff.cuni.cz/~bartak/ui_seminar/talks/2021LS/Final-TeamLearn.pdf
@@ -185,6 +179,12 @@ Scheduling (Vol. 31, pp. 477-485).
 ### 2020
 
 ----
+
+Wälter, J., Mehta, F. D., & Rao, X. (2020).
+[Aiding vehicle scheduling and rescheduling using machine learning.](
+https://www.witpress.com/elibrary/tdi/4/4/2733
+)
+International Journal of Transport Development and Integration, 4(4), 308-320.
 
 
 Laurent, F., Schneider, M., Scheller, C., Watson, J.,
