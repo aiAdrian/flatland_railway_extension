@@ -34,22 +34,22 @@ https://www.youtube.com/watch?v=rGzXsOC7qXg
 )
 [![Publication date: 07.04.2021](
 https://img.youtube.com/vi/nbNJ8wjH2nw/mqdefault.jpg
- "Flatland Challenge at NeurIPS 2020 DeepRL Workshop")](
+"Flatland Challenge at NeurIPS 2020 DeepRL Workshop")](
 https://www.youtube.com/watch?v=nbNJ8wjH2nw
 )
-[![Publication date: #####](
+[![Publication date: 19.07.2021](
 https://img.youtube.com/vi/Pw4GBL1UhPA/mqdefault.jpg
-)](
+"ICAPS 2021 - Scalable Rail Planning and Replanning: Winning the 2020 Flatland Challenge")](
 https://www.youtube.com/watch?v=Pw4GBL1UhPA&t=317s
 )
-[![Publication date: #####](
+[![Publication date: 15.08.2019](
 https://img.youtube.com/vi/oJCxvQdK_sY/mqdefault.jpg
-)](
+"Flatland Challenge AIcrowd | Sergey Sviridov")](
 https://www.youtube.com/watch?v=oJCxvQdK_sY
 )
-[![Publication date: #####](
+[![Publication date: 26.04.2021](
 https://img.youtube.com/vi/w75DbrgBQ2c/mqdefault.jpg
-)](
+ "Flatland Challenge Video (Mobile Robot Systems @ University of Cambridge)")](
 https://www.youtube.com/watch?v=w75DbrgBQ2c
 )
 [![Publication date: #####](
