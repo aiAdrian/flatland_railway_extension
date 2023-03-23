@@ -9,7 +9,6 @@ https://img.youtube.com/vi/cvkeWwDQr0A/mqdefault.jpg
 )](
 https://www.youtube.com/watch?v=cvkeWwDQr0A
 )
-
 [![Publication date: 10.08.2021](
 https://img.youtube.com/vi/baRffuFM7lE/mqdefault.jpg
 "ICAPS 2021 The Flatland Challenge: Multi-Agent Reinforcement Learning on Trains"
@@ -22,19 +21,20 @@ https://img.youtube.com/vi/qpe12tW9iOA/mqdefault.jpg
 )](
 https://www.youtube.com/watch?v=qpe12tW9iOA
 )
-[![Publication date: #####](
+[![Publication date: 11.04.2019](
 https://img.youtube.com/vi/VX9yt5mWzDk/mqdefault.jpg
-)](
+"Autonomous Traffic Flow Management")](
 https://www.youtube.com/watch?v=VX9yt5mWzDk
 )
-[![Publication date: #####](
+[![Publication date: 30.04.2020](
 https://img.youtube.com/vi/rGzXsOC7qXg/mqdefault.jpg
-)](
+"Flatland Challenge | Challenge Track | Jeremy Watson, Florian Laurent &
+Erik Nygren")](
 https://www.youtube.com/watch?v=rGzXsOC7qXg
 )
-[![Publication date: #####](
+[![Publication date: 07.04.2021](
 https://img.youtube.com/vi/nbNJ8wjH2nw/mqdefault.jpg
-)](
+ "Flatland Challenge at NeurIPS 2020 DeepRL Workshop")](
 https://www.youtube.com/watch?v=nbNJ8wjH2nw
 )
 [![Publication date: #####](
