@@ -74,39 +74,41 @@ https://img.youtube.com/vi/IhHrUZtu75w/mqdefault.jpg
 "Visualization of the Flatland Railway Scheduling Domain")](
 https://www.youtube.com/watch?v=IhHrUZtu75w
 )
-[![Publication date: #####](
+[![Publication date: 11.08.2021](
 https://img.youtube.com/vi/Fu5j7FVzF5c/mqdefault.jpg
-)](
+"Intelligent Planning for Large-Scale Multi-Agent Systems - Hang Ma")](
 https://www.youtube.com/watch?v=Fu5j7FVzF5c&t=265s
 )
-[![Publication date: #####](
+[![Publication date: 03.02.2022  ](
 https://img.youtube.com/vi/oQiCDSfwqI8/mqdefault.jpg
+"Семинар 16. Flatland
+Challenge 3: Multi-agent Reinforcement Learning on Trains (1-2 место)"
 )](
 https://www.youtube.com/watch?v=oQiCDSfwqI8
 )
-[![Publication date: #####](
+[![Publication date: 13.12.2020](
 https://img.youtube.com/vi/pNbFDVXkHQ0/mqdefault.jpg
-)](
+"Winning the Flatland Competition at NeurIPS 2020")](
 https://www.youtube.com/watch?v=pNbFDVXkHQ0&t=421s
 )
-[![Publication date: #####](
+[![Publication date: 15.12.2020](
 https://img.youtube.com/vi/wDKbL7CuHpQ/mqdefault.jpg
-)](
+"Flatland NeurIPS Townhall")](
 https://www.youtube.com/watch?v=wDKbL7CuHpQ&t=9s
 )
-[![Publication date: #####](
+[![Publication date: 11.06.2021](
 https://img.youtube.com/vi/BAubIPTEbtY/mqdefault.jpg
-)](
+"Winning the NeurIPS-20 Flatland Competition on Train Scheduling")](
 https://www.youtube.com/watch?v=BAubIPTEbtY
 )
-[![Publication date: #####](
+[![Publication date: 05.04.2022](
 https://img.youtube.com/vi/olQw9bw2KR4/mqdefault.jpg
-)](
+"Spatio-temporal Analysis of Multi-agent Scheduling Behaviors on Fixed-track Networks -PacificVis '22")](
 https://www.youtube.com/watch?v=olQw9bw2KR4
 )
-[![Publication date: #####](
+[![Publication date: 13.05.2022](
 https://img.youtube.com/vi/H3wRCZf_Mrs/mqdefault.jpg
-)](
+"AAMAS-22 Tutorial on Recent Advances in Multi-Agent Path Finding")](
 https://www.youtube.com/watch?v=H3wRCZf_Mrs&t=5461s
 )
 
