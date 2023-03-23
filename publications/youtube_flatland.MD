@@ -3,26 +3,6 @@
 This is hopely the complete list of all videos on youtube - which have used
 Flatland.
 
-<style>
-    .headerless th {
-        display: none;
-    }
-    th, td, tr {
-       border: none!important;
-    }
-    
-    table {
-        border-collapse: collapse;
-    }
-    table, th, td {
-       border: 1px solid black;
-    }
-    blockquote {
-        border-left: solid blue;
-        padding-left: 10px;
-    }
-</style>
-
 <div class="headerless">
 
 |   Year   |                                                               *Title*                                                               |                                                                                                                    Video                                                                                                                    |
