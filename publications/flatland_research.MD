@@ -212,17 +212,6 @@ Sartoretti, G., Spigler, G. (2020).
 trains.](https://arxiv.org/abs/2012.05893)
 arXiv preprint arXiv:2012.05893.
 
-Laurent, F., Schneider, M., Scheller, C., Watson, J., Li. J., Chen, Z., Zheng,
-Y., Chan, S., Makhnev, K., Svidchenko, O., Egorov, V., Ivanov, D., Shpilman, A.,
-Spirovska, E.,
-Tanevski, O., Nikov, K., Grunder, R., Galevski, D., Mitrovski, J., Sartoretti,
-G., Luo, Z., Damani, M., Bhattacharya, N., Agarwal, S., Egli, A., Nygren, E.,
-Mohanty, S. (2021, August). [Flatland competition 2020: MAPF and MARL for
-efficient train coordination on a grid world.](
-https://proceedings.mlr.press/v133/laurent21a.html
-) In NeurIPS 2020 Competition and
-Demonstration Track (pp. 275-301). PMLR.
-
 Roost, D., Meier, R., Huschauer, S., Nygren, E., Egli, A., Weiler, A., &
 Stadelmann, T. (2020, June).
 [Improving sample efficiency and multi-agent
