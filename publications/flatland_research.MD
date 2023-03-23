@@ -180,7 +180,7 @@ Laurent, F., Schneider, M., Scheller, C., Watson, J.,
 Li, J., Chen, Z., Zheng, Y., Chan, S., Makhnev, K.,  
 Svidchenko, O., Egorov, V., Ivanov, D., Shpilman, A.,
 Spirovska, E., Tanevski, O., Nikov, A., Grunder, R., Galevski, D.,
-Mitrovski, J., Sartoretti, G., Luo, Z., Damani, M., Bhattacharya, N.,  
+Mitrovski, J., Sartoretti, G., Luo, Z., Damani, M., Bhattacharya, N.,
 Agarwal, S., Egli, A., Nygren, E., Mohanty, S. (2021, August).
 [Flatland competition 2020: MAPF and MARL for efficient train coordination on
 a grid world.](
