@@ -132,16 +132,17 @@ https://ieeexplore.ieee.org/abstract/document/9787908
 ) In 2022 IEEE 15th Pacific Visualization Symposium (PacificVis)
 (pp. 21-30). IEEE.
 
-### 2021
-
-----
-
 Badyal, S. (2021). [A Comparative Study of Multi-Agent Reinforcement
 Learning on Real World Problems](
 https://keep.lib.asu.edu/items/161758
 )
 (Doctoral dissertation, Arizona State
 University).
+
+
+### 2021
+
+----
 
 Leamer, A., Sharma, R., & Khan, M. S. (2021)
 [Multi-Agent Reinforcement Learning on
