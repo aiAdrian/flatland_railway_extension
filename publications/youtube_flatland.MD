@@ -49,27 +49,29 @@ https://www.youtube.com/watch?v=oJCxvQdK_sY
 )
 [![Publication date: 26.04.2021](
 https://img.youtube.com/vi/w75DbrgBQ2c/mqdefault.jpg
- "Flatland Challenge Video (Mobile Robot Systems @ University of Cambridge)")](
+"Flatland Challenge Video (Mobile Robot Systems @ University of Cambridge)")](
 https://www.youtube.com/watch?v=w75DbrgBQ2c
 )
-[![Publication date: #####](
+[![Publication date: 23.06.2020](
 https://img.youtube.com/vi/fXisPnZfzss/mqdefault.jpg
-)](
-https://www.youtube.com/watch?v=fXisPnZfzss
+"NeurIPS 2020 RL Challenges & Flatland 2019 (3rd Place) | Alexey Skrynnik & Konstantin Yakovlev")](
+https://www.youtube.com/watch?v=fXisPnZfzss?t=1386
 )
-[![Publication date: #####](
+[![Publication date: 19.04.2021](
 https://img.youtube.com/vi/O2-EbInQ5sQ/mqdefault.jpg
+"AICrowd Flatland challenge | Talking you through the competition"
 )](
 https://www.youtube.com/watch?v=O2-EbInQ5sQ
 )
-[![Publication date: #####](
+[![Publication date: 24.11.2021](
 https://img.youtube.com/vi/NsrCFR4vDxo/mqdefault.jpg
-)](
+"Oren Salzman: Multi-Agent Path Finding: New Analysis, Problem Variants and
+Algorithms")](
 https://www.youtube.com/watch?v=NsrCFR4vDxo
 )
-[![Publication date: #####](
+[![Publication date: 13.12.2020](
 https://img.youtube.com/vi/IhHrUZtu75w/mqdefault.jpg
-)](
+"Visualization of the Flatland Railway Scheduling Domain")](
 https://www.youtube.com/watch?v=IhHrUZtu75w
 )
 [![Publication date: #####](
