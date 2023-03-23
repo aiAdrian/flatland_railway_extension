@@ -176,17 +176,6 @@ https://ojs.aaai.org/index.php/ICAPS/article/view/15994
 In Proceedings of the International Conference on Automated Planning and
 Scheduling (Vol. 31, pp. 477-485).
 
-### 2020
-
-----
-
-Wälter, J., Mehta, F. D., & Rao, X. (2020).
-[Aiding vehicle scheduling and rescheduling using machine learning.](
-https://www.witpress.com/elibrary/tdi/4/4/2733
-)
-International Journal of Transport Development and Integration, 4(4), 308-320.
-
-
 Laurent, F., Schneider, M., Scheller, C., Watson, J.,
 Li, J., Chen, Z., Zheng, Y., Chan, S., Makhnev, K.,  
 Svidchenko, O., Egorov, V., Ivanov, D., Shpilman, A.,
@@ -198,6 +187,17 @@ a grid world.](
 https://proceedings.mlr.press/v133/laurent21a.html
 )
 In NeurIPS 2020 Competition and Demonstration Track (pp. 275-301). PMLR.
+
+
+### 2020
+
+----
+
+Wälter, J., Mehta, F. D., & Rao, X. (2020).
+[Aiding vehicle scheduling and rescheduling using machine learning.](
+https://www.witpress.com/elibrary/tdi/4/4/2733
+)
+International Journal of Transport Development and Integration, 4(4), 308-320.
 
 Filip, R. (2020).
 [Multi-agent Path-finding for trains with breakdowns.](
