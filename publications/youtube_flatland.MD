@@ -3,7 +3,29 @@
 This is hopely the complete list of all videos on youtube - which have used
 Flatland.
 
-|  *Year*  |                                                               *Title*                                                               |                                                                                                                    Video                                                                                                                    |
+<style>
+    .headerless th {
+        display: none;
+    }
+    th, td, tr {
+       border: none!important;
+    }
+    
+    table {
+        border-collapse: collapse;
+    }
+    table, th, td {
+       border: 1px solid black;
+    }
+    blockquote {
+        border-left: solid blue;
+        padding-left: 10px;
+    }
+</style>
+
+<div class="headerless">
+
+|   Year   |                                                               *Title*                                                               |                                                                                                                    Video                                                                                                                    |
 |:--------:|:-----------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | **2023** |||
 | **2022** |||
@@ -31,7 +53,7 @@ Flatland.
 |          |        ```Flatland Challenge AIcrowd```<br> <sup>Sergey Sviridov</sup>         |[![Publication date: 15.08.2019](https://img.youtube.com/vi/oJCxvQdK_sY/mqdefault.jpg "Flatland Challenge AIcrowd - Sergey Sviridov")](https://www.youtube.com/watch?v=oJCxvQdK_sY)|
 |          | ```Autonomous Traffic Flow Management```<br>         <sup>   Erik Nygren</sup> |[![Publication date: 11.04.2019](https://img.youtube.com/vi/VX9yt5mWzDk/mqdefault.jpg "Autonomous Traffic Flow Management")](https://www.youtube.com/watch?v=VX9yt5mWzDk)|
 
-
+</div>
 
 
  
