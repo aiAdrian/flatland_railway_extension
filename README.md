@@ -4,12 +4,12 @@ This repo extends [Flatland Railway Simulator](https://gitlab.aicrowd.com/flatla
 
 ## Extended RailEnv
 
-- class [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/XRailEnv.py) extends [RailEnv](https://gitlab.aicrowd.com/flatland/flatland/-/blob/master/flatland/envs/rail_env.py#L36) 
+- class [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/XRailEnv.py) extends [RailEnv](https://gitlab.aicrowd.com/flatland/flatland/-/blob/master/flatland/envs/rail_env.py#L36) 
   
   XRailEnv is an extended version of the Flatland environment and supports multiple resources allocation to an agent at time.
 
-- class [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandDynamics.py)
-extends [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/XRailEnv.py)
+- class [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/FlatlandDynamics.py)
+extends [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/XRailEnv.py)
 
   FlatlandDynamics extends XRailEnv and implements vehicle movement dynamics. The simulation takes into account rolling
   stock properties such as maximal allowed velocity and traction power, topology (gradient) and physical train length.
@@ -31,13 +31,13 @@ Completely new experiments can be carried out using these extensions. In the cur
 resource can be assigned to an agent at time. This allows solving a simplified resource allocation problem for railway
 operation - which is certainly not far away from problems in real railway world. But no important features such as "
 Flankenschutz" or "Durchrutschweg" can be modeled. With
-the [multiple resource allocation technics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandResourceAllocator.py) - 
+the [multiple resource allocation technics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/FlatlandResourceAllocator.py) - 
 which allows to assigne more than one resource to an agent at time - this leads to a more realistic model and allows
 to model important aspects of railway safety. In consequence the modeling gets much more complex with respect of
 details/data requirement, but this leads to much more realistic simulation results. Another important aspect in the
 augmentation of reality is that the agents behave dynamically in terms of movement. Agents are able to dynamically
 interact with each others. The vehicle movement dynamics of each agent can be enabled by using
-the [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandDynamics.py)
+the [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/FlatlandDynamics.py)
 environment. By combing all of those extensions the simulation will become very realistic.
 
 The goal of this extension package is that researchers can show where the limits and strengths of their proposed methods
@@ -55,7 +55,7 @@ solver of all kind of those problems.
 
 ## Functionality
 
-- [RailroadSwitchAnalyser](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/RailroadSwitchAnalyser.py)
+- [RailroadSwitchAnalyser](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/RailroadSwitchAnalyser.py)
 
   The illustration on the left shows all crossings (switches) and the illustration on the right shows all switch
   neighbours. A switch neighbours is an infrastructure element that has an intersection (crossing) as its neighbour.
@@ -68,7 +68,7 @@ solver of all kind of those problems.
     <img width="40%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/flatland_scenario_cell_types.png"> 
 </p>
 
-- [RailroadSwitchCluster](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/utils/FlatlandDynamicsRenderer.py)
+- [RailroadSwitchCluster](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/RailroadSwitchCluster.py)
 
   The left illustration shows all connecting edges (cluster). The number represents the cluster id. Cells with the same
   cluster id belong to the same cluster. The right illustration shows all switch clusters. A switch cluster contains one
@@ -77,7 +77,7 @@ solver of all kind of those problems.
 
   ![RailroadSwitchCluster](https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/RailroadSwitchCluster.png "RailroadSwitchCluster")
 
-- [FlatlandResourceAllocator](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandResourceAllocator.py)
+- [FlatlandResourceAllocator](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/FlatlandResourceAllocator.py)
 
   The Flatland Resource Allocator extension allows the implementation of a simultaneous allocation of multiple resources
   to an agent, and also allows the concept of minimal headway (train-following), which roughly simulates the real
@@ -89,7 +89,7 @@ solver of all kind of those problems.
 - [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/FlatlandGraphBuilder.py)
 
 
-- [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/FlatlandDynamics.py)
+- [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/FlatlandDynamics.py)
 
   The diagram on the left illustrates the speed diagram for each train. The traveled distance [m] is plotted on the
   x-axis. The speed in kilometers per hour [km/h] is shown on the y-axis. The orange curve shows the maximum allowed
@@ -100,11 +100,11 @@ solver of all kind of those problems.
 
 ![FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics.png "FlatlandDynamics")
 
-- [Rolling Stock](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/RollingStock.py)
+- [Rolling Stock](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/RollingStock.py)
 
   The rolling stock data stores the technical characteristics of each locomotive, including tractive effort and speed
   limits.
-  The [DynamicAgent](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/environment_extensions/DynamicAgent.py)
+  The [DynamicAgent](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/DynamicAgent.py)
   stores the physical properties such as mass and length of the complete train (agent) and requires the rolling stock
   data to simulate the tractive effort and acceleration.
 
@@ -144,7 +144,7 @@ solver of all kind of those problems.
 
   $$F <= \min({ P_{max} \over v} , F_{max})$$
 
-- [FlatlandDynamicsRendering](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/utils/FlatlandDynamicsRenderer.py)
+- [FlatlandDynamicsRendering](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/utils/FlatlandDynamicsRenderer.py)
 
   Resources colored orange, red or black are occupied by the train. Orange indicates a resource reserved for the train
   but not required by either the braking distance or the physical train. Red and black resources are security related.
