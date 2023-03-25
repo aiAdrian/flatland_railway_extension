@@ -35,7 +35,7 @@ the [multiple resource allocation technics](https://github.com/aiAdrian/flatland
 which allows to assigne more than one resource to an agent at time - this leads to a more realistic model and allows
 to model important aspects of railway safety. In consequence the modeling gets much more complex with respect of
 details/data requirement, but this leads to much more realistic simulation results. Another important aspect in the
-augmentation of reality is that the agents behave dynamically in terms of movement. Agents are able to dynamically
+augmentation of reality is that the agents behave more dynamically in terms of movement. Agents are able to more realistic 
 interact with each others. The vehicle movement dynamics of each agent can be enabled by using
 the [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/FlatlandDynamics.py)
 environment. By combing all of those extensions the simulation will become very realistic.
