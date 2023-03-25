@@ -27,7 +27,7 @@ extends [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/m
 
 ### Details
 
-Completely new experiments can be carried out using these extensions. In the current version of Flatland exactly one
+In the current version of Flatland exactly one
 resource can be assigned to an agent at time. This allows solving a simplified resource allocation problem for railway
 operation - which is certainly not far away from problems in real railway world. But no important features such as "
 Flankenschutz" or "Durchrutschweg" can be modeled. With
