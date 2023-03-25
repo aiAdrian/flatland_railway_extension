@@ -86,7 +86,7 @@ solver of all kind of those problems.
   multi-resource allocator it is possible to implement "flank protection", ... and dynamic movement.
 
 
-- [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_extensions/FlatlandGraphBuilder.py)
+- [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/FlatlandGraphBuilder.py)
 
 
 - [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/FlatlandDynamics.py)
