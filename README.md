@@ -29,8 +29,8 @@ extends [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/m
 
 In the current version of Flatland exactly one
 resource can be assigned to an agent at time. This allows solving a simplified resource allocation problem for railway
-operation - which is certainly not far away from problems in real railway world. But no important features such as "
-Flankenschutz" or "Durchrutschweg" can be modeled. With
+operation - which is certainly not far away from problems in real railway world. But no important features such as ["Flankenschutz"](https://de.wikipedia.org/wiki/Fahrstra%C3%9Fe#Flankenschutz) 
+or ["Fahrstrassenausschluss"](https://de.wikipedia.org/wiki/Fahrstra%C3%9Fe) can be modeled. With
 the [multiple resource allocation technics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/FlatlandResourceAllocator.py) - 
 which allows to assigne more than one resource to an agent at time - this leads to a more realistic model and allows
 to model important aspects of railway safety. In consequence the modeling gets much more complex with respect of
