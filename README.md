@@ -4,12 +4,14 @@ This repo extends [Flatland Railway Simulator](https://gitlab.aicrowd.com/flatla
 
 ## Extended RailEnv
 
-- class [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/XRailEnv.py) extends [RailEnv](https://gitlab.aicrowd.com/flatland/flatland/-/blob/master/flatland/envs/rail_env.py#L36) 
+- class [MultiResourcesAllocationRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/MultiResourcesAllocationRailEnv.py) extends [RailEnv](https://gitlab.aicrowd.com/flatland/flatland/-/blob/master/flatland/envs/rail_env.py#L36) 
   
-  XRailEnv is an extended version of the Flatland environment and supports multiple resources allocation to an agent at time.
+  MultiResourcesAllocationRailEnv extends the Flatland environment and 
+  supports the allocation of multiple resources to an agent at the same time.
+
 
 - class [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/FlatlandDynamics.py)
-extends [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/XRailEnv.py)
+extends [MultiResourcesAllocationRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/MultiResourcesAllocationRailEnv.py)
 
   FlatlandDynamics implements the dynamics of vehicle
   movement. The simulation takes into account the characteristics of the 

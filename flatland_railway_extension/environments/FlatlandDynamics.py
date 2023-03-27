@@ -16,7 +16,7 @@ delay. The physical delay is a parameter that can be set for each agent separate
 (negative acceleration) is that this can be quite easy be implemented in a fixed time-step simulation where the next
 state only depends on the current state.
 
-In order to simulate the dynamics, the simulator must ensure that each agent can brake before colliding with
+In order to simulate the dynamics, the simulator must ensure that each agent must be able to brake before colliding with
 others. The braking distance can vary from zero (train is not moving) to many meters (train is moving). The braking
 distance is highly dependent on train speed. The braking distance plus the train length can be longer then one cell's
 length. Therefore the agent must be capable to reserve one or more resources (cell). Reserved means that the
@@ -88,10 +88,10 @@ from flatland_railway_extension.environments.DynamicAgent import DynamicAgent
 from flatland_railway_extension.environments.FlatlandDynamicsDistanceMap import FlatlandDynamicsDistanceMap
 from flatland_railway_extension.environments.FlatlandResourceAllocator import FlatlandResourceAllocator
 from flatland_railway_extension.environments.InfrastructureData import InfrastructureData
-from flatland_railway_extension.environments.XRailEnv import XRailEnv
+from flatland_railway_extension.environments.MultiResourcesAllocationRailEnv import MultiResourcesAllocationRailEnv
 
 
-class FlatlandDynamics(XRailEnv):
+class FlatlandDynamics(MultiResourcesAllocationRailEnv):
     def __init__(self,
                  width,
                  height,
@@ -130,7 +130,7 @@ class FlatlandDynamics(XRailEnv):
         self.distance_map.reset(self.agents, self.rail)
 
     def reset_agents(self):
-        super(XRailEnv, self).reset_agents()
+        super(MultiResourcesAllocationRailEnv, self).reset_agents()
         x_dynamic_agents = []
         for agent in self.agents:
             x_dynamic_agents.append(DynamicAgent(agent))
@@ -168,7 +168,7 @@ class FlatlandDynamics(XRailEnv):
         return 0
 
     def post_preprocess_action(self, action, agent):
-        preprocessed_action = super(XRailEnv, self).preprocess_action(action, agent)
+        preprocessed_action = super(MultiResourcesAllocationRailEnv, self).preprocess_action(action, agent)
 
         if preprocessed_action == RailEnvActions.STOP_MOVING:
             agent.set_hard_brake(True)
