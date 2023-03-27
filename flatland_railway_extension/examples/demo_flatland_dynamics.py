@@ -12,7 +12,7 @@ from flatland_railway_extension.environments.DynamicAgent import DynamicAgent
 from flatland_railway_extension.environments.FlatlandDynamics import FlatlandDynamics
 from flatland_railway_extension.environments.FlatlandResourceAllocator import FlatlandResourceAllocator
 from flatland_railway_extension.environments.InfrastructureData import InfrastructureData
-from flatland_railway_extension.environments.XRailEnv import XRailEnv
+from flatland_railway_extension.environments.MultiResourcesAllocationRailEnv import MultiResourcesAllocationRailEnv
 from flatland_railway_extension.utils.FlatlandDynamicsRenderer import FlatlandDynamicsRenderer
 from flatland_railway_extension.utils.FlatlandRenderer import FlatlandRenderer
 
@@ -78,7 +78,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
     # Start simulation
     # ---------------------------------------------------------------------------------------------------------------
     flatland_resource_allocator: Union(FlatlandResourceAllocator, None) = None
-    if isinstance(env, XRailEnv):
+    if isinstance(env, MultiResourcesAllocationRailEnv):
         flatland_resource_allocator = env.get_active_flatland_resource_allocator()
         if flatland_resource_allocator is not None:
             flatland_resource_allocator.set_minimal_free_time_to_reallocate_other_agent(120)
@@ -87,7 +87,7 @@ def run_simulation(flatland_environment_helper: FlatlandEnvironmentHelper,
         if flatland_renderer is not None and isinstance(flatland_renderer, FlatlandDynamicsRenderer):
             flatland_renderer.set_flatland_resource_allocator(flatland_resource_allocator)
         if not enable_moving_block_resource_allocation_strategy:
-            if isinstance(env, XRailEnv):
+            if isinstance(env, MultiResourcesAllocationRailEnv):
                 env.activate_railroad_switch_cluster_locking(railroad_switch_cluster)
 
         actions = {}

@@ -11,7 +11,7 @@ from flatland_railway_extension.environments.FlatlandResourceAllocator import Fl
 from flatland_railway_extension.environments.XAgent import XAgent
 
 
-class XRailEnv(RailEnv):
+class MultiResourcesAllocationRailEnv(RailEnv):
     def __init__(self,
                  width,
                  height,
@@ -25,7 +25,7 @@ class XRailEnv(RailEnv):
                  random_seed=None,
                  record_steps=False,
                  ):
-        super(XRailEnv, self).__init__(
+        super(MultiResourcesAllocationRailEnv, self).__init__(
             width=width,
             height=height,
             rail_generator=rail_generator,
@@ -100,7 +100,7 @@ class XRailEnv(RailEnv):
         return self._allocate_resources(agent, positions)
 
     def reset_agents(self):
-        super(XRailEnv, self).reset_agents()
+        super(MultiResourcesAllocationRailEnv, self).reset_agents()
         x_agents = []
         for agent in self.agents:
             x_agents.append(XAgent(agent))
@@ -115,7 +115,7 @@ class XRailEnv(RailEnv):
             for agent_handle, agent in enumerate(self.agents):
                 agent.all_resource_ok(True)
 
-        observations, all_rewards, done, info = super(XRailEnv, self).step(action_dict_=action_dict_)
+        observations, all_rewards, done, info = super(MultiResourcesAllocationRailEnv, self).step(action_dict_=action_dict_)
 
         for agent in self.agents:
             agent.update_agent()
@@ -132,7 +132,7 @@ class XRailEnv(RailEnv):
         return action
 
     def preprocess_action(self, action, agent):
-        preprocessed_action = super(XRailEnv, self).preprocess_action(action, agent)
+        preprocessed_action = super(MultiResourcesAllocationRailEnv, self).preprocess_action(action, agent)
 
         if agent.is_done():
             preprocessed_action = RailEnvActions.STOP_MOVING
