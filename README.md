@@ -18,7 +18,7 @@ extends [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/m
 
 ## Features
 
-- [Minimum headway time](https://en.wikipedia.org/wiki/Headway#:~:text=The%20minimum%20headway%20is%20the,the%20next%20one%20behind%20it.) can be globally controlled
+- [Minimum headway time](https://en.wikipedia.org/wiki/Headway) can be globally controlled
 - Multi-resource allocation can be implemented. This allows to implement mutual exclusive use of railroad switch
   cluster, connecting "edge cluster" and/or any other multi-ressource allocation problems - Railway-specific features
   can be implemented, e.g  ["Fahrstrassenausschluss"](https://de.wikipedia.org/wiki/Fahrstra%C3%9Fe), ..

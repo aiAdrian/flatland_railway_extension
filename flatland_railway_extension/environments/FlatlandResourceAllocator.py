@@ -42,7 +42,7 @@ class FlatlandResourceAllocator:
 
     def set_minimal_free_time_to_reallocate_other_agent(self, time: int):
         '''
-        Set the global resource reallocation time
+        Set the global resource reallocation time (e.g. minimum headway)
         :param time: time
         '''
         self._min_time_step_difference = time
