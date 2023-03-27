@@ -101,7 +101,8 @@ solver of all kind of those problems.
 
 - [Rolling Stock](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/RollingStock.py)
 
-  The rolling stock data stores the technical characteristics of each locomotive, including tractive effort and speed
+  The rolling stock data stores the technical characteristics of each 
+  locomotive, including [tractive effort](https://en.wikipedia.org/wiki/Tractive_force) and speed
   limits.
   The [DynamicAgent](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/DynamicAgent.py)
   stores the physical properties such as mass and length of the complete train (agent) and requires the rolling stock
