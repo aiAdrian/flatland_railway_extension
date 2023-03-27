@@ -18,7 +18,7 @@ extends [XRailEnv](https://github.com/aiAdrian/flatland_railway_extension/blob/m
 
 ## Features
 
-- Minimal train following time can be globally controlled
+- [Minimum headway time](https://en.wikipedia.org/wiki/Headway#:~:text=The%20minimum%20headway%20is%20the,the%20next%20one%20behind%20it.) can be globally controlled
 - Multi-resource allocation can be implemented. This allows to implement mutual exclusive use of railroad switch
   cluster, connecting "edge cluster" and/or any other multi-ressource allocation problems - Railway-specific features
   can be implemented, e.g  ["Fahrstrassenausschluss"](https://de.wikipedia.org/wiki/Fahrstra%C3%9Fe), ..
@@ -154,7 +154,8 @@ solver of all kind of those problems.
   since the train length can be greater than the length of the underlaying cell. In the visualization, however, a train
   that would fit into one cell can also take up more than one cell if part of the train is in the next cell and part is
   still in the current one. Green resources are still occupied. They are intended to approximately simulate the time
-  required to handle all security elements - they represents the minimal train following time.
+  required to handle all security elements - they represents the minimum 
+  headway time.
 
  <p align="center" width="200%">
     <img width="33%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/Flatland_dynamics_visualisation_elements.png"> 
