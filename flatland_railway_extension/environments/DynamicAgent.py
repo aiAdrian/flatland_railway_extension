@@ -11,8 +11,8 @@ from matplotlib import pyplot as plt
 
 from flatland_railway_extension.environments.DynamicsResourceData import DynamicsResourceData
 from flatland_railway_extension.environments.InfrastructureData import InfrastructureData
+from flatland_railway_extension.environments.MultiResourcesAllocationAgent import MultiResourcesAllocationAgent
 from flatland_railway_extension.environments.RollingStock import RollingStock
-from flatland_railway_extension.environments.XAgent import XAgent
 from flatland_railway_extension.utils.cached_methods import min_cached, max_cached
 
 _infrastructure_lru_cache_functions = []
@@ -32,7 +32,7 @@ def reset_infrastructure_data_lru_cache():
         func.cache_clear()
 
 
-class DynamicAgent(XAgent):
+class DynamicAgent(MultiResourcesAllocationAgent):
     def __init__(self, original_env_agent: EnvAgent):
         super(DynamicAgent, self).__init__(original_env_agent)
 

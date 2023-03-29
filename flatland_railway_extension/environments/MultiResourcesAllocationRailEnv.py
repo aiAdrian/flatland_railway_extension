@@ -8,7 +8,7 @@ from flatland.envs.step_utils import env_utils
 
 from flatland_railway_extension.RailroadSwitchCluster import RailroadSwitchCluster
 from flatland_railway_extension.environments.FlatlandResourceAllocator import FlatlandResourceAllocator
-from flatland_railway_extension.environments.XAgent import XAgent
+from flatland_railway_extension.environments.MultiResourcesAllocationAgent import MultiResourcesAllocationAgent
 
 
 class MultiResourcesAllocationRailEnv(RailEnv):
@@ -71,7 +71,7 @@ class MultiResourcesAllocationRailEnv(RailEnv):
         self._railroad_switch_cluster_switch_group_locking = False
         self._railroad_switch_cluster_connecting_edge_locking = False
 
-    def _allocate_resources(self, agent: XAgent, positions: List[Tuple[int, int]]):
+    def _allocate_resources(self, agent: MultiResourcesAllocationAgent, positions: List[Tuple[int, int]]):
         if self._flatland_resource_allocator is None:
             return True
         resources = positions
@@ -90,10 +90,10 @@ class MultiResourcesAllocationRailEnv(RailEnv):
                                 resources.append(r)
         return self._flatland_resource_allocator.allocate_resource(agent.handle, resources)
 
-    def allocate_resources_at_position(self, agent: XAgent, position: Tuple[int, int]) -> bool:
+    def allocate_resources_at_position(self, agent: MultiResourcesAllocationAgent, position: Tuple[int, int]) -> bool:
         return self._allocate_resources(agent, [position])
 
-    def allocate_current_resources(self, agent: XAgent) -> bool:
+    def allocate_current_resources(self, agent: MultiResourcesAllocationAgent) -> bool:
         positions = agent.get_allocated_resource()
         if len(positions) == 0 and agent.position is not None:
             positions.append(agent.position)
@@ -103,7 +103,7 @@ class MultiResourcesAllocationRailEnv(RailEnv):
         super(MultiResourcesAllocationRailEnv, self).reset_agents()
         x_agents = []
         for agent in self.agents:
-            x_agents.append(XAgent(agent))
+            x_agents.append(MultiResourcesAllocationAgent(agent))
         self.agents = x_agents
 
     def step(self, action_dict_: Dict[int, RailEnvActions]):
