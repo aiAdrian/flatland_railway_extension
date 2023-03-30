@@ -46,7 +46,7 @@ environment. By combing all of those extensions the simulation will become very 
 The goal of this extension package is that researchers can show where the limits and strengths of their proposed methods
 lie. Some optimization methods will not be able to deal with vehicle dynamics; some algorithms are not suitable for
 solving problems with multiple resource allocation at time. Others are might very slow to solve such complex dynamic
-problems and there is might a solution which can solve it in raisonable time, but the solution quality must be further
+problems and there is might a solution which can solve it in reasonable time, but the solution quality must be further
 improved. It's very exciting to see where the effective limits of each method lie and whether someone find a real-time
 solver of all kind of those problems.
 
