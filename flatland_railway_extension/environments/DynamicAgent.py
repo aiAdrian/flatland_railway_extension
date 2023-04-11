@@ -1,6 +1,6 @@
 # Idea: Adrian Egli / Erik Nygren
 # Permission to use - If you use this or any idea out of this code for a
-# publication, you must credit the authors. No commerical
+# publication, you must credit the authors. No commercial
 # use allowed.
 from functools import lru_cache
 from typing import Tuple, List, Union
