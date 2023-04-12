@@ -294,7 +294,6 @@ class DynamicAgent(MultiResourcesAllocationAgent):
         return move_reservation_point
 
     def update_agent_positions(self):
-        self._max_episode_steps = 10000
         pos = self.position
         if pos is not None:
             # The resource is only added if it was not the last one added - i.e. the agent switched to a new one.
