@@ -42,7 +42,7 @@ class DynamicAgent(MultiResourcesAllocationAgent):
         self.set_rolling_stock(RollingStock())
 
         # infrastructure
-        self.v_max_simulation = 300 / 3.6
+        self.v_max_simulation: float = 300 / 3.6
         self._infrastructure_data: Union[InfrastructureData, None] = None
 
         # set the internal simulation data (resource allocation, velocity, ... )
@@ -51,11 +51,11 @@ class DynamicAgent(MultiResourcesAllocationAgent):
         self.visited_cell_path: List[Tuple[int, int]] = []
         self.visited_direction_path: List[Tuple[int, int]] = []
         self.visited_cell_distance: List[float] = []
-        self.visited_cell_path_reservation_point_index = 0
-        self.visited_cell_path_end_of_agent_index = 0
-        self.visited_cell_path_start_of_agent_index = 0
-        self.visited_cell_path_reservation_point_distance = 0
-        self.visited_cell_path_end_of_agent_distance = 0
+        self.visited_cell_path_reservation_point_index: int = 0
+        self.visited_cell_path_end_of_agent_index: int = 0
+        self.visited_cell_path_start_of_agent_index: int = 0
+        self.visited_cell_path_reservation_point_distance: int = 0
+        self.visited_cell_path_end_of_agent_distance: int = 0
 
         # current simulation data
         self.current_velocity_reservation_point: float = 0.0
