@@ -319,7 +319,7 @@ class DynamicAgent(MultiResourcesAllocationAgent):
             if self.visited_cell_path_end_of_agent_index >= self.visited_cell_path_reservation_point_index:
                 self.visited_cell_path_end_of_agent_index = self.visited_cell_path_reservation_point_index - 1
 
-            # update current position of the agent' start with respect to visited cells
+            # update current position of the agent start with respect to visited cells
             self.visited_cell_path_start_of_agent_index = DynamicAgent.get_first_element_index_greater_than(
                 input_list=self.visited_cell_distance,
                 cmp_value=self.current_distance_agent + self.length,
@@ -345,15 +345,15 @@ class DynamicAgent(MultiResourcesAllocationAgent):
 
     def set_length(self, length: float):
         '''
-        Sets the physical total length in meter
+        Sets the physical total length
         :param length: in meter
         '''
         self.length: float = length
 
     def set_mass(self, mass: float):
         '''
-        Sets the physical total mass in tonne
-        :param mass:
+        Sets the physical total mass
+        :param mass: in tonne
         '''
         self.mass: float = mass
 
@@ -382,14 +382,20 @@ class DynamicAgent(MultiResourcesAllocationAgent):
     @staticmethod
     def get_first_element_index_greater_than(input_list, cmp_value, start_index=0):
         '''
-        This methods calculates the same as ...
+        This method calculates the same as ...
 
-        indices = np.argwhere(np.array(input_list) > cmp_value)
-        if len(indices) == 0:
-            if len(self.visited_cell_distance) == 0:
-                return 0
-        else:
-            return indices[0][0]
+        >>> input_list = [1,2,3,4,5,6]
+        >>> cmp_value = 2
+        >>> indices = np.argwhere(np.array(input_list) > cmp_value)
+        >>> def test_value(in_indices, in_input_list) -> int:
+        ...     if len(in_indices) == 0:
+        ...         if len(in_input_list) == 0:
+        ...             return 0
+        ...     else:
+        ...         return indices[0][0]
+        ...     return 0
+        >>> test_value(indices, input_list)
+        2
 
         ... but 20x faster for small input_lists
         '''
