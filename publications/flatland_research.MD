@@ -6,6 +6,8 @@ which have used Flatland.
 ### 2023
 
 ----
+Venugopal, A., Milani, S., Fang, F., & Ravindran, B. (2023, Apr 12). [Bi-level Latent Variable Model for Sample-Efficient Multi-Agent Reinforcement Learning.](https://arxiv.org/abs/2304.06011) arXiv preprint, arXiv:2304.06011.
+
 Song S. ,Na K. -I. and Yu W. (2023.), ["Anytime Lifelong Multi-Agent
 Pathfinding in
 Topological Maps,"](
