@@ -6,7 +6,9 @@ which have used Flatland.
 ### 2023
 
 ----
-Venugopal, A., Milani, S., Fang, F., & Ravindran, B. (2023, Apr 12). [Bi-level Latent Variable Model for Sample-Efficient Multi-Agent Reinforcement Learning.](https://arxiv.org/abs/2304.06011) arXiv preprint, arXiv:2304.06011.
+Venugopal, A., Milani, S., Fang, F., & Ravindran, B. (2023, Apr
+12). [Bi-level Latent Variable Model for Sample-Efficient Multi-Agent Reinforcement Learning.](https://arxiv.org/abs/2304.06011)
+arXiv preprint, arXiv:2304.06011.
 
 Song S. ,Na K. -I. and Yu W. (2023.), ["Anytime Lifelong Multi-Agent
 Pathfinding in
@@ -39,6 +41,9 @@ In Doklady Mathematics (pp. 1-9). Moscow: Pleiades Publishing.
 ### 2022
 
 ----
+Dalle, G. (Dec 2022). [Machine learning and combinatorial optimization algorithms, 
+with applications to railway planning](https://pastel.archives-ouvertes.fr/tel-04053322). Doctoral dissertation, Marne-la-vallée,
+École des Ponts ParisTech.
 
 Mohapatra, D., Ojha, A., Khadilkar, H., & Ghosh, S. (2022, July).
 [Gatekeeper: A deep reinforcement learning-cum-heuristic based algorithm for
@@ -134,7 +139,6 @@ https://ieeexplore.ieee.org/abstract/document/9787908
 ) In 2022 IEEE 15th Pacific Visualization Symposium (PacificVis)
 (pp. 21-30). IEEE.
 
-
 ### 2021
 
 ----
@@ -189,7 +193,6 @@ a grid world.](
 https://proceedings.mlr.press/v133/laurent21a.html
 )
 In NeurIPS 2020 Competition and Demonstration Track (pp. 275-301). PMLR.
-
 
 ### 2020
 
