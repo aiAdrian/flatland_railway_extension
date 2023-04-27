@@ -1,6 +1,8 @@
 import random
+from typing import Union
 
 import numpy as np
+from flatland.core.env_observation_builder import ObservationBuilder
 from flatland.envs.malfunction_generators import MalfunctionParameters, ParamMalfunctionGen
 # import all flatland dependances
 from flatland.envs.rail_env import RailEnv
@@ -11,12 +13,13 @@ from flatland_railway_extension.utils.ShortestPathNextStepObservation import Sho
 
 class FlatlandEnvironmentHelper:
     def __init__(self, rail_env=RailEnv, grid_width=30, grid_height=40, number_of_agents=10, n_cities=3,
-                 random_seed=0):
+                 random_seed=0, obs_builder_object: Union[ObservationBuilder, None] = None):
         self.grid_width = grid_width
         self.grid_height = grid_height
         self.number_of_agents = number_of_agents
         self.n_cities = n_cities
         self._random_seed(random_seed)
+        self._obs_builder_object = obs_builder_object
         self.env = self._create_flatland_env(rail_env)
         self.env.reset()
 
@@ -29,6 +32,10 @@ class FlatlandEnvironmentHelper:
                              max_rails_between_cities=2,
                              max_rails_in_city=4,
                              malfunction_rate=1 / 1000) -> RailEnv:
+
+        if self._obs_builder_object == None:
+            self._obs_builder_object = ShortestPathNextStepObservation()
+
         return rail_env(
             width=self.grid_width,
             height=self.grid_height,
@@ -46,7 +53,7 @@ class FlatlandEnvironmentHelper:
             ),
             random_seed=self.random_seed,
             number_of_agents=self.number_of_agents,
-            obs_builder_object=ShortestPathNextStepObservation()
+            obs_builder_object=self._obs_builder_object
         )
 
     def get_rail_env(self):
