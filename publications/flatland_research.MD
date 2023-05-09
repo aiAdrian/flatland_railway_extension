@@ -6,6 +6,10 @@ which have used Flatland.
 ### 2023
 
 ----
+Nygren, E., Eichenberger, C., & Frejinger, E. (2023).
+[Scope Restriction for Scalable Real-Time Railway Rescheduling: An Exploratory Study.](https://arxiv.org/abs/2305.03574)
+arXiv preprint, arXiv:2305.03574.
+
 Venugopal, A., Milani, S., Fang, F., & Ravindran, B. (2023, Apr
 12). [Bi-level Latent Variable Model for Sample-Efficient Multi-Agent Reinforcement Learning.](https://arxiv.org/abs/2304.06011)
 arXiv preprint, arXiv:2304.06011.
