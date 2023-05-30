@@ -6,6 +6,10 @@ which have used Flatland.
 ### 2023
 
 ----
+Formanek, C., Jeewa, A., Shock, J., & Pretorius, A. (2023). 
+[Off-the-Grid MARL: a Framework for Dataset Generation with Baselines for Cooperative Offline Multi-Agent Reinforcement Learning.](https://arxiv.org/abs/2302.00521)
+arXiv preprint arXiv:2302.00521.
+
 Nygren, E., Eichenberger, C., & Frejinger, E. (2023).
 [Scope Restriction for Scalable Real-Time Railway Rescheduling: An Exploratory Study.](https://arxiv.org/abs/2305.03574)
 arXiv preprint, arXiv:2305.03574.
