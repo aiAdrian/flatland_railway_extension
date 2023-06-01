@@ -1,5 +1,5 @@
 import random
-from typing import Union
+from typing import Union, Type
 
 import numpy as np
 from flatland.core.env_observation_builder import ObservationBuilder
@@ -12,7 +12,8 @@ from flatland_railway_extension.utils.ShortestPathNextStepObservation import Sho
 
 
 class FlatlandEnvironmentHelper:
-    def __init__(self, rail_env=RailEnv, grid_width=30, grid_height=40, number_of_agents=10, n_cities=3,
+    def __init__(self, rail_env: Type[RailEnv] = RailEnv,
+                 grid_width=30, grid_height=40, number_of_agents=10, n_cities=3,
                  random_seed=0, obs_builder_object: Union[ObservationBuilder, None] = None):
         self.grid_width = grid_width
         self.grid_height = grid_height
@@ -28,7 +29,7 @@ class FlatlandEnvironmentHelper:
         np.random.seed(self.random_seed)
         random.seed(self.random_seed)
 
-    def _create_flatland_env(self, rail_env,
+    def _create_flatland_env(self, rail_env: Type[RailEnv],
                              max_rails_between_cities=2,
                              max_rails_in_city=4,
                              malfunction_rate=1 / 1000) -> RailEnv:
