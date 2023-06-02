@@ -6,6 +6,11 @@ which have used Flatland.
 ### 2023
 
 ----
+
+Krause, C., Agarwal, S., Burch, M., & Beck, F. (2023). 
+[Visually Abstracting Event Sequences as Double Trees Enriched with Category‐Based Comparison.](https://onlinelibrary.wiley.com/doi/epdf/10.1111/cgf.14805) 
+In Computer Graphics Forum.
+
 Formanek, C., Jeewa, A., Shock, J., & Pretorius, A. (2023). 
 [Off-the-Grid MARL: a Framework for Dataset Generation with Baselines for Cooperative Offline Multi-Agent Reinforcement Learning.](https://arxiv.org/abs/2302.00521)
 arXiv preprint arXiv:2302.00521.
