@@ -20,12 +20,16 @@ from flatland_railway_extension.environments.InfrastructureData import Infrastru
 class FlatlandGraphBuilder:
     def __init__(self,
                  railroad_switch_analyser: RailroadSwitchAnalyser,
-                 infrastructure_data: Union[InfrastructureData, None] = None):
+                 infrastructure_data: Union[InfrastructureData, None] = None,
+                 activate_simplified: bool = False):
         self.railroad_switch_analyser = railroad_switch_analyser
         self._graph: Union[nx.DiGraph, None] = None
         self._nodes: Union[Dict[str, Tuple[int, int, float]], None] = None
         self.set_infrastructure_data(infrastructure_data)
-        self.activate_full_graph()
+        if activate_simplified:
+            self.activate_simplified()
+        else:
+            self.activate_full_graph()
 
     def set_infrastructure_data(self, infrastructure_data: Union[InfrastructureData, None]):
         self._infrastructure_data = infrastructure_data
@@ -244,6 +248,10 @@ class FlatlandGraphBuilder:
         resource_id = '{}_{}'.format(int(xy_d[0]), int(xy_d[1]))
         return resource_id
 
+    def get_mapped_vertex(self, flatland_position, flatland_direction):
+        node_key = '{}_{}_{}'.format(flatland_position[0], flatland_position[1], flatland_direction)
+        return self._from_vertex_edge_map.get(node_key)
+
     def get_shortest_path(self, start_position, start_direction, target_position, weight=None):
         '''
         This methods traverse the _graph to get shortest path. The target gets scaned for all four incoming directions.
@@ -252,14 +260,12 @@ class FlatlandGraphBuilder:
         :param target_position: 2d coordinate of target position
         :return: shortest path, all paths, len of all found paths
         '''
-        from_node = '{}_{}_{}'.format(start_position[0], start_position[1], start_direction)
+        from_edge = self.get_mapped_vertex(start_position, start_direction)
         paths = []
         paths_len = []
         for target_direction in range(4):
             path = []
-            to_node = '{}_{}_{}'.format(target_position[0], target_position[1], target_direction)
-            from_edge = self._from_vertex_edge_map.get(from_node)
-            to_edge = self._from_vertex_edge_map.get(to_node)
+            to_edge = self.get_mapped_vertex(target_position, target_direction)
             if from_edge is not None and to_edge is not None:
                 from_node_intern = from_edge[0]
                 to_node_intern = to_edge[1]
@@ -288,6 +294,47 @@ class FlatlandGraphBuilder:
             paths.append(path)
             path_len = len(path)
             if path_len == 0:
+                path_len = np.inf
+            paths_len.append(path_len)
+        arg_sorted_path_len = np.argsort(paths_len)
+        return paths[arg_sorted_path_len[0]], paths, paths_len
+
+    def get_shortest_path_edges(self, start_position, start_direction, target_position, weight=None):
+        '''
+        This methods traverse the _graph to get shortest path. The target gets scaned for all four incoming directions.
+        :param start_position: 2d coordinate
+        :param start_direction: orientation passed a agent moving direction
+        :param target_position: 2d coordinate of target position
+        :return: shortest path [edge[resource],..., edge[...]], all paths, total nbr of resource (len) of all found paths
+        '''
+        from_edge = self.get_mapped_vertex(start_position, start_direction)
+        paths = []
+        paths_len = []
+        for target_direction in range(4):
+            path = []
+            to_edge = self.get_mapped_vertex(target_position, target_direction)
+            path_len = 0
+            if from_edge is not None and to_edge is not None:
+                from_node_intern = from_edge[0]
+                to_node_intern = to_edge[1]
+                fn = self.get_graph().nodes.get(from_node_intern, None)
+                tn = self.get_graph().nodes.get(to_node_intern, None)
+
+                if fn is not None and tn is not None:
+                    try:
+                        s_path = nx.shortest_path(self.get_graph(), from_node_intern, to_node_intern, weight=weight)
+                        start_p = from_node_intern
+                        for p in s_path:
+                            if start_p != p:
+                                # xy, _ = FlatlandGraphBuilder.get_coordinate_direction_from_node_id(p)
+                                resources = self.get_graph().get_edge_data(start_p, p).get('resources')
+                                path.append(resources)
+                                path_len += len(resources)
+                            start_p = p
+                    except nx.NetworkXNoPath:
+                        pass
+            paths.append(path)
+            if path_len == 0 and not fast_position_equal(start_position, target_position):
                 path_len = np.inf
             paths_len.append(path_len)
         arg_sorted_path_len = np.argsort(paths_len)
