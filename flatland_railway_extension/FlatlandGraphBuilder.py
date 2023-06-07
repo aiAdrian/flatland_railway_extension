@@ -91,7 +91,8 @@ class FlatlandGraphBuilder:
         return graph, nodes, from_vertex_edge_map
 
     def _create_simplified_graph(self):
-        graph, nodes, from_vertex_edge_map = self._create_full_graph()
+        self._graph, self._nodes, self._from_vertex_edge_map = self._create_full_graph()
+        graph, nodes, from_vertex_edge_map = self._graph, self._nodes, self._from_vertex_edge_map
         # loop as long as the graph changes (gets updated)
         graph_updated = True
         while graph_updated:
