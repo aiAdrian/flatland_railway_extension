@@ -9,7 +9,7 @@ import networkx as nx
 import numpy as np
 # import all flatland dependance
 from flatland.core.grid.grid4_utils import get_new_position
-from flatland.envs.fast_methods import fast_position_equal, fast_argmax
+from flatland.envs.fast_methods import fast_position_equal, fast_argmax, fast_count_nonzero
 from matplotlib import pyplot as plt
 from networkx.classes.reportviews import OutEdgeView
 
@@ -69,24 +69,35 @@ class FlatlandGraphBuilder:
         from_vertex_edge_map = {}
         for h in range(env.height):
             for w in range(env.width):
-                pos = (h, w)
+                from_position = (h, w)
                 for from_direction in range(4):
-                    possible_transitions = env.rail.get_transitions(*pos, from_direction)
-                    for to_direction in range(4):
-                        if possible_transitions[to_direction] == 1:
-                            new_position = get_new_position(pos, to_direction)
-                            from_vertex_name = '{}_{}_{}'.format(pos[0], pos[1], from_direction)
-                            to_vertex_name = '{}_{}_{}'.format(new_position[0], new_position[1], to_direction)
-                            graph.add_edge(from_vertex_name,
-                                           to_vertex_name,
-                                           length=self.estimate_edge_len(pos),
-                                           from_nodes=[from_vertex_name],
-                                           resources=[pos],
-                                           resource_id='{}_{}'.format(pos[0], pos[1])
-                                           )
-                            nodes.update({from_vertex_name: (pos[0], pos[1], from_direction)})
-                            nodes.update({to_vertex_name: (new_position[0], new_position[1], to_direction)})
-                            from_vertex_edge_map.update({from_vertex_name: (from_vertex_name, to_vertex_name)})
+                    possible_transitions = env.rail.get_transitions(*from_position, from_direction)
+                    if fast_count_nonzero(possible_transitions):
+                        actions = {}
+                        idx = 0
+                        for direction in [(from_direction + i) % 4 for i in range(-1, 2)]:
+                            if possible_transitions[direction]:
+                                actions.update({direction: idx})
+                            else:
+                                actions.update({direction: idx})
+                            idx += 1
+
+                        for to_direction in range(4):
+                            if possible_transitions[to_direction] == 1:
+                                new_position = get_new_position(from_position, to_direction)
+                                from_vertex_name = '{}_{}_{}'.format(from_position[0], from_position[1], from_direction)
+                                to_vertex_name = '{}_{}_{}'.format(new_position[0], new_position[1], to_direction)
+                                graph.add_edge(from_vertex_name,
+                                               to_vertex_name,
+                                               length=self.estimate_edge_len(from_position),
+                                               from_nodes=[from_vertex_name],
+                                               resources=[from_position],
+                                               action=[actions.get(to_direction)],
+                                               resource_id='{}_{}'.format(from_position[0], from_position[1])
+                                               )
+                                nodes.update({from_vertex_name: (from_position[0], from_position[1], from_direction)})
+                                nodes.update({to_vertex_name: (new_position[0], new_position[1], to_direction)})
+                                from_vertex_edge_map.update({from_vertex_name: (from_vertex_name, to_vertex_name)})
 
         return graph, nodes, from_vertex_edge_map
 
