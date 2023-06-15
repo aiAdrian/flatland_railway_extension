@@ -6,6 +6,9 @@ which have used Flatland.
 ### 2023
 
 ----
+Chen, Z., Li, J., Harabor, D., & Stuckey, P. J. (2023). 
+[Scalable Rail Planning and Replanning with Soft Deadlines.](https://arxiv.org/pdf/2306.06455.pdf) 
+arXiv preprint arXiv:2306.06455.
 
 Krause, C., Agarwal, S., Burch, M., & Beck, F. (2023). 
 [Visually Abstracting Event Sequences as Double Trees Enriched with Category‐Based Comparison.](https://onlinelibrary.wiley.com/doi/epdf/10.1111/cgf.14805) 
