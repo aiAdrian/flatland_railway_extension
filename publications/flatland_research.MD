@@ -12,8 +12,9 @@ Krause, C., Agarwal, S., Burch, M., & Beck, F. (2023).
 In Computer Graphics Forum.
 
 Formanek, C., Jeewa, A., Shock, J., & Pretorius, A. (2023). 
-[Off-the-Grid MARL: a Framework for Dataset Generation with Baselines for Cooperative Offline Multi-Agent Reinforcement Learning.](https://arxiv.org/abs/2302.00521)
-arXiv preprint arXiv:2302.00521.
+[Off-the-Grid MARL: Datasets and Baselines for Offline
+Multi-Agent Reinforcement Learning.](https://www.southampton.ac.uk/~eg/AAMAS2023/pdfs/p2442.pdf)
+ In Proceedings of the 2023 International Conference on Autonomous Agents and Multiagent Systems (pp. 2442-2444).
 
 Nygren, E., Eichenberger, C., & Frejinger, E. (2023).
 [Scope Restriction for Scalable Real-Time Railway Rescheduling: An Exploratory Study.](https://arxiv.org/abs/2305.03574)
