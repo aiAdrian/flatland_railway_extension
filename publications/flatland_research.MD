@@ -11,7 +11,8 @@ Chen, Z., Li, J., Harabor, D., & Stuckey, P. J. (2023).
 arXiv preprint arXiv:2306.06455.
 
 Krause, C., Agarwal, S., Burch, M., & Beck, F. (2023). 
-[Visually Abstracting Event Sequences as Double Trees Enriched with Category‐Based Comparison.](https://onlinelibrary.wiley.com/doi/epdf/10.1111/cgf.14805) 
+[Visually Abstracting Event Sequences as Double Trees 
+Enriched with Category‐Based Comparison.](https://onlinelibrary.wiley.com/doi/epdf/10.1111/cgf.14805) 
 In Computer Graphics Forum.
 
 Formanek, C., Jeewa, A., Shock, J., & Pretorius, A. (2023). 
@@ -23,23 +24,19 @@ Nygren, E., Eichenberger, C., & Frejinger, E. (2023).
 [Scope Restriction for Scalable Real-Time Railway Rescheduling: An Exploratory Study.](https://arxiv.org/abs/2305.03574)
 arXiv preprint, arXiv:2305.03574.
 
-Venugopal, A., Milani, S., Fang, F., & Ravindran, B. (2023, Apr
-12). [Bi-level Latent Variable Model for Sample-Efficient Multi-Agent Reinforcement Learning.](https://arxiv.org/abs/2304.06011)
+Venugopal, A., Milani, S., Fang, F., & Ravindran, B. (2023, Apr 12). 
+[Bi-level Latent Variable Model for Sample-Efficient 
+Multi-Agent Reinforcement Learning.](https://arxiv.org/abs/2304.06011)
 arXiv preprint, arXiv:2304.06011.
 
-Song S. ,Na K. -I. and Yu W. (2023.), ["Anytime Lifelong Multi-Agent
-Pathfinding in
-Topological Maps,"](
-https://ieeexplore.ieee.org/document/10054055
-) in IEEE
-Access, vol. 11, pp. 20365-20380, 2023, doi: 10.
+Song S. ,Na K. -I. and Yu W. (2023.), 
+["Anytime Lifelong Multi-Agent Pathfinding in Topological Maps,"](https://ieeexplore.ieee.org/document/10054055) 
+in IEEE Access, vol. 11, pp. 20365-20380, 2023, doi: 10.
 1109/ACCESS.2023.3249471.
 
-Formanek, C., Jeewa, A., Shock, J., & Pretorius, A. (2023). [Off-the-Grid
-MARL: a Framework for Dataset Generation with Baselines for Cooperative
-Offline Multi-Agent Reinforcement Learning.](
-https://arxiv.org/abs/2302.00521
-)
+Formanek, C., Jeewa, A., Shock, J., & Pretorius, A. (2023).
+[Off-the-Grid MARL: a Framework for Dataset Generation with Baselines for Cooperative 
+Offline Multi-Agent Reinforcement Learning.](https://arxiv.org/abs/2302.00521)
 arXiv preprint arXiv:2302.00521.
 
 Yakovlev, K. S., Andreychuk, A. A., Skrynnik, A. A., & Panov, A. I.
@@ -59,8 +56,8 @@ In Doklady Mathematics (pp. 1-9). Moscow: Pleiades Publishing.
 
 ----
 Dalle, G. (Dec 2022). [Machine learning and combinatorial optimization algorithms, 
-with applications to railway planning](https://pastel.archives-ouvertes.fr/tel-04053322). Doctoral dissertation, Marne-la-vallée,
-École des Ponts ParisTech.
+with applications to railway planning](https://pastel.archives-ouvertes.fr/tel-04053322). 
+Doctoral dissertation, Marne-la-vallée, École des Ponts ParisTech.
 
 Mohapatra, D., Ojha, A., Khadilkar, H., & Ghosh, S. (2022, July).
 [Gatekeeper: A deep reinforcement learning-cum-heuristic based algorithm for
