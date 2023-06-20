@@ -10,6 +10,7 @@ import numpy as np
 # import all flatland dependance
 from flatland.core.grid.grid4_utils import get_new_position
 from flatland.envs.fast_methods import fast_position_equal, fast_argmax, fast_count_nonzero
+from flatland.envs.rail_env_action import RailEnvActions
 from matplotlib import pyplot as plt
 from networkx.classes.reportviews import OutEdgeView
 
@@ -72,15 +73,18 @@ class FlatlandGraphBuilder:
                 from_position = (h, w)
                 for from_direction in range(4):
                     possible_transitions = env.rail.get_transitions(*from_position, from_direction)
-                    if fast_count_nonzero(possible_transitions):
+                    nbr_possible_transitions = fast_count_nonzero(possible_transitions)
+                    if nbr_possible_transitions > 0:
                         actions = {}
-                        idx = 0
-                        for direction in [(from_direction + i) % 4 for i in range(-1, 2)]:
-                            if possible_transitions[direction]:
-                                actions.update({direction: idx})
-                            else:
-                                actions.update({direction: idx})
-                            idx += 1
+                        for to_direction in range(4):
+                            actions.update({to_direction: RailEnvActions.MOVE_FORWARD})
+                        if nbr_possible_transitions == 1:
+                            for to_direction in [(from_direction + i) % 4 for i in range(-1, 2)]:
+                                if possible_transitions[to_direction]:
+                                    if to_direction < from_direction:
+                                        actions.update({to_direction: RailEnvActions.MOVE_LEFT})
+                                    if to_direction > from_direction:
+                                        actions.update({to_direction: RailEnvActions.MOVE_RIGHT})
 
                         for to_direction in range(4):
                             if possible_transitions[to_direction] == 1:
@@ -159,7 +163,7 @@ class FlatlandGraphBuilder:
                                 edge_len += self._infrastructure_data.get_cell_length(r)
                         data.update({'length': edge_len})
 
-                        # manually update the from nodes (nodes information)
+                        # manually update the from-nodes (nodes information)
                         from_nodes = in_dat.get('from_nodes')
                         for n in out_dat.get('from_nodes'):
                             from_nodes.append(n)
