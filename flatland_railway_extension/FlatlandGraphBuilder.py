@@ -78,9 +78,11 @@ class FlatlandGraphBuilder:
                         actions = {}
                         for to_direction in range(4):
                             actions.update({to_direction: RailEnvActions.MOVE_FORWARD})
-                        if nbr_possible_transitions == 1:
-                            actions.update({(from_direction - 1) % 4: RailEnvActions.MOVE_LEFT})
-                            actions.update({(from_direction + 1) % 4: RailEnvActions.MOVE_RIGHT})
+                        action = 0
+                        for to_direction in [(from_direction + i) % 4 for i in range(-1, 2)]:
+                            if possible_transitions[to_direction]:
+                                actions.update({to_direction: list(RailEnvActions)[action + 1]})
+                            action += 1
 
                         for to_direction in range(4):
                             if possible_transitions[to_direction] == 1:
