@@ -140,6 +140,9 @@ class RailroadSwitchAnalyser:
     def is_dead_end(self, pos: Tuple[int, int]) -> bool:
         return pos in self.railroad_dead_end
 
+    def is_switch_neighbor(self, pos: Tuple[int, int]) -> bool:
+        return pos in self.railroad_switch_neighbours.keys()
+
     def do_debug_plot(self):
         # Setup renderer
         switch_image = np.zeros((self.env.height, self.env.width)) * np.nan

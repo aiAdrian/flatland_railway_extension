@@ -78,11 +78,12 @@ class FlatlandGraphBuilder:
                         actions = {}
                         for to_direction in range(4):
                             actions.update({to_direction: RailEnvActions.MOVE_FORWARD})
-                        action = 0
-                        for to_direction in [(from_direction + i) % 4 for i in range(-1, 2)]:
-                            if possible_transitions[to_direction]:
-                                actions.update({to_direction: list(RailEnvActions)[action + 1]})
-                            action += 1
+                        if nbr_possible_transitions > 1:
+                            action = 0
+                            for to_direction in [(from_direction + i) % 4 for i in range(-1, 2)]:
+                                if possible_transitions[to_direction]:
+                                    actions.update({to_direction: list(RailEnvActions)[action + 1]})
+                                action += 1
 
                         for to_direction in range(4):
                             if possible_transitions[to_direction] == 1:
@@ -138,6 +139,8 @@ class FlatlandGraphBuilder:
                     if self.railroad_switch_analyser.is_diamond_crossing(node_pos):
                         continue
                     if self.railroad_switch_analyser.is_dead_end(node_pos):
+                        continue
+                    if self.railroad_switch_analyser.is_switch_neighbor(node_pos):
                         continue
 
                     if graph.out_degree(in_vert) == 1 and graph.in_degree(out_vert) == 1:
