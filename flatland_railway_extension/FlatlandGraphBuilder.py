@@ -154,7 +154,7 @@ class FlatlandGraphBuilder:
                     if self.railroad_switch_analyser.is_dead_end(node_pos):
                         continue
                     if self.keep_switch_neighbors_at_simplification:
-                        if self.railroad_switch_analyser.is_switch_neighbor(node_pos, node_dir):
+                        if self.railroad_switch_analyser.is_switch_neighbor(node_pos):
                             continue
 
                     if graph.out_degree(in_vert) == 1 and graph.in_degree(out_vert) == 1:
