@@ -22,11 +22,13 @@ class FlatlandGraphBuilder:
     def __init__(self,
                  railroad_switch_analyser: RailroadSwitchAnalyser,
                  infrastructure_data: Union[InfrastructureData, None] = None,
-                 activate_simplified: bool = False):
+                 activate_simplified: bool = False,
+                 keep_switch_neighbors_at_simplification: bool = True):
         self.railroad_switch_analyser = railroad_switch_analyser
         self._graph: Union[nx.DiGraph, None] = None
         self._nodes: Union[Dict[str, Tuple[int, int, float]], None] = None
         self.set_infrastructure_data(infrastructure_data)
+        self.keep_switch_neighbors_at_simplification = keep_switch_neighbors_at_simplification
         if activate_simplified:
             self.activate_simplified()
         else:
@@ -113,24 +115,35 @@ class FlatlandGraphBuilder:
             graph_updated = False
 
             for node in list(graph.nodes()):
-                # simplification means removing nodes with exact one incoming and one outgoing edge
                 #
-                # -----.      .------.     .-----
-                # Node |------| Node |-----| Node
-                # -----.      .------.     .-----
+                # (Full) graph as input:
                 #
-                if graph.in_degree(node) == 1 and graph.out_degree(node) == 1:
+                # \ .------.      .------.     .------.     .------. /
+                #   | Node |----->| Node |---->| Node |---->| Node |
+                # / `------`      `------`     `------`     `------` \
+                #
+                # The inner nodes with exact one in-coming-edge and one out-going edge get removed
+                # Simplified version as output:
+                #
+                # \ .------.                                .------. /
+                #   | Node |------------------------------->| Node |
+                # / `------`                                `------` \
+                #
+                if (graph.in_degree(node) == 1 and graph.out_degree(node) == 1):
                     in_dat = None
                     out_dat = None
                     in_vert = None
                     out_vert = None
 
+                    # determine in_data, in_vert and out_dat, out_vert
                     for incoming_u, incoming_v in graph.in_edges(node):
+                        # The for loop is not a true loop because only one element is returned.
                         in_dat = graph.get_edge_data(incoming_u, incoming_v)
-                        in_vert = incoming_u
+                        in_vert = incoming_u if node == incoming_v else incoming_v
                     for outgoing_u, outgoing_v in graph.out_edges(node):
+                        # The for loop is not a true loop because only one element is returned.
                         out_dat = graph.get_edge_data(outgoing_u, outgoing_v)
-                        out_vert = outgoing_v
+                        out_vert = outgoing_v if node == outgoing_u else outgoing_u
 
                     #
                     # check neighbour nodes (otherwise the methods removes to much nodes)
@@ -140,8 +153,9 @@ class FlatlandGraphBuilder:
                         continue
                     if self.railroad_switch_analyser.is_dead_end(node_pos):
                         continue
-                    if self.railroad_switch_analyser.is_switch_neighbor(node_pos):
-                        continue
+                    if self.keep_switch_neighbors_at_simplification:
+                        if self.railroad_switch_analyser.is_switch_neighbor(node_pos, node_dir):
+                            continue
 
                     if graph.out_degree(in_vert) == 1 and graph.in_degree(out_vert) == 1:
                         # add new edge
@@ -157,6 +171,10 @@ class FlatlandGraphBuilder:
                         for d in out_dat.get('resources'):
                             resources.append(d)
                         data.update({'resources': copy.copy(resources)})
+
+                        action = in_dat.get('action')
+                        data.update({'action´': action})
+
                         edge_len = len(resources)
                         if self._infrastructure_data is not None:
                             edge_len = 0
