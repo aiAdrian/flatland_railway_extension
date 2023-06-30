@@ -112,9 +112,9 @@ solver of all kind of those problems.
   The API makes it possible to solve such tasks very efficiently. Moreover, the graph can be simplified so that only 
   decision-relevant nodes remain in the graph and all other nodes are merged. A decision node is a node or flatland 
   cell (track) that reasonably allows the agent to stop, go, or branch off. For straight track edges within a route, 
-  it makes little sense to wait in many situations. This is because the agent would block many resources, i.e.,  
-  if an agent does not drive to the decision point: a cell before a crossing, the agent blocks the area in between. 
-  This makes little sense from an optimization point of view. 
+  it makes little sense to wait in many situations. This is because the agent would block many resources, i.e., if an 
+  agent does not drive to the decision point: a cell before a crossing, the agent blocks the area in between. This 
+  makes little sense from an optimization point of view. 
 
   The implementation uses networkX, so there are also many graph functions available. 
 
