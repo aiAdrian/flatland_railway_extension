@@ -101,6 +101,12 @@ solver of all kind of those problems.
   technique. In the flatland (2d gird), not every of the eight neighbors cell can be reached from every direction.
   Therefore, the entry direction information is key. In the graph g only edges exist where a feasible transition from
   node u to node v exist.
+  An edge has several attributes, such as the length of the edges, the resource which can be mutually exclusive used, 
+  the flatland action to be chosen to get from node u to node v. 
+  The length of the edge is 1 as long as no infrastructure is used. If an infrastructure is used, the infrastructure 
+  defines the edge length, which is the by the infrastructre defined length of the flatland cell that lies under node u. 
+  The resource is defined as the flatland cell that lies under the node u. The flatland action is the action that must 
+  be selected so that an agent at node u (i.e. position and direction) can get to node v.
 
 
 - [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/FlatlandDynamics.py)
