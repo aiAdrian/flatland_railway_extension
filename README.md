@@ -104,7 +104,7 @@ solver of all kind of those problems.
   An edge has several attributes, such as the length of the edges, the resource which can be mutually exclusive used, 
   the flatland action to be chosen to get from node u to node v. 
   The length of the edge is 1 as long as no infrastructure is used. If an infrastructure is used, the infrastructure 
-  defines the edge length, which is the by the infrastructre defined length of the flatland cell that lies under node u. 
+  defines the edge length, which is the by the infrastructure defined length of the flatland cell that lies under node u. 
   The resource is defined as the flatland cell that lies under the node u. The flatland action is the action that must 
   be selected so that an agent at node u (i.e. position and direction) can get to node v.
 
