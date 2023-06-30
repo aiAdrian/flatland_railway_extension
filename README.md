@@ -91,6 +91,34 @@ solver of all kind of those problems.
 
 - [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/FlatlandGraphBuilder.py)
 
+  The FlatlandGraphBuilder converts Flatland's grid cell-based topology into a directed graph g. The graph consists of
+  nodes and edges. An edge is defined by "from-node" u and "to-node" v such that for the edge e = (u, v). A node in the
+  graph is defined by position and direction. The position corresponds to the position of the underlying cell in the
+  original flatland topology, and the direction corresponds to the direction in which an agent reaches the cell. Thus,
+  the node is defined by (x, y, d), where x is the index of the horizontal cell grid position, y is the index of the vertical cell
+  grid position, and d is the direction of cell entry. Based on the grid cell position and the cell entry direction, the
+  connection to the neighboring cell can be estimated. The estimation is done using the pure flatland navigation
+  technique. In the flatland (2d gird), not every of the eight neighbors cell can be reached from every direction.
+  Therefore, the entry direction information is key. In the graph g only edges exist where a feasible transition from
+  node u to node v exist.
+  An edge has several attributes, such as the length of the edges, the resource which can be mutually exclusive used, 
+  the flatland action to be chosen to get from node u to node v. 
+  The length of the edge is 1 as long as no infrastructure is used. If an infrastructure is used, the infrastructure 
+  defines the edge length, which is the by the infrastructure defined length of the flatland cell that lies under node u. 
+  The resource is defined as the flatland cell that lies under the node u. The flatland action is the action that must 
+  be selected so that an agent at node u (i.e. position and direction) can get to node v.
+  
+  With the help of the graph it is very easy to calculate the shortest connection from node A to accounts B. 
+  The API makes it possible to solve such tasks very efficiently. Moreover, the graph can be simplified so that only 
+  decision-relevant nodes remain in the graph and all other nodes are merged. A decision node is a node or flatland 
+  cell (track) that reasonably allows the agent to stop, go, or branch off. For straight track edges within a route, 
+  it makes little sense to wait in many situations. This is because the agent would block many resources, i.e., if an 
+  agent does not drive to the decision point: a cell before a crossing, the agent blocks the area in between. This 
+  makes little sense from an optimization point of view. 
+
+  The implementation uses networkX, so there are also many graph functions available. 
+
+
 
 - [FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/FlatlandDynamics.py)
 
