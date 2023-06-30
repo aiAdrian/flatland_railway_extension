@@ -95,7 +95,7 @@ solver of all kind of those problems.
   nodes and edges. An edge is defined by "from-node" u and "to-node" v such that for the edge e = (u, v). A node in the
   graph is defined by position and direction. The position corresponds to the position of the underlying cell in the
   original flatland topology, and the direction corresponds to the direction in which an agent reaches the cell. Thus,
-  the node is defined by (x, y, d), where x is the index of the horizontal cell grid position, y is the vertical cell
+  the node is defined by (x, y, d), where x is the index of the horizontal cell grid position, y is the index of the vertical cell
   grid position, and d is the direction of cell entry. Based on the grid cell position and the cell entry direction, the
   connection to the neighboring cell can be estimated. The estimation is done using the pure flatland navigation
   technique. In the flatland (2d gird), not every of the eight neighbors cell can be reached from every direction.
