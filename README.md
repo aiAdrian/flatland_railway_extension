@@ -108,7 +108,7 @@ solver of all kind of those problems.
   The resource is defined as the flatland cell that lies under the node u. The flatland action is the action that must 
   be selected so that an agent at node u (i.e. position and direction) can get to node v.
   
-  With the help of the graph it is very easy to calculate the shortest connection from node A to accounts B. 
+  With the help of the graph it is very easy to calculate the shortest connection from node A to node B. 
   The API makes it possible to solve such tasks very efficiently. Moreover, the graph can be simplified so that only 
   decision-relevant nodes remain in the graph and all other nodes are merged. A decision node is a node or flatland 
   cell (track) that reasonably allows the agent to stop, go, or branch off. For straight track edges within a route, 
