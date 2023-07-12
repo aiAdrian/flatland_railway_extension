@@ -71,6 +71,9 @@ solver of all kind of those problems.
     <img width="40%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/flatland_scenario_cell_types.png"> 
 </p>
 
+   A detailed example is shown visually below. Which cells are potential decision points, which are real decision points
+   for an agent and which decisions can be made at them. For all other cells it makes sense to choose forward only.
+
 <p align="center" width="100%">
     <img width="25%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/possible_decision_points.png"> 
     <img width="25%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/real_decision_points.png"> 
