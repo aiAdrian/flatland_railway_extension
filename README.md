@@ -74,6 +74,8 @@ solver of all kind of those problems.
 <p align="center" width="100%">
     <img width="25%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/possible_decision_points.png"> 
     <img width="25%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/real_decision_points.png"> 
+</p>
+<p align="center" width="100%">
     <img width="25%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/real_decision_points_example.png"> 
     <img width="25%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/real_decision_points_exmaple2.png"> 
 </p>
