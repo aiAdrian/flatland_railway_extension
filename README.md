@@ -71,6 +71,14 @@ solver of all kind of those problems.
     <img width="40%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/flatland_scenario_cell_types.png"> 
 </p>
 
+<p align="center" width="100%">
+    <img width="25%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/possible_decision_points.png"> 
+    <img width="25%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/real_decision_points.png"> 
+    <img width="25%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/real_decision_points_example.png"> 
+    <img width="25%" src="https://raw.githubusercontent.com/aiAdrian/flatland_railway_extension/master/images/real_decision_points_exmaple2.png"> 
+</p>
+
+
 - [RailroadSwitchCluster](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/RailroadSwitchCluster.py)
 
   The left illustration shows all connecting edges (cluster). The number represents the cluster id. Cells with the same
@@ -147,7 +155,6 @@ solver of all kind of those problems.
 
   <p align="center" width="100%">
     <img width="20%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics_RollingStock_tractive_effort.png"> 
-
   </p>
 
 
