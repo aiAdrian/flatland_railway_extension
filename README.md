@@ -105,7 +105,7 @@ solver of all kind of those problems.
 - [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/FlatlandGraphBuilder.py)
 
   <p align="center" width="100%">
-    <img width="20%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/flatland_graph.png"> 
+    <img width="75%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/flatland_graph.png"> 
   </p>
   A Flatland environment can be represented as different kinds of graphs. For example,
   every cell can be modelled, but also graphs that only include decision cells are useful.
