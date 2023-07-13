@@ -104,6 +104,15 @@ solver of all kind of those problems.
 
 - [FlatlandGraphBuilder](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/FlatlandGraphBuilder.py)
 
+  <p align="center" width="100%">
+    <img width="20%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/flatland_graph.png"> 
+  </p>
+  A Flatland environment can be represented as different kinds of graphs. For example,
+  every cell can be modelled, but also graphs that only include decision cells are useful.
+  For most applications, not only the rail layout but also the available direction options an
+  agent has at a vertex, dependent on its incoming direction (edge), have to be modelled.
+  In that case, a cell is translated into multiple vertices, one for each direction available.
+
   The FlatlandGraphBuilder converts Flatland's grid cell-based topology into a directed graph g. The graph consists of
   nodes and edges. An edge is defined by "from-node" u and "to-node" v such that for the edge e = (u, v). A node in the
   graph is defined by position and direction. The position corresponds to the position of the underlying cell in the
