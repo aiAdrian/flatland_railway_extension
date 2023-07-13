@@ -208,15 +208,15 @@ solver of all kind of those problems.
   required to handle all security elements - they represents the minimum 
   headway time.
 
- <p align="center" width="200%">
+  <p align="center" width="200%">
     <img width="33%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/Flatland_dynamics_visualisation_elements.png"> 
-</p>
-
- <p align="center" width="100%">
+  </p>
+  
+  <p align="center" width="100%">
     <img width="33%" src="https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamicsRendering.png"> 
-</p>
+  </p>
 
-The Example is showing a moving block based simulation. The rendering is done with FlatlandDynamicsRenderer.
+  The Example is showing a moving block based simulation. The rendering is done with FlatlandDynamicsRenderer.
 
 ## Working code
 
