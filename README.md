@@ -151,7 +151,7 @@ solver of all kind of those problems.
   the acculeration [m/s] on the y-axis. On the x-axis traveled distance [m] is plotted again. The red colored part of the 
   velocity and acceleration curve shows where the agent has to brake hard due to an active malfunction. 
 
-![FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics.png "FlatlandDynamics")
+  ![FlatlandDynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/images/FlatlandDynamics.png "FlatlandDynamics")
 
 - [Rolling Stock](https://github.com/aiAdrian/flatland_railway_extension/blob/master/flatland_railway_extension/environments/RollingStock.py)
 
