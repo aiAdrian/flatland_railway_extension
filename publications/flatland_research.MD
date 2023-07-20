@@ -275,3 +275,8 @@ C., Mollard, G., Mohanty, S. (2019).
 [Flatland challenge: Multi agent reinforcement learning on trains.](
 https://www.aicrowd.com/challenges/flatland-challenge
 ).
+
+Mohanty, S. Nygren, E., Egli, Salathé, M. (2019).
+[Flatland-RL : Multi Agent Reinforcement Learning on Trains.](
+https://www.zhaw.ch/storage/engineering/institute-zentren/cai/FS2019_FlatlandBaselines.pdf
+).
