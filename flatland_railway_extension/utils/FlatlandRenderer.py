@@ -1,15 +1,18 @@
 import time
 
 import numpy as np
-# import all flatland dependance
 from flatland.envs.rail_env import RailEnv
 from flatland.utils.rendertools import RenderTool, AgentRenderVariant
+
+# import all flatland dependance
+from flatland_railway_extension.utils.patch_flatland_pglgl import call_flatland_pglgl_patch
 
 
 class FlatlandRenderer:
     def __init__(self, env: RailEnv, show_debug=False, show_agents=True,
                  agent_render_variant: AgentRenderVariant = AgentRenderVariant.BOX_ONLY,
                  cell_size=40, fix_aspect_ration=False):
+        call_flatland_pglgl_patch()
         self.env = env
         self.show_agents = show_agents
         self.cell_size = cell_size

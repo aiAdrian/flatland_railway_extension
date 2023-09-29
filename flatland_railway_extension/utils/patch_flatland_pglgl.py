@@ -85,3 +85,7 @@ def open_window(self):
 # Overwrite PGLGL.open_window() and PGLGL.show() by our customized ones
 PGLGL.show = show
 PGLGL.open_window = open_window
+
+
+def call_flatland_pglgl_patch():
+    print('call_flatland_pglgl_patch')
