@@ -20,6 +20,6 @@ setup(
     install_requires=[
         'numpy',
         'matplotlib',
-        'flatland-rl-optimised-code'
+        'flatland-rl'
     ],
 )
