@@ -237,7 +237,7 @@ $ conda activate flatland-ext
 #### From sources
 The Flatland code source is available from [AIcrowd gitlab](https://gitlab.aicrowd.com/flatland/flatland) and Flatland railway extension can be found at [github](https://github.com/aiAdrian/flatland_railway_extension): 
 ```
-$ git clone http://gitlab.aicrowd.com/flatland/flatland.git
+$ git clone https://github.com/flatland-association/flatland-rl.git
 $ cd flatland
 $ pip install -r requirements_dev.txt
 $ python setup.py install
