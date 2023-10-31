@@ -225,13 +225,14 @@ solver of all kind of those problems.
 - [Google coLab notebook - Flatland dynamics](https://github.com/aiAdrian/flatland_railway_extension/blob/master/Flatland_Dynamics.ipynb)
 
 ## Installation 
-The code is tested with Python (3.6), *3.7* - expected to work with higher versions of Python.
+The code is tested with Python *3.8* - expected to work with higher versions of Python.
 
 #### Prerequisites (optional)
 Install [Anaconda](https://www.anaconda.com/products/distribution) and create a new conda environment: 
 ```
-$ conda create python=3.7 --name flatland-ext
+$ conda create python=3.8 --name flatland-ext
 $ conda activate flatland-ext
+$ pip install flatland-rl
 ```
 
 #### From sources
