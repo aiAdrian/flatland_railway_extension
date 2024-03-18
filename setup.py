@@ -9,7 +9,7 @@ from setuptools import setup
 
 setup(
     name='flatland-railway-extension',
-    version='0.2.11',
+    version='0.2.12',
     author='Adrian Egli',
     author_email="3dhelp@gmail.com",
     description='Extends Flatland Railway Simulator with helpful features.',
@@ -18,8 +18,8 @@ setup(
     python_requires='>=3.6, <4',
     packages=find_packages('.'),
     install_requires=[
+        'flatland-rl',
         'numpy',
         'matplotlib',
-        'flatland-rl'
     ],
 )
