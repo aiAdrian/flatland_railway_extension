@@ -3,6 +3,14 @@
 This is hopely the complete list of all publications -
 which have used Flatland.
 
+### 2024
+
+----
+
+Zhang, Y., Deekshith, U., Wang, J., & Boedecker, J. (2024, March). LCPPO: [An Efficient Multi-agent Reinforcement
+Learning Algorithm on Complex Railway Network.](https://openreview.net/pdf?id=gylH3hNASm) 
+In 34th International Conference on Automated Planning and Scheduling.
+
 ### 2023
 
 ----
