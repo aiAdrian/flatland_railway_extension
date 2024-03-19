@@ -1,7 +1,6 @@
 ### Research results using Flatland
 
-This is hopely the complete list of all publications -
-which have used Flatland.
+Hopefully, this is the complete list of all publications that have used Flatland.
 
 ### 2024
 
