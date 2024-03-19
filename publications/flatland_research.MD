@@ -10,8 +10,8 @@ which have used Flatland.
 Agarwal, S. 
 [Exploring Complex Group Dynamics: 
 Visual Analysis of Overlapping 
-Groups and Interactions Over Time](https://duepublico2.uni-due.de/receive/duepublico_mods_00081425)
-(Doctoral dissertation, Dissertation, Duisburg, Essen, Universität Duisburg-Essen, 2023).
+Groups and Interactions Over Time.](https://duepublico2.uni-due.de/receive/duepublico_mods_00081425)
+Doctoral dissertation, Dissertation, Duisburg, Essen, Universität Duisburg-Essen, 2023.
 
 Zhang, Y., Deekshith, U., Wang, J., & Boedecker, J. (2024, March). LCPPO: [An Efficient Multi-agent Reinforcement
 Learning Algorithm on Complex Railway Network.](https://openreview.net/pdf?id=gylH3hNASm) 
