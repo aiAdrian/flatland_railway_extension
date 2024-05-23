@@ -5,6 +5,9 @@ Hopefully, this is the complete list of all publications that have used Flatland
 ### 2024
 
 ----
+Rousseau, T., Amokrane, K., Meddeb, M., Renoir, N., Brunat, M., Fort, M., ... & Berthou, H. (2024, April).
+[Cooperation between a human traffic manager and an AI assistant for an improved railway infrastructure resilience.](https://hal.science/hal-04547672/)
+In Transport Research Arena (TRA2024.
 
 Agarwal, S. 
 [Exploring Complex Group Dynamics: 
