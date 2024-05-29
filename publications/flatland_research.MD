@@ -5,6 +5,10 @@ Hopefully, this is the complete list of all publications that have used Flatland
 ### 2024
 
 ----
+Venugopal, A., Milani, S., Fang, F., & Ravindran, B. (2024, May). 
+[MABL: Bi-Level Latent-Variable World Model for Sample-Efficient Multi-Agent Reinforcement Learning.](https://www.ifaamas.org/Proceedings/aamas2024/pdfs/p1865.pdf) 
+In Proceedings of the 23rd International Conference on Autonomous Agents and Multiagent Systems (pp. 1865-1873).
+
 Rousseau, T., Amokrane, K., Meddeb, M., Renoir, N. , Brunat, M. , Fort, M. , Schott, L. , Mahler, S. , Berthou, H.  (2024, April)
 [Cooperation between a human traffic manager and an AI assistant for an improved railway infrastructure resilience.](https://hal.science/hal-04547672/)
 In Transport Research Arena (TRA2024).
