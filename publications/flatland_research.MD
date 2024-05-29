@@ -13,15 +13,15 @@ Rousseau, T., Amokrane, K., Meddeb, M., Renoir, N. , Brunat, M. , Fort, M. , Sch
 [Cooperation between a human traffic manager and an AI assistant for an improved railway infrastructure resilience.](https://hal.science/hal-04547672/)
 In Transport Research Arena (TRA2024).
 
+Zhang, Y., Deekshith, U., Wang, J., & Boedecker, J. (2024, March). LCPPO: [An Efficient Multi-agent Reinforcement
+Learning Algorithm on Complex Railway Network.](https://openreview.net/pdf?id=gylH3hNASm) 
+In 34th International Conference on Automated Planning and Scheduling.
+
 Agarwal, S. 
 [Exploring Complex Group Dynamics: 
 Visual Analysis of Overlapping 
 Groups and Interactions Over Time.](https://duepublico2.uni-due.de/receive/duepublico_mods_00081425)
 Doctoral dissertation, Dissertation, Duisburg, Essen, Universität Duisburg-Essen, 2024.
-
-Zhang, Y., Deekshith, U., Wang, J., & Boedecker, J. (2024, March). LCPPO: [An Efficient Multi-agent Reinforcement
-Learning Algorithm on Complex Railway Network.](https://openreview.net/pdf?id=gylH3hNASm) 
-In 34th International Conference on Automated Planning and Scheduling.
 
 ### 2023
 
