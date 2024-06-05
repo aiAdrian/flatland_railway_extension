@@ -32,12 +32,12 @@ Flatland.
 | ```NeurIPS 2020 RL Challenges & Flatland 2019 (3rd Place)```<br> <br> <sup>Alexey Skrynnik, Konstantin Yakovlev</sup> |            [![Publication date: 23.06.2020](https://img.youtube.com/vi/fXisPnZfzss/mqdefault.jpg "NeurIPS 2020 RL Challenges & Flatland 2019 (3rd Place) - Alexey Skrynnik & Konstantin Yakovlev")](https://www.youtube.com/watch?v=fXisPnZfzss?t=1386)             |
 |       ```JOIN ME for the NeurIPS 2020 Flatland Multi-Agent RL Challenge!```<br> <br><sup>[Yannic Kilcher](https://www.ykilcher.com/)</sup>        |                               [![Publication date: 08.06.2020](https://img.youtube.com/vi/cvkeWwDQr0A/mqdefault.jpg "JOIN ME for the NeurIPS 2020 Flatland Multi-Agent RL Challenge!")](https://www.youtube.com/watch?v=cvkeWwDQr0A)                                |
 | ```Flatland Challenge - Challenge Track```<br> <br> <sup>Jeremy Watson, Florian Laurent, Erik Nygren</sup> |                      [![Publication date: 30.04.2020](https://img.youtube.com/vi/rGzXsOC7qXg/mqdefault.jpg "Flatland Challenge - Challenge Track - Jeremy Watson, Florian Laurent &Erik Nygren")](https://www.youtube.com/watch?v=rGzXsOC7qXg)                      |
-| ```Tackling transportation challenges with ML/AI - AMLD Keynote Session``` <br> <br> <sup>Erik Nygren</sup> |                     [![Publication date: 23.04.2020](https://img.youtube.com/vi/bn1wv-_uBKk/mqdefault.jpg 
-"Tackling transportation challenges with ML/AI - AMLD Keynote Session - Erik Nygren")](https://youtu.be/bn1wv-_uBKk?si=gnI57tAQm4zI6xib&t=168)           |
+| ```Tackling transportation challenges with ML  - AMLD Keynote Session``` <br> <br> <sup>Erik Nygren</sup> |                     [![Publication date: 23.04.2020](https://img.youtube.com/vi/bn1wv-_uBKk/mqdefault.jpg 
+"Tackling transportation challenges with ML - AMLD Keynote Session - Erik Nygren")](https://youtu.be/bn1wv-_uBKk?si=gnI57tAQm4zI6xib&t=168)           |
 ||                                                                                                                                                                                                                                                                     |
 |        ```Flatland Challenge AIcrowd```<br> <br> <sup>Sergey Sviridov</sup>         |                                         [![Publication date: 15.08.2019](https://img.youtube.com/vi/oJCxvQdK_sY/mqdefault.jpg "Flatland Challenge AIcrowd - Sergey Sviridov")](https://www.youtube.com/watch?v=oJCxvQdK_sY)                                         |
 | ```Autonomous Traffic Flow Management```<br> <br> <sup>Erik Nygren, Adrian Egli</sup>         |                                              [![Publication date: 11.04.2019](https://img.youtube.com/vi/VX9yt5mWzDk/mqdefault.jpg "Autonomous Traffic Flow Management")](https://www.youtube.com/watch?v=VX9yt5mWzDk)                                              |
-
-
+| ```Tackling transportation challenges with ML  - AMLD Keynote Session``` <br> <br> <sup>Erik Nygren</sup> |                     [![Publication date: 23.04.2020](https://img.youtube.com/vi/bn1wv-_uBKk/mqdefault.jpg 
+"Tackling transportation challenges with ML - AMLD Keynote Session - Erik Nygren")](https://youtu.be/bn1wv-_uBKk?si=gnI57tAQm4zI6xib&t=168)           |
  
  
