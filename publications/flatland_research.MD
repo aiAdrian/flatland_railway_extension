@@ -21,6 +21,11 @@ Zhang, Y., Deekshith, U., Wang, J., & Boedecker, J. (2024, March). LCPPO: [An Ef
 Learning Algorithm on Complex Railway Network.](https://openreview.net/pdf?id=gylH3hNASm) 
 In 34th International Conference on Automated Planning and Scheduling.
 
+Sankaranarayanasamy, M., & Vennelakanti, R. (2024, February). 
+[Multi-agent reinforcement learning for shared resource scheduling conflict resolution.](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10467469)
+In 2024 International Conference on Artificial Intelligence, Computer, Data Sciences and Applications (ACDSA) (pp. 1-6). IEEE.
+
+
 Agarwal, S. 
 [Exploring Complex Group Dynamics: 
 Visual Analysis of Overlapping 
