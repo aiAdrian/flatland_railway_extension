@@ -22,7 +22,7 @@ Learning Algorithm on Complex Railway Network.](https://openreview.net/pdf?id=gy
 In 34th International Conference on Automated Planning and Scheduling.
 
 Sankaranarayanasamy, M., & Vennelakanti, R. (2024, February). 
-[Multi-agent reinforcement learning for shared resource scheduling conflict resolution.](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10467469)
+[Multi-agent reinforcement learning for shared resource scheduling conflict resolution.](https://ieeexplore.ieee.org/abstract/document/10467469)
 In 2024 International Conference on Artificial Intelligence, Computer, Data Sciences and Applications (ACDSA) (pp. 1-6). IEEE.
 
 
