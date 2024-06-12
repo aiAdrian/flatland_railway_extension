@@ -5,6 +5,12 @@ Hopefully, this is the complete list of all publications that have used Flatland
 ### 2024
 
 ----
+
+Sankaranarayanasamy, M., & Vennelakanti, R. (2024, February). 
+[Multi-agent reinforcement learning for shared resource scheduling conflict resolution. ](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10467469)
+In 2024 International Conference on Artificial Intelligence, Computer, Data Sciences and Applications (ACDSA) (pp. 1-6). IEEE.
+
+
 Zhang, Y., Deekshith, U., Wang, J., & Boedecker, J. (2024, May). 
 [Improving the Efficiency and Efficacy of Multi-Agent Reinforcement Learning on Complex Railway Networks with a Local-Critic Approach.](https://ojs.aaai.org/index.php/ICAPS/article/view/31533)
 In Proceedings of the International Conference on Automated Planning and Scheduling (Vol. 34, pp. 698-706).
