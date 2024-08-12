@@ -88,6 +88,9 @@ Dalle, G. (Dec 2022). [Machine learning and combinatorial optimization algorithm
 with applications to railway planning](https://pastel.archives-ouvertes.fr/tel-04053322). 
 Doctoral dissertation, Marne-la-vallée, École des Ponts ParisTech.
 
+Vysušilová, P. (Oct 2022). [Awareness and Adaptability in Multi-Agent Reinforcement Learning](https://ktiml.mff.cuni.cz/~vysusilova/texts/survey.pdf).
+Charles University, Faculty of Mathematics and Physics.
+
 Mohapatra, D., Ojha, A., Khadilkar, H., & Ghosh, S. (2022, July).
 [Gatekeeper: A deep reinforcement learning-cum-heuristic based algorithm for
 scheduling and routing trains in complex environments.](
