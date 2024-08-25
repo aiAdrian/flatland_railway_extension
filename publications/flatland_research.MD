@@ -5,6 +5,10 @@ Hopefully, this is the complete list of all publications that have used Flatland
 ### 2024
 
 ----
+Jaziri, A., Künzel, E., & Ramesh, V. (2024). 
+[Mitigating the Stability-Plasticity Dilemma in Adaptive Train Scheduling with Curriculum-Driven Continual DQN Expansion.](https://arxiv.org/pdf/2408.09838)
+arXiv preprint arXiv:2408.09838.
+
 Zhang, Y., Deekshith, U., Wang, J., & Boedecker, J. (2024, May). 
 [Improving the Efficiency and Efficacy of Multi-Agent Reinforcement Learning on Complex Railway Networks with a Local-Critic Approach.](https://ojs.aaai.org/index.php/ICAPS/article/view/31533)
 In Proceedings of the International Conference on Automated Planning and Scheduling (Vol. 34, pp. 698-706).
