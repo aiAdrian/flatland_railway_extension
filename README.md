@@ -1,6 +1,6 @@
 # flatland_railway_extension
 
-This repo extends [Flatland Railway Simulator](https://gitlab.aicrowd.com/flatland/flatland) with helpful features.
+This repo extends [Flatland Framework[https://www.flatland-association.org/projects] with helpful features.
 
 ## Extended RailEnv
 
