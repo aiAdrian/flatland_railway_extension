@@ -88,6 +88,10 @@ In Doklady Mathematics (pp. 1-9). Moscow: Pleiades Publishing.
 ### 2022
 
 ----
+Fernández López Areal, Mateo (2022)
+[Solving the vehicle rescheduling problem (VRSP) for railroad transport using the deep multi-agent reinforcement learning](https://oa.upm.es/84607/)
+Thesis (Master thesis), Biblioteca ETSI Telecomunicación, Universitat Politecnica Madrid.
+
 Dalle, G. (Dec 2022). [Machine learning and combinatorial optimization algorithms, 
 with applications to railway planning](https://pastel.archives-ouvertes.fr/tel-04053322). 
 Doctoral dissertation, Marne-la-vallée, École des Ponts ParisTech.
