@@ -21,7 +21,7 @@ Rousseau, T., Amokrane, K., Meddeb, M., Renoir, N. , Brunat, M. , Fort, M. , Sch
 [Cooperation between a human traffic manager and an AI assistant for an improved railway infrastructure resilience.](https://hal.science/hal-04547672/)
 In Transport Research Arena (TRA2024).
 
-Zhang, Y., Deekshith, U., Wang, J., & Boedecker, J. (2024, March). LCPPO: [An Efficient Multi-agent Reinforcement
+Zhang, Y., Deekshith, U., Wang, J., & Boedecker, J. (2024, March). [LCPPO: An Efficient Multi-agent Reinforcement
 Learning Algorithm on Complex Railway Network.](https://openreview.net/pdf?id=gylH3hNASm) 
 In 34th International Conference on Automated Planning and Scheduling.
 
