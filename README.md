@@ -230,7 +230,7 @@ The code is tested with Python *3.8* - expected to work with higher versions of 
 #### Prerequisites (optional)
 Install [Anaconda](https://www.anaconda.com/products/distribution) and create a new conda environment: 
 ```bash
-conda create python=3.8 --name flatland-ext
+conda create python=3.11 --name flatland-ext
 conda activate flatland-ext
 pip install flatland-rl
 ```
