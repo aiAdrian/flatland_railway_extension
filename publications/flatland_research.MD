@@ -6,7 +6,7 @@ Hopefully, this is the complete list of all publications that have used Flatland
 
 ----
 
-Jaziri, A., Künzel, E., & Ramesh, V. (2024). 
+Jaziri, A., Künzel, E., & Ramesh, V. (2025). 
 [Mitigating the Stability-Plasticity Dilemma in Adaptive Train Scheduling with Curriculum-Driven Continual DQN Expansion.](https://arxiv.org/pdf/2408.09838)
 arXiv preprint arXiv:2408.09838.
 
