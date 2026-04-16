@@ -74,7 +74,7 @@ class FlatlandGraphBuilder:
             for w in range(env.width):
                 from_position = (h, w)
                 for from_direction in range(4):
-                    possible_transitions = env.rail.get_transitions(*from_position, from_direction)
+                    possible_transitions = env.rail.get_transitions((from_position, from_direction))
                     nbr_possible_transitions = fast_count_nonzero(possible_transitions)
                     if nbr_possible_transitions > 0:
                         actions = {}
@@ -218,7 +218,7 @@ class FlatlandGraphBuilder:
                 res = [pos]
                 env = self.railroad_switch_analyser.get_rail_env()
                 while not fast_position_equal(pos, to_pos):
-                    possible_transitions = env.rail.get_transitions(*pos, direction)
+                    possible_transitions = env.rail.get_transitions((pos, direction))
                     direction = fast_argmax(possible_transitions)
                     pos = get_new_position(pos, direction)
                     if not fast_position_equal(pos, to_pos):

@@ -39,7 +39,7 @@ class RailroadSwitchAnalyser:
             for w in range(self.env.width):
                 pos = (h, w)
                 for direction in range(4):
-                    possible_transitions = self.env.rail.get_transitions(*pos, direction)
+                    possible_transitions = self.env.rail.get_transitions((pos, direction))
                     num_transitions = fast_count_nonzero(possible_transitions)
                     if num_transitions > 1:
                         directions = self.railroad_switches.get(pos, [])
@@ -71,7 +71,7 @@ class RailroadSwitchAnalyser:
                 for direction in range(4):
                     pos = (h, w)
                     if pos not in self.railroad_switches.keys():
-                        possible_transitions = self.env.rail.get_transitions(*pos, direction)
+                        possible_transitions = self.env.rail.get_transitions((pos, direction))
                         for d in range(4):
                             if possible_transitions[d] == 1:
                                 new_cell = get_new_position(pos, d)

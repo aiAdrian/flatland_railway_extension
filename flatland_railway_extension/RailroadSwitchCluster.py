@@ -100,8 +100,7 @@ class RailroadSwitchCluster:
                         t_left_pixel_pos = (left_pixel_pos[0] - 1, left_pixel_pos[1] - 1)
                         t_up_pixel_pos = (up_pixel_pos[0] - 1, up_pixel_pos[1] - 1)
                         for direction_loop in range(4):
-                            possible_transitions = self.env.rail.get_transitions(*t_working_position,
-                                                                                 direction_loop)
+                            possible_transitions = self.env.rail.get_transitions((t_working_position, direction_loop))
                             orientation = direction_loop
                             if fast_count_nonzero(possible_transitions) == 1:
                                 orientation = fast_argmax(possible_transitions)
