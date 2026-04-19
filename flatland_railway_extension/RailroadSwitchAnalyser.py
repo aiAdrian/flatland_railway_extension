@@ -96,13 +96,81 @@ class RailroadSwitchAnalyser:
 
     def check_agent_decision(self, position, direction):
         '''
-         Decide whether the agent is
-         - on a railroad_switch
-         - at a railroad_switch neighbour (near to railroad_switch). The railroad_switch must be a railroad_switch
-         where the agent has more option than FORWARD/STOP
-         - all railroad_switch : doesn't matter whether the agent has more options than FORWARD/STOP
-         - all railroad_switch neightbors : doesn't matter the agent has more then one options (transition) when
-           the agent reachs the railroad_switch
+         agent_at_railroad_switch
+
+            True if the agent is standing on a switch and can branch off in its current direction
+            (e.g., left, right, or straight ahead). The direction has already been checked,
+            and it is clear that the agent now has to decide which path to take → branching. 
+            This is the classic decision point for pathfinding.
+
+        agent_near_to_railroad_switch
+
+            The agent is one step before a switch (agent_at_railroad_switch) and currently 
+            cannot make a decision. The agent should always move forward here, otherwise it 
+            will incur unnecessary delays and block other agents. Especially if agents are 
+            coming from the opposite direction, they would have to wait before merging. So, 
+            no decision is needed here—always move forward.
+
+        agent_at_railroad_switch_cell
+
+            This is topologically a switch; if modeled as a graph, this node has three edges.
+            The agent is standing on a switch, and now it must be determined whether it is a
+            branching or merging point for the agent. This is done by:
+
+            True if the current cell is fundamentally a switch, regardless of direction. 
+            There is at least one direction in which branching is possible. If agent_at_railroad_switch = False but agent_at_railroad_switch_cell = True, the agent is on a switch (e.g., a merge), but cannot branch off in its current direction (only straight ahead or wait is possible).
+
+        agent_near_to_railroad_switch
+
+            Here is a decision point: the agent must decide whether to wait or move.
+            By waiting, the agent can decide whether to let agents coming from the other part (a) overtake or allow agents coming from the opposite direction to pass (deadlock avoidance), i.e., crossing. This is one of the most important decision points for the Flatland problem:
+
+            True if the agent is one step (one cell) before a switch and can branch off 
+            in the next cell. Usually, only moving straight ahead or waiting is possible. Waiting is important to resolve conflicts at the switch (e.g., to determine the order).
+
+        agent_near_to_railroad_switch_cell
+
+            True if the agent is one step before a cell that is fundamentally a 
+            switch (regardless of direction). Here, the agent can wait and give priority to another agent (enabling overtaking). Overtaking is only possible in the Flatland setting in this way.
+
+            Relationships and Special Cases
+
+            agent_at_railroad_switch = True ⇒ agent_at_railroad_switch_cell = True
+            agent_at_railroad_switch = False, agent_at_railroad_switch_cell = True ⇒ merge, no branching possible in the current direction
+            Analogous for the near-flags.
+        
+         Importance for Flatland
+
+            Waiting before a switch (especially when agent_near_to_railroad_switch_cell = True) 
+            is essential to enable overtaking and conflict resolution in the Flatland environment.
+
+            !!! Important Cell Types in Flatland !!!
+
+            For Flatland, there are essentially two important types of cells (classes):
+
+            (a) Switch where the agent can branch off → Routing (path decision)
+
+                    / ---------> route 1
+            ----> Agent --- [ Switch: agent_at_railroad_switch = True ]  / ----------> route 2
+
+            (b) Cell before a merging switch (merge point)
+                    - (b.1) Decision about the order (which agent goes first)
+                    - (b.2) Crossing (letting another agent pass to avoid deadlock)
+
+                Sketch b.1:
+
+                    / ---------< agent : agent_near_to_railroad_switch = False && agent_near_to_railroad_switch_cell = True
+            ---------- [ Switch: agent_at_railroad_switch = False && agent_at_railroad_switch_cell = True ]  / ----------< other agent
+                (Agent before or after another agent on the track - ordering)
+
+                Sketch b.2:
+
+                                                            / ---------< agent : agent_near_to_railroad_switch = False && agent_near_to_railroad_switch_cell = True
+            --other agent -> -------- [ Switch: agent_at_railroad_switch = False && agent_at_railroad_switch_cell = True ]  / ----------> ----- free empty track
+                (Let the other agent pass; otherwise, a deadlock will occur. The agent must wait until all other agents have passed.)
+            ------------------------------------------------------------------------------
+
+            
 
         :param position: (x,y) cell coordinate
         :param direction: flatland start_direction
