@@ -1,6 +1,15 @@
 ### Research results using Flatland
 
-Hopefully, this is the complete list of all publications that have used Flatland.
+Hopefully, this is the complete list of all publications that have used Flatland
+
+### 2026
+
+Castagna, A., Zahlner, S., Egli, A., Eichenberger, C., Boos, D., Meyer, M., & Fuxjäger, A. (2026, 11. Mai). [Towards Autonomous Railway Operations: A Semi-Hierarchical Deep Reinforcement Learning Approach to the Vehicle Rescheduling Problem.](https://arxiv.org/pdf/2605.10257v1) arXiv. doi.org
+
+Yang, J., Yang, H., Wang, W., & Xia, C. (2026). 
+[Large-Scale Metro Train Timetable Rescheduling via Multi-Agent Deep Reinforcement Learning: A High-Dimensional Optimization Approach in Flatland Environment.](https://www.mdpi.com/2076-3417/16/7/3338)
+Applied Sciences, 16(7), 3338.
+
 
 ### 2025
 
